@@ -1,0 +1,21 @@
+services:
+
+  poc:
+    build:
+      context: .
+      dockerfile: Dockerfile
+
+    environment:
+      DATA_DIR: /data
+
+    volumes:
+      - type: bind
+        source: "${DATA_DIR}"
+        target: /data
+        read_only: true
+
+      - type: bind
+        source: ./reports
+        target: /app/reports
+
+    command: python notebooks/01_poc.py

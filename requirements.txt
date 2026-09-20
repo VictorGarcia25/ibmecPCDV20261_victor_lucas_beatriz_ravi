@@ -5,3 +5,4 @@ matplotlib
 jupyter
 joblib
 pytest
+python-dotenv

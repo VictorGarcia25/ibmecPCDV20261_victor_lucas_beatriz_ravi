@@ -110,7 +110,7 @@ def varrer_k(
                 rotulos = rotular(matriz, nome_modelo, k)
                 linha = {
                     "grupo": grupo,
-                    "nome_grupo": config.NOMES_GRUPOS[grupo],
+                    "nome_grupo": config.NOMES_GRUPOS.get(grupo, grupo),
                     "n_variaveis": len(variaveis),
                     "variaveis_com_log": len(variaveis_log),
                     "modelo": nome_modelo,

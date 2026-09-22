@@ -59,5 +59,14 @@ def tabela_fontes() -> pd.DataFrame:
         )
     registro = json.loads(ARQUIVO_FONTES.read_text(encoding="utf-8"))
     df = pd.DataFrame.from_dict(registro, orient="index").reset_index(names="variavel")
-    df["rotulo"] = df["variavel"].map(config.VARIAVEIS)
-    return df.sort_values("variavel").reset_index(drop=True)
+    rotulos = {
+        **config.VARIAVEIS,
+        **config.ROTULOS_DESCRITORAS,
+        "populacao": "População estimada (universo da análise)",
+        "trends_fianca": config.ROTULOS_DESCRITORAS["trends_fianca_uf"],
+    }
+    df["rotulo"] = df["variavel"].map(rotulos).fillna(df["variavel"])
+    df["entra_no_cluster"] = df["variavel"].isin(config.VARIAVEIS)
+    return df.sort_values(["entra_no_cluster", "variavel"], ascending=[False, True]).reset_index(
+        drop=True
+    )

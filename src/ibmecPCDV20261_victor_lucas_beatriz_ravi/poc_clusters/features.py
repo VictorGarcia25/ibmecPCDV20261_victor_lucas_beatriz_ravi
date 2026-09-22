@@ -5,7 +5,7 @@ from __future__ import annotations
 import pandas as pd
 
 from . import config
-from .coleta import anatel, cadunico, caged, cnpj, estban, ibge, senatran
+from .coleta import anatel, cadunico, caged, cnpj, descritoras, estban, ibge, senatran
 from .io_utils import registrar_fonte
 
 ARQUIVO_BASE = config.DIR_PROCESSED / "base_municipios.csv"
@@ -55,6 +55,8 @@ def montar(forcar_download: bool = False) -> pd.DataFrame:
     base["financiamento_imob_per_capita"] = (
         base["financiamento_imobiliario"] / base["populacao"]
     )
+
+    base = descritoras.juntar(base, forcar_download)
 
     registrar_fonte(
         "cadunico_pct",

@@ -38,7 +38,8 @@ def histogramas(base: pd.DataFrame, variaveis: list[str]) -> None:
         eixo.set_ylabel("Municípios")
     for eixo in eixos.ravel()[len(variaveis) :]:
         eixo.axis("off")
-    figura.suptitle(f"Distribuição das variáveis nos {len(base)} municípios", y=1.01, fontsize=13)
+    figura.suptitle(f"Distribuição das variáveis nos {len(base)} municípios", fontsize=13)
+    figura.tight_layout(rect=(0, 0, 1, 0.97))
     _salvar(figura, "01_histogramas")
 
 
@@ -51,7 +52,8 @@ def boxplots(base: pd.DataFrame, variaveis: list[str]) -> None:
         eixo.set_xlabel("")
     for eixo in eixos.ravel()[len(variaveis) :]:
         eixo.axis("off")
-    figura.suptitle("Boxplot das variáveis e seus valores extremos", y=1.01, fontsize=13)
+    figura.suptitle("Boxplot das variáveis e seus valores extremos", fontsize=13)
+    figura.tight_layout(rect=(0, 0, 1, 0.97))
     _salvar(figura, "02_boxplots")
 
 
@@ -99,7 +101,8 @@ def curvas_k(varredura: pd.DataFrame) -> None:
         eixo.set_xlabel("Número de clusters (k)")
         eixo.set_ylabel(titulo)
         eixo.legend(fontsize=7)
-    figura.suptitle("Escolha de k por grupo de variáveis, modelo KMeans", y=1.0, fontsize=13)
+    figura.suptitle("Escolha de k por grupo de variáveis, modelo KMeans", fontsize=13)
+    figura.tight_layout(rect=(0, 0, 1, 0.96))
     _salvar(figura, "04_escolha_de_k")
 
 
@@ -114,7 +117,8 @@ def comparacao_modelos(varredura: pd.DataFrame) -> None:
         eixo.set_xlabel("Número de clusters (k)")
         eixo.set_ylabel("Silhueta")
         eixo.legend(title="Modelo", fontsize=7)
-    figura.suptitle("Silhueta por modelo e por grupo de variáveis", y=1.0, fontsize=13)
+    figura.suptitle("Silhueta por modelo e por grupo de variáveis", fontsize=13)
+    figura.tight_layout(rect=(0, 0, 1, 0.96))
     _salvar(figura, "05_comparacao_modelos")
 
 

@@ -22,3 +22,4 @@ geopandas==1.1.4
 geobr==2.1.0
 pytrends==4.9.2
 nbconvert==7.17.1
+reportlab==5.0.1

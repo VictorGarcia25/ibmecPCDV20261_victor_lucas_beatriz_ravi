@@ -152,6 +152,20 @@ def tabela_valor_loft(
             "Praça de teste A/B de criativo. Verba pequena e recorrente em Meta e TikTok "
             "para aprender antes de levar o aprendizado às praças maduras.",
         ),
+        "Praça intermediária": (
+            "Praça sem traço dominante: mercado, renda e alcance digital todos perto da média "
+            "nacional. Não é oportunidade nem exclusão, é o meio da tabela.",
+            "Verba de manutenção. Replicar o que já funciona nas praças maduras, sem criativo "
+            "próprio e sem teste, até que algum indicador saia da média.",
+        ),
+        "Praça popular de grande porte": (
+            "Cidade grande com muita gente e muito contrato potencial, mas o mercado formal de "
+            "locação é raso para o tamanho dela e a vulnerabilidade está acima da média. A fiança "
+            "cabe, só que o gargalo não é demanda: é falta de imobiliária organizada para vender.",
+            "Praça de volume, mas de captação antes de conversão. Mídia para recrutar imobiliária "
+            "nova, com meta de custo por imobiliária cadastrada, não por lead de inquilino. "
+            "Verba média e análise de risco mais rígida na esteira.",
+        ),
         "Praça intermediária popular": (
             "Mercado e renda abaixo da média, com vulnerabilidade acima: a fiança cabe, mas "
             "com análise de risco mais rígida.",
@@ -163,7 +177,13 @@ def tabela_valor_loft(
     for cluster in perfil.index:
         nome = nomes[cluster]
         chave = next((c for c in leituras if nome.startswith(c)), None)
-        significado, acao = leituras.get(chave, ("", ""))
+        if chave is None:
+            raise KeyError(
+                f"O cluster '{nome}' não tem leitura de negócio escrita em tabela_valor_loft. "
+                "Toda praça nomeada precisa de significado e ação, senão a tabela entregue à "
+                "Loft sai com lacuna."
+            )
+        significado, acao = leituras[chave]
         tamanho = tamanhos[tamanhos["cluster"] == cluster].iloc[0]
         linhas.append(
             {

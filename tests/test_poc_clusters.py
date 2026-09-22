@@ -311,3 +311,29 @@ def test_tabela_de_cortes_nunca_mantem_e_descarta_a_mesma_variavel():
     apontadas = set(decisoes["variavel_mantida"])
     assert not (descartadas & apontadas)
     assert apontadas <= set(mantidas)
+
+
+def test_todo_nome_de_cluster_tem_leitura_de_negocio():
+    """Se um cluster for renomeado sem escrever a leitura, a tabela da Loft sai com lacuna."""
+    import itertools
+
+    perfis_possiveis = pd.DataFrame(
+        {
+            "administradoras_10k": [1.4, -0.7, -0.3, -0.8, 0.0, 0.6],
+            "imobiliarias_novas_pct": [0.0, 1.7, 0.0, -1.2, 0.0, 0.0],
+            "pix_pf_por_hab": [1.1, -0.9, 0.2, -1.1, 0.0, -0.9],
+            "cadunico_pct": [-0.8, 0.9, 0.5, 1.2, 0.0, -0.5],
+            "internet_movel_100": [1.0, -0.9, 0.3, -1.4, 0.0, 0.2],
+            "banda_larga_100": [1.1, -0.9, -0.4, -1.2, 0.0, 0.2],
+        },
+        index=pd.Index(range(6), name="cluster"),
+    )
+    nomes = perfil.nomear(perfis_possiveis)
+    tamanhos = pd.DataFrame(
+        {"cluster": list(range(6)), "municipios": [10] * 6, "populacao_pct": [16.6] * 6}
+    )
+    tabela = perfil.tabela_valor_loft(perfis_possiveis, nomes, tamanhos)
+    assert len(tabela) == 6
+    assert tabela["o_que_significa_para_a_fianca"].notna().all()
+    assert tabela["acao_de_marketing_sugerida"].str.len().gt(30).all()
+    assert not tabela["o_que_significa_para_a_fianca"].eq("").any()

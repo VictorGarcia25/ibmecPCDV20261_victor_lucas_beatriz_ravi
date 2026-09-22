@@ -14,6 +14,7 @@ from reportlab.lib.utils import ImageReader
 from reportlab.pdfgen import canvas
 
 from . import config
+from .descritiva import rotulo
 
 ARQUIVO = config.RAIZ / "reports" / "apresentacao_poc_clusterizacao.pdf"
 LARGURA, ALTURA = 960, 540
@@ -1405,3 +1406,388 @@ def montar_resumida() -> str:
 
     d.fechar()
     return str(ARQUIVO_RESUMIDA)
+
+
+ARQUIVO_AULA = config.RAIZ / "reports" / "apresentacao_poc_aula.pdf"
+
+# Por que cada variável entrou: a fiança se decide por seis perguntas de negócio.
+DIMENSOES = [
+    ("Existe mercado?", "administradoras e imobiliárias por 10 mil hab., imobiliárias abertas em 12 meses"),
+    ("O inquilino paga?", "Pix de pessoa física por hab., salário mediano de admissão, poupança per capita, automóveis por hab."),
+    ("Qual o risco?", "famílias no CadÚnico, alavancagem (crédito sobre poupança), crédito per capita"),
+    ("Tem demanda entrando?", "crescimento da população, admissões de 18 a 30 anos, saldo de emprego"),
+    ("Dá para anunciar?", "internet móvel 4G/5G de pessoa física, banda larga fixa"),
+    ("Tem concorrente?", "corretores de seguros por 10 mil hab. (quem vende seguro-fiança)"),
+]
+
+
+def montar_aula() -> str:
+    """Versão para a aula: prova de conceito, dados, estatística, baseline e resultados."""
+    fontes = _tabela("02_fontes_data_referencia")
+    descritivas = _tabela("03_estatistica_descritiva")
+    winsor = _tabela("04_winsorizacao")
+    vif = _tabela("06_vif")
+    cortes = _tabela("07_cortes_de_variaveis")
+    candidatos = _tabela("09_candidatos_no_cotovelo")
+    baselines = _tabela("11_baselines_modelo_final")
+    estabilidade = _tabela("13_estabilidade_bootstrap")
+    ablacao = _tabela("14_ablacao")
+    tamanhos = _tabela("16_tamanho_clusters")
+    valor = _tabela("22_valor_para_a_loft")
+    volumes = _tabela("24_volumes_nacionais")
+    incremental = _tabela("25_valor_incremental_do_cluster")
+    base = pd.read_csv(config.DIR_PROCESSED / "base_municipios.csv", dtype={"id_municipio": str})
+
+    n = len(base)
+    silhueta = float(baselines.iloc[0]["silhueta"])
+    sil_regiao = float(baselines[baselines["agrupamento"].str.contains("regi")].iloc[0]["silhueta"])
+    sil_porte = float(baselines[baselines["agrupamento"].str.contains("porte")].iloc[0]["silhueta"])
+    sil_aleatorio = float(baselines[baselines["agrupamento"].str.contains("aleat")].iloc[0]["silhueta"])
+    rand_porte = float(baselines[baselines["agrupamento"].str.contains("porte")].iloc[0]["rand_ajustado_vs_cluster"])
+    rand_regiao = float(baselines[baselines["agrupamento"].str.contains("regi")].iloc[0]["rand_ajustado_vs_cluster"])
+    quantas = int(incremental["o_cluster_acrescenta"].sum())
+    ganho = float(incremental["ganho"].mean())
+    com_log = int(descritivas["aplicar_log"].sum())
+    combinacoes = len(config.GRUPOS) * 3 * (config.K_MAXIMO - config.K_MINIMO + 1)
+
+    d = Deck(ARQUIVO_AULA)
+
+    d.capa(
+        "Prova de conceito: clusterização de municípios",
+        "Que tipos de praça existem no Brasil para vender fiança — dados, estatística, "
+        "baseline e resultados",
+        "Beatriz Babinski · Projeto em Ciência de Dados V · IBMEC",
+        [
+            "A escolha das variáveis",
+            "Os dados e a estatística descritiva",
+            "Os conjuntos e os testes que rodamos",
+            "Os baselines, os resultados e a conclusão",
+        ],
+    )
+
+    d.slide("Em uma frase, o que é esta POC", "contexto")
+    d.destaque("Agrupar municípios por tipo de mercado de fiança, sem rótulo para aprender")
+    d.topicos(
+        [
+            f"*Unidade de análise: os {n} municípios com 50 mil habitantes ou mais.",
+            "*É não supervisionado: não existe 'praça boa' rotulada para o modelo aprender.",
+            "*Por isso a prova não é acurácia. A prova é: separa melhor do que o que já temos "
+            "de graça, que é geografia e tamanho de cidade?",
+            "Tudo por habitante, para o agrupamento não virar só um ranking de cidade grande.",
+        ],
+        tamanho=15,
+    )
+    d.fim_slide()
+
+    # ---------- escolha das variáveis ----------
+    d.slide("Como escolhemos as variáveis", "1 · variáveis")
+    d.paragrafo(
+        "Não partimos de 'que dado existe?'. Partimos das perguntas que alguém precisa "
+        "responder para decidir se vale vender fiança numa cidade. Cada pergunta virou uma "
+        "dimensão, e cada dimensão puxou variáveis.",
+        tamanho=14,
+    )
+    d.tabela(
+        pd.DataFrame(list(DIMENSOES), columns=["pergunta", "variaveis"]),
+        ["A pergunta de negócio", "As variáveis que respondem"],
+        [200, 650],
+        tamanho=9,
+    )
+    d.paragrafo(
+        "Cada variável é relativa à população, e cada uma precisou passar pela regra de data: "
+        "nada anterior a 2025.",
+        tamanho=13,
+    )
+    d.fim_slide()
+
+    d.slide("De onde veio cada dado, e de quando", "2 · dados")
+    modelo = fontes[fontes["entra_no_cluster"]].copy()
+    modelo["orgao"] = modelo["fonte"].str.split(" - ").str[0]
+    resumo = (
+        modelo.groupby("orgao")
+        .agg(variaveis=("rotulo", "count"), referencia=("data_referencia", "max"))
+        .reset_index()
+        .sort_values("variaveis", ascending=False)
+    )
+    d.tabela(
+        resumo,
+        ["Órgão produtor", "Quantas variáveis", "Referência mais recente"],
+        [420, 200, 230],
+        tamanho=12,
+    )
+    d.topicos(
+        [
+            f"*{len(modelo)} variáveis candidatas, todas de fonte pública e oficial.",
+            "*Regra do projeto: nada anterior a 2025. Conferida por código — a execução aborta "
+            "se alguma fonte regredir.",
+            "Uma fonte foi descartada por isso: o índice de conectividade da Anatel, que para "
+            "em 2024.",
+        ],
+        tamanho=13,
+    )
+    d.fim_slide()
+
+    d.slide("Os dados batem com a realidade?", "2 · dados")
+    d.paragrafo(
+        "Antes de qualquer modelo, somamos cada base e comparamos com a ordem de grandeza "
+        "conhecida do país. É o teste que pega erro silencioso de extração.",
+        tamanho=14,
+    )
+    d.tabela(
+        volumes[["base", "total_no_brasil", "parcela_no_universo"]],
+        ["Base", "Total no Brasil", "Quanto está no nosso universo"],
+        [380, 260, 210],
+        tamanho=11,
+    )
+    d.destaque(f"Zero valores faltantes nas {len(config.VARIAVEIS)} variáveis, nos {n} municípios")
+    d.fim_slide()
+
+    # ---------- estatística ----------
+    d.slide("Estatística descritiva: o que a distribuição obrigou", "3 · estatística")
+    d.topicos(
+        [
+            f"*{com_log} das {len(descritivas)} variáveis têm cauda longa à direita (assimetria > 1). "
+            f"Nelas aplicamos log.",
+            "*Antes do log, winsorizamos 1% nas duas caudas. Motivo concreto: o Banco Central "
+            "registra o crédito onde o banco está sediado.",
+        ],
+        tamanho=14,
+    )
+    d.tabela(
+        winsor.nlargest(4, "assimetria_antes")[["rotulo", "assimetria_antes", "assimetria_depois"]],
+        ["Variável", "Assimetria antes", "Assimetria depois do corte"],
+        [420, 210, 220],
+        tamanho=12,
+    )
+    d.paragrafo(
+        "Osasco aparecia com R$ 1 milhão de crédito por habitante: é a carteira nacional de um "
+        "banco, não o crédito dos moradores. Sem tratar, essa única cidade dominaria o modelo.",
+        tamanho=13,
+    )
+    d.fim_slide()
+
+    d.slide("A distribuição de cada variável", "3 · estatística")
+    d.imagem("01_histogramas", altura_maxima=360)
+    d.fim_slide()
+
+    d.slide("Correlação e VIF: o que saiu do modelo", "3 · estatística")
+    d.topicos(
+        [
+            "*Regra: par com correlação de Spearman acima de 0,80 em módulo, fica só uma variável.",
+            "*O desempate não é automático: fica a que carrega sentido de negócio. "
+            "Administradoras de imóveis (CNAE 6822) é proxy de LOCAÇÃO, que é o mercado da "
+            "fiança; imobiliárias (6821) inclui venda.",
+        ],
+        tamanho=13,
+    )
+    d.tabela(
+        cortes[["rotulo_descartada", "rotulo_mantida", "correlacao_spearman"]],
+        ["Saiu", "Ficou no lugar", "Correlação"],
+        [330, 340, 180],
+        tamanho=11,
+    )
+    d.paragrafo(
+        f"Depois do corte, o maior VIF é {vif.iloc[0]['vif']} — bem abaixo do limiar usual de 10. "
+        "Não há multicolinearidade grave.",
+        tamanho=13,
+    )
+    d.fim_slide()
+
+    # ---------- conjuntos e testes ----------
+    d.slide("Os 5 conjuntos de variáveis que montamos", "4 · testes")
+    d.paragrafo(
+        "Em vez de escolher um conjunto e defender, montamos cinco e deixamos competir. "
+        "Cada um testa uma hipótese diferente sobre o que define uma praça.",
+        tamanho=14,
+    )
+    d.tabela(
+        pd.DataFrame(
+            [[g, config.NOMES_GRUPOS[g], len(v)] for g, v in config.GRUPOS.items()],
+            columns=["g", "nome", "n"],
+        ),
+        ["Conjunto", "A hipótese que ele testa", "Variáveis"],
+        [140, 500, 200],
+        tamanho=12,
+    )
+    d.topicos(
+        [
+            "*O conjunto E nasceu depois, de um resultado negativo: montamos um grupo só com "
+            "risco, concorrência e demanda para ver se separava melhor. Não separou.",
+        ],
+        tamanho=13,
+    )
+    d.fim_slide()
+
+    d.slide("Os testes que rodamos", "4 · testes")
+    d.codigo(
+        [
+            "# o mesmo pipeline para todos os conjuntos, sem exceção",
+            "winsorizar 1%  ->  log nas assimétricas  ->  padronizar  ->  modelo",
+            "",
+            "# e então, para cada conjunto:",
+            "5 conjuntos x 3 algoritmos x k de 2 a 10 = %d combinações" % combinacoes,
+        ],
+        legenda="KMeans, Aglomerativo (Ward) e Mistura Gaussiana. Semente fixa em 42.",
+        tamanho=11,
+    )
+    d.topicos(
+        [
+            "*4 métricas em cada combinação: inércia (cotovelo), silhueta, Davies-Bouldin e "
+            "Calinski-Harabasz.",
+            "*3 baselines para comparar: as 5 regiões do IBGE, faixas de porte populacional e "
+            "sorteio aleatório.",
+            "*2 testes de robustez: estabilidade sob reamostragem e ablação, removendo uma "
+            "variável por vez.",
+        ],
+        tamanho=13,
+    )
+    d.fim_slide()
+
+    d.slide("A escolha de k, e um achado que incomoda", "4 · testes")
+    d.topicos(
+        [
+            "*A silhueta é máxima em k = 2 em quase todas as combinações, e cai a partir daí.",
+            "*Isso não é bug: quer dizer que o Brasil municipal, nessas variáveis, é um "
+            "CONTÍNUO. Não existem grupos cravados esperando para serem achados.",
+            "Aceitar k = 2 entregaria 'cidade rica e cidade pobre', que não orienta decisão nenhuma.",
+            "*Por isso k saiu do COTOVELO da inércia, e a qualidade foi julgada pelo baseline.",
+        ],
+        tamanho=14,
+    )
+    d.y -= 4
+    d.imagem("04_escolha_de_k", altura_maxima=215)
+    d.fim_slide()
+
+    # ---------- baseline ----------
+    d.slide("O BASELINE: é aqui que a POC passa ou não passa", "5 · baseline")
+    d.paragrafo(
+        "Um agrupamento só se justifica se for melhor do que o que já se tem sem modelo nenhum. "
+        "Comparamos os três no MESMO espaço de variáveis, então a silhueta é comparável.",
+        tamanho=14,
+    )
+    d.barras(
+        [
+            "Nossos clusters",
+            "Baseline: as 5 regiões do IBGE",
+            "Baseline: faixas de porte",
+            "Baseline: sorteio aleatório",
+        ],
+        [silhueta, sil_regiao, sil_porte, sil_aleatorio],
+        [VERDE, CINZA, CINZA, CINZA],
+        titulo="Silhueta (maior é melhor)",
+    )
+    d.destaque("Passou: o cluster ganha da geografia, do porte e do sorteio")
+    d.topicos(
+        [
+            f"*E o mais importante: Rand ajustado contra porte = {rand_porte:.3f}. "
+            f"O modelo NÃO redescobriu o tamanho da cidade, que era o risco principal.",
+            f"Contra região = {rand_regiao:.3f}: tem alguma relação com geografia, esperado num "
+            f"país desigual, mas longe de ser a mesma coisa.",
+        ],
+        tamanho=13,
+    )
+    d.fim_slide()
+
+    d.slide("Robustez: o resultado sobrevive a mexer nos dados?", "5 · baseline")
+    linha_est = estabilidade.iloc[0]
+    d.topicos(
+        [
+            f"*Reamostragem: tiramos 20% dos municípios, rodamos de novo, {linha_est['n_comparacoes']} "
+            f"vezes. Concordância média (Rand ajustado) de {linha_est['rand_ajustado_medio']:.3f}.",
+            "*10 sementes aleatórias diferentes: praticamente a mesma solução.",
+            "*Ablação: tirando cada variável, nenhuma sozinha derruba a separação.",
+        ],
+        tamanho=14,
+    )
+    d.y -= 4
+    d.imagem("11_ablacao", altura_maxima=200)
+    d.fim_slide()
+
+    d.slide("E serve como variável para um modelo futuro?", "5 · baseline")
+    d.paragrafo(
+        "Última prova, e a que mais importa para o projeto seguir: o rótulo do cluster "
+        "acrescenta informação que região e porte já não dão? R² ajustado, em variáveis "
+        "municipais deixadas fora do modelo.",
+        tamanho=14,
+    )
+    d.barras(
+        [str(r["rotulo"])[:40] for _, r in incremental.head(5).iterrows()],
+        [float(r["ganho"]) for _, r in incremental.head(5).iterrows()],
+        [VERDE] * 5,
+        titulo="Ganho no R² ajustado ao somar o cluster a região + porte",
+    )
+    d.destaque(
+        f"Acrescenta em {quantas} de {len(incremental)} variáveis testadas, ganho médio "
+        f"{ganho:+.4f}. Em nenhuma piora."
+    )
+    d.fim_slide()
+
+    # ---------- resultados ----------
+    d.slide("Resultado: 5 tipos de praça", "6 · resultados")
+    junto = tamanhos.merge(valor[["cluster", "nome"]], on="cluster")
+    d.tabela(
+        junto[["nome", "municipios", "populacao_pct"]],
+        ["Tipo de praça", "Municípios", "% da população"],
+        [420, 200, 230],
+        tamanho=13,
+    )
+    d.tabela(
+        pd.DataFrame(
+            [
+                ["Praça madura de locação", "São Paulo, Rio, Brasília, Fortaleza"],
+                ["Praça popular de grande porte", "Manaus, Belém, Maceió, São Gonçalo"],
+                ["Praça intermediária conectada", "Caxias do Sul, Mogi das Cruzes, Betim"],
+                ["Praça em formação", "Belford Roxo, Caucaia, Águas Lindas"],
+                ["Praça sem mercado formal", "interior do Maranhão e da Paraíba"],
+            ],
+            columns=["praca", "exemplos"],
+        ),
+        ["Para reconhecer", "Exemplos"],
+        [330, 520],
+        tamanho=11,
+    )
+    d.fim_slide()
+
+    d.slide("O mapa", "6 · resultados")
+    d.imagem("09_mapa_clusters", altura_maxima=370)
+    d.fim_slide()
+
+    d.slide("O perfil de cada praça", "6 · resultados")
+    d.imagem("07_perfil_clusters", altura_maxima=340, legenda="Desvios padrão em relação à média nacional")
+    d.fim_slide()
+
+    d.slide("E o que isso muda na decisão de mídia", "6 · resultados")
+    for _, linha in valor.iterrows():
+        d.c.setFillColor(AZUL)
+        d.c.setFont("Helvetica-Bold", 12.5)
+        d.c.drawString(MARGEM, d.y, str(linha["nome"]))
+        d.y -= 15
+        d.c.setFillColor(colors.HexColor("#2B3440"))
+        d.c.setFont("Helvetica", 10.5)
+        for texto in d._quebrar(str(linha["acao_de_marketing_sugerida"]), "Helvetica", 10.5, LARGURA - 2 * MARGEM):
+            d.c.drawString(MARGEM, d.y, texto)
+            d.y -= 13
+        d.y -= 5
+    d.fim_slide()
+
+    # ---------- conclusão ----------
+    d.slide("Conclusão", "7 · conclusão")
+    d.destaque("A prova de conceito passou, com uma ressalva honesta")
+    d.topicos(
+        [
+            f"*Passou: silhueta {silhueta:.3f} contra {sil_regiao:.3f} da geografia e "
+            f"{sil_porte:.3f} do porte. É estável e acrescenta informação em "
+            f"{quantas} de {len(incremental)} variáveis retidas.",
+            "*A ressalva: os grupos não são naturais. São um corte útil de um contínuo, e a "
+            "defesa deles é a comparação com o baseline, não a separação absoluta.",
+            "*O que ainda não conseguimos: dizer quanto a Loft ganha em cada praça. Isso exige "
+            "dado interno de receita e sinistro, que não temos.",
+            "*Próximo passo natural: cruzar os clusters com esse dado interno e transformar "
+            "'praça promissora' em retorno esperado por real investido.",
+        ],
+        tamanho=14,
+    )
+    d.fim_slide()
+
+    d.fechar()
+    return str(ARQUIVO_AULA)

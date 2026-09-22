@@ -10,7 +10,7 @@ ajuda:
 	@echo "make ambiente     cria o .venv e instala as dependencias fixadas"
 	@echo "make poc          roda a POC de clusterizacao usando os dados ja baixados (~1 min)"
 	@echo "make poc-completa baixa tudo de novo das fontes oficiais e roda a POC (~15 min)"
-	@echo "make apresentacao  gera os dois PDFs: a curta de 11 slides e a detalhada"
+	@echo "make apresentacao  gera os PDFs: a da aula, a curta e a detalhada"
 	@echo "make testes        roda os testes automatizados"
 	@echo "make notebook     abre o notebook de resultados"
 	@echo ""
@@ -31,7 +31,7 @@ poc-completa: ambiente
 	$(EXPORTA) $(PY) -W ignore -m ibmecPCDV20261_victor_lucas_beatriz_ravi.poc_clusters --baixar-tudo
 
 apresentacao: ambiente
-	$(EXPORTA) $(PY) -W ignore -c "from ibmecPCDV20261_victor_lucas_beatriz_ravi.poc_clusters import apresentacao; print(apresentacao.montar_resumida()); print(apresentacao.montar())"
+	$(EXPORTA) $(PY) -W ignore -c "from ibmecPCDV20261_victor_lucas_beatriz_ravi.poc_clusters import apresentacao; print(apresentacao.montar_aula()); print(apresentacao.montar_resumida()); print(apresentacao.montar())"
 
 testes: ambiente
 	$(EXPORTA) $(PY) -m pytest tests/ -q

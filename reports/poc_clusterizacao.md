@@ -1,6 +1,6 @@
 # POC não supervisionada: tipos de praça para o produto de fiança da Loft
 
-Autoria: Beatriz Babinski · Projeto em Ciência de Dados V, IBMEC · gerado em 21/09/2026
+Autoria: Beatriz Babinski · Projeto em Ciência de Dados V, IBMEC · gerado em 22/09/2026
 
 ## 1. Problema
 
@@ -31,28 +31,28 @@ domicílios), justamente para o agrupamento **não separar apenas por tamanho de
 
 | rotulo                                           | fonte                                                                                   | data_referencia   | data_coleta   | entra_no_cluster   |
 |:-------------------------------------------------|:----------------------------------------------------------------------------------------|:------------------|:--------------|:-------------------|
-| Administradoras de imóveis / 10 mil hab.         | Receita Federal - CNPJ, CNAE 6822600 (Base dos Dados)                                   | 2026-01-11        | 2026-09-21    | True               |
-| Crédito sobre poupança (alavancagem)             | Banco Central - ESTBAN, crédito sobre poupança e depósito a prazo (Base dos Dados)      | 2025-09           | 2026-09-21    | True               |
-| Banda larga fixa / 100 hab.                      | Anatel - densidade de banda larga fixa por município (Base dos Dados)                   | 2025-09           | 2026-09-21    | True               |
-| Famílias no CadÚnico / 100 domicílios            | Ministério do Desenvolvimento e Assistência Social - Cadastro Único (API MISocial/SAGI) | 2026-09           | 2026-09-21    | True               |
-| Corretores de seguros / 10 mil hab.              | Receita Federal - CNPJ, CNAE 6622300 (Base dos Dados)                                   | 2026-01-11        | 2026-09-21    | True               |
-| Crédito per capita (R$)                          | Banco Central - ESTBAN, verbete 160 operações de crédito (Base dos Dados)               | 2025-09           | 2026-09-21    | True               |
-| Crescimento da população em 1 ano (%)            | IBGE - Estimativas da população, dois anos consecutivos (tabela SIDRA 6579)             | 2026-07-01        | 2026-09-21    | True               |
-| Imobiliárias e corretoras / 10 mil hab.          | Receita Federal - CNPJ, CNAE 6821801 (Base dos Dados)                                   | 2026-01-11        | 2026-09-21    | True               |
-| Imobiliárias novas em 12 meses (%)               | Receita Federal - CNPJ, CNAE 6821 e 6822 (Base dos Dados)                               | 2026-01-11        | 2026-09-21    | True               |
-| Internet móvel 4G/5G de pessoa física / 100 hab. | Anatel - acessos de telefonia móvel por município e tecnologia (dados abertos)          | 2026-07           | 2026-09-21    | True               |
-| Admissões de 18 a 30 anos (%)                    | Novo CAGED - microdados de movimentação (Base dos Dados)                                | 2026-01           | 2026-09-21    | True               |
-| Pix de pessoa física por habitante               | Banco Central - Transações Pix por Município (API OData)                                | 2026-08           | 2026-09-21    | True               |
-| Poupança e depósito a prazo per capita (R$)      | Banco Central - ESTBAN, verbetes 420 e 432 poupança e depósito a prazo (Base dos Dados) | 2025-09           | 2026-09-21    | True               |
-| Salário mediano de admissão (R$)                 | Novo CAGED - microdados de movimentação (Base dos Dados)                                | 2026-01           | 2026-09-21    | True               |
-| Saldo de emprego / admissões em 12 meses (%)     | Novo CAGED - microdados de movimentação (Base dos Dados)                                | 2026-01           | 2026-09-21    | True               |
-| Veículos por habitante                           | Senatran - frota de veículos por município e tipo (Base dos Dados)                      | 2026-07           | 2026-09-21    | True               |
-| Domicílios alugados na UF (%)                    | IBGE - PNAD Contínua anual, condição de ocupação do domicílio (tabela SIDRA 6821)       | 2025              | 2026-09-21    | False              |
-| Aluguel médio FipeZap (R$/m²)                    | FIPE/ZAP - índice FipeZap, séries históricas de locação residencial                     | 2026-08           | 2026-09-21    | False              |
-| Inadimplência de pessoa física na UF (%)         | Banco Central - SCR por sub-região, cliente pessoa física (API OData)                   | 2026-08           | 2026-09-21    | False              |
-| População estimada (universo da análise)         | IBGE - Estimativas da população (tabela SIDRA 6579)                                     | 2026-07-01        | 2026-09-21    | False              |
+| Administradoras de imóveis / 10 mil hab.         | Receita Federal - CNPJ, CNAE 6822600 (Base dos Dados)                                   | 2026-01-11        | 2026-09-22    | True               |
+| Crédito sobre poupança (alavancagem)             | Banco Central - ESTBAN, crédito sobre poupança e depósito a prazo (Base dos Dados)      | 2025-09           | 2026-09-22    | True               |
+| Banda larga fixa / 100 hab.                      | Anatel - densidade de banda larga fixa por município (Base dos Dados)                   | 2025-09           | 2026-09-22    | True               |
+| Famílias no CadÚnico / 100 domicílios            | Ministério do Desenvolvimento e Assistência Social - Cadastro Único (API MISocial/SAGI) | 2026-09           | 2026-09-22    | True               |
+| Corretores de seguros / 10 mil hab.              | Receita Federal - CNPJ, CNAE 6622300 (Base dos Dados)                                   | 2026-01-11        | 2026-09-22    | True               |
+| Crédito per capita (R$)                          | Banco Central - ESTBAN, verbete 160 operações de crédito (Base dos Dados)               | 2025-09           | 2026-09-22    | True               |
+| Crescimento da população em 1 ano (%)            | IBGE - Estimativas da população, dois anos consecutivos (tabela SIDRA 6579)             | 2026-07-01        | 2026-09-22    | True               |
+| Imobiliárias e corretoras / 10 mil hab.          | Receita Federal - CNPJ, CNAE 6821801 (Base dos Dados)                                   | 2026-01-11        | 2026-09-22    | True               |
+| Imobiliárias novas em 12 meses (%)               | Receita Federal - CNPJ, CNAE 6821 e 6822 (Base dos Dados)                               | 2026-01-11        | 2026-09-22    | True               |
+| Internet móvel 4G/5G de pessoa física / 100 hab. | Anatel - acessos de telefonia móvel por município e tecnologia (dados abertos)          | 2026-07           | 2026-09-22    | True               |
+| Admissões de 18 a 30 anos (%)                    | Novo CAGED - microdados de movimentação (Base dos Dados)                                | 2026-01           | 2026-09-22    | True               |
+| Pix de pessoa física por habitante               | Banco Central - Transações Pix por Município (API OData)                                | 2026-08           | 2026-09-22    | True               |
+| Poupança e depósito a prazo per capita (R$)      | Banco Central - ESTBAN, verbetes 420 e 432 poupança e depósito a prazo (Base dos Dados) | 2025-09           | 2026-09-22    | True               |
+| Salário mediano de admissão (R$)                 | Novo CAGED - microdados de movimentação (Base dos Dados)                                | 2026-01           | 2026-09-22    | True               |
+| Saldo de emprego / admissões em 12 meses (%)     | Novo CAGED - microdados de movimentação (Base dos Dados)                                | 2026-01           | 2026-09-22    | True               |
+| Veículos por habitante                           | Senatran - frota de veículos por município e tipo (Base dos Dados)                      | 2026-07           | 2026-09-22    | True               |
+| Domicílios alugados na UF (%)                    | IBGE - PNAD Contínua anual, condição de ocupação do domicílio (tabela SIDRA 6821)       | 2025              | 2026-09-22    | False              |
+| Aluguel médio FipeZap (R$/m²)                    | FIPE/ZAP - índice FipeZap, séries históricas de locação residencial                     | 2026-08           | 2026-09-22    | False              |
+| Inadimplência de pessoa física na UF (%)         | Banco Central - SCR por sub-região, cliente pessoa física (API OData)                   | 2026-08           | 2026-09-22    | False              |
+| População estimada (universo da análise)         | IBGE - Estimativas da população (tabela SIDRA 6579)                                     | 2026-07-01        | 2026-09-22    | False              |
 | poupanca_per_capita                              | Banco Central - ESTBAN, verbete 420 depósitos de poupança (Base dos Dados)              | 2025-09           | 2026-09-21    | False              |
-| Busca por fiança no Google, por UF (índice)      | Google Trends - termos ['aluguel sem fiador', 'fiança aluguel'] (pytrends)              | 2026-09           | 2026-09-21    | False              |
+| Busca por fiança no Google, por UF (índice)      | Google Trends - termos ['aluguel sem fiador', 'fiança aluguel'] (pytrends)              | 2026-09           | 2026-09-22    | False              |
 
 Regra do projeto **conferida em código** nas 16 variáveis do modelo: a mais antiga é Crédito sobre poupança (alavancagem), com referência de 2025-09. A execução aborta se alguma fonte regredir para antes de 2025, e a conferência completa está em `02b_checagem_regra_de_datas.csv`. Não há uso do Censo 2022. O Índice Brasileiro de Conectividade da Anatel
 foi **descartado** por ter 2024 como ano mais recente; no lugar dele entraram os acessos de

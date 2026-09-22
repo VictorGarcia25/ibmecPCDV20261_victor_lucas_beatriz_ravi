@@ -28,9 +28,9 @@ def _salvar(figura: plt.Figure, nome: str) -> None:
     plt.close(figura)
 
 
-def histogramas(base: pd.DataFrame, variaveis: list[str]) -> None:
-    linhas = int(np.ceil(len(variaveis) / 3))
-    figura, eixos = plt.subplots(linhas, 3, figsize=(13, 3.1 * linhas))
+def histogramas(base: pd.DataFrame, variaveis: list[str], colunas: int = 4) -> None:
+    linhas = int(np.ceil(len(variaveis) / colunas))
+    figura, eixos = plt.subplots(linhas, colunas, figsize=(4.0 * colunas, 2.7 * linhas))
     for eixo, variavel in zip(eixos.ravel(), variaveis):
         sns.histplot(base[variavel].dropna(), bins=40, ax=eixo, color="#4C72B0")
         eixo.set_title(f"{rotulo(variavel)}\nassimetria = {base[variavel].skew():.2f}")
@@ -43,9 +43,9 @@ def histogramas(base: pd.DataFrame, variaveis: list[str]) -> None:
     _salvar(figura, "01_histogramas")
 
 
-def boxplots(base: pd.DataFrame, variaveis: list[str]) -> None:
-    linhas = int(np.ceil(len(variaveis) / 3))
-    figura, eixos = plt.subplots(linhas, 3, figsize=(13, 2.7 * linhas))
+def boxplots(base: pd.DataFrame, variaveis: list[str], colunas: int = 4) -> None:
+    linhas = int(np.ceil(len(variaveis) / colunas))
+    figura, eixos = plt.subplots(linhas, colunas, figsize=(4.0 * colunas, 2.3 * linhas))
     for eixo, variavel in zip(eixos.ravel(), variaveis):
         sns.boxplot(x=base[variavel].dropna(), ax=eixo, color="#DD8452", fliersize=2)
         eixo.set_title(rotulo(variavel))

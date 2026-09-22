@@ -21,7 +21,7 @@
 - victorjg252@gmail.com
 - lucasnauer@gmail.com
 - bfbabinski@gmail.com
-- adicionar_email_do_ravi
+- email_do_ravi
 
 ---
 

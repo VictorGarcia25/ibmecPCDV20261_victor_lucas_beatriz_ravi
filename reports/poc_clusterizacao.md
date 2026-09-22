@@ -48,21 +48,22 @@ domicílios), justamente para o agrupamento **não separar apenas por tamanho de
 | População estimada (universo da análise)         | IBGE - Estimativas da população (tabela SIDRA 6579)                                     | 2026-07-01        | 2026-09-21    | False              |
 | Busca por fiança no Google, por UF (índice)      | Google Trends - termos ['aluguel sem fiador', 'fiança aluguel'] (pytrends)              | 2026-09           | 2026-09-21    | False              |
 
-Regra do projeto cumprida: **nenhuma variável do modelo usa dado anterior a 2025**, e não há
-uso do Censo 2022. O Índice Brasileiro de Conectividade da Anatel foi **descartado** por ter
-2024 como ano mais recente; no lugar dele entraram os acessos de telefonia móvel dos dados
-abertos da Anatel, com referência de 2026-07.
+Regra do projeto **conferida em código** nas 11 variáveis do modelo: a mais antiga é Banda larga fixa / 100 hab., com referência de 2025-09. A execução aborta se alguma fonte regredir para antes de 2025, e a conferência completa está em `02b_checagem_regra_de_datas.csv`. Não há uso do Censo 2022. O Índice Brasileiro de Conectividade da Anatel
+foi **descartado** por ter 2024 como ano mais recente; no lugar dele entraram os acessos de
+telefonia móvel dos dados abertos da Anatel.
 
 ### 2.2 Decisões de tratamento que mudaram o resultado
 
-| Decisão | Motivo |
+Cada número desta tabela é recalculado a cada execução, a partir dos dados coletados.
+
+| Decisão | Motivo, com a evidência desta execução |
 | --- | --- |
-| Pix: descartar o mês em andamento | Setembro de 2026 aparecia com R$ 784 bi contra cerca de R$ 1.100 bi dos meses fechados. Usamos os 12 meses completos. |
-| Salário de admissão: usar a mediana, não a média | Em Belo Jardim (PE) a média era R$ 3.634 e a mediana R$ 1.612: poucos salários altos distorciam a comparação entre praças. |
-| Internet móvel: usar só linhas de pessoa física | Com PJ incluído, Jaboticabal (SP) marcava 881 acessos por 100 habitantes (linhas de máquina e corporativas). Só com PF a assimetria caiu de 8,13 para -0,58. |
+| Pix: descartar o mês em andamento | o mês de 2026-09 aparecia com R$ 784 bi contra R$ 1.058 bi do mês típico fechado, porque ainda estava em andamento na data da coleta. Usamos os 12 meses completos. |
+| Salário de admissão: usar a mediana, não a média | Em Belo Jardim - PE a média era R$ 3.634 e a mediana R$ 1.612: poucos salários altos distorciam a comparação entre praças. |
+| Internet móvel: usar só linhas de pessoa física | Com pessoa jurídica incluída, Jaboticabal - SP marcava 881 acessos por 100 habitantes, que são linhas de máquina e corporativas; só com pessoa física cai para 93. A assimetria da variável saiu de 8,13 para -0,58. |
 | Veículos: usar automóveis, não a frota toda | No Brasil a moto cresce onde a renda cai, então a frota total misturaria dois sinais opostos de patrimônio. |
-| Crédito: winsorizar as caudas em 1% | O ESTBAN registra a carteira onde o banco está sediado: Osasco (SP) aparecia com R$ 1 milhão de crédito por habitante, que é a carteira nacional do banco ali sediado. |
-| Google Trends: virou descritora | Mesmo pedindo resolução de cidade, a API devolve unidade da federação. A cobertura municipal foi de 0,3%, contra o mínimo de 80% combinado. |
+| Crédito: winsorizar as caudas em 1% | O ESTBAN registra a carteira onde a agência está instalada, não onde o tomador mora: Osasco - SP aparece com R$ 1.007.843 de crédito por habitante, 104 vezes a mediana de R$ 9.696, porque ali está sediado um banco de atuação nacional. |
+| Google Trends: virou descritora | Mesmo pedindo resolução de cidade, a API devolve unidade da federação. Sem cobertura municipal não há como atingir o mínimo de 80% combinado. |
 | CadÚnico: denominador estimado | A competência disponível não preenche a contagem de pessoas, então usamos famílias sobre domicílios estimados (2.8 moradores por domicílio, PNAD Contínua). Sendo constante nacional, não altera a posição relativa dos municípios. |
 
 ### 2.3 Qualidade da base
@@ -71,18 +72,24 @@ Cobertura final: **zero valores faltantes** nas 11 variáveis candidatas,
 nos 687 municípios. Conferência de volume contra a realidade, que é o teste que pega
 erro de extração:
 
-| Base | Total nacional obtido | Confere com a realidade |
-| --- | --- | --- |
-| ESTBAN, operações de crédito | R$ 6,6 trilhões | Sim, ordem do estoque de crédito do país |
-| Senatran, automóveis | 65,6 milhões | Sim |
-| Anatel, acessos móveis | 279,2 milhões, sendo 246,2 milhões em 4G/5G | Sim |
-| CNPJ, imobiliárias e administradoras ativas | 144.872 estabelecimentos | Sim |
-| Novo CAGED, admissões em 12 meses | 26,3 milhões, saldo de +1,2 milhão | Sim |
-| CadÚnico, famílias cadastradas | 43,4 milhões | Sim |
+| base                                        | total_no_brasil          | ordem_de_grandeza_esperada                                   | total_nos_municipios_analisados   | parcela_no_universo   |
+|:--------------------------------------------|:-------------------------|:-------------------------------------------------------------|:----------------------------------|:----------------------|
+| ESTBAN, operações de crédito                | R$ 6.6 trilhões          | estoque de crédito do país: casa dos trilhões de reais       | R$ 6.1 trilhões                   | 93%                   |
+| Senatran, automóveis                        | 65.6 milhões             | frota de automóveis do país: algumas dezenas de milhões      | 51.1 milhões                      | 78%                   |
+| Anatel, acessos móveis 4G e 5G              | 246.2 milhões            | acessos móveis do país: algumas centenas de milhões          | 193.4 milhões                     | 79%                   |
+| CNPJ, imobiliárias e administradoras ativas | 144.872 estabelecimentos | empresas do setor imobiliário: casa das centenas de milhares | 131.316 estabelecimentos          | 91%                   |
+| Novo CAGED, admissões em 12 meses           | 26.3 milhões             | contratações formais no país em um ano: dezenas de milhões   | 21.8 milhões                      | 83%                   |
+| CadÚnico, famílias cadastradas              | 43.4 milhões             | famílias no Cadastro Único: dezenas de milhões               | 26.9 milhões                      | 62%                   |
 
-Vinte municípios do universo têm **zero** estabelecimento imobiliário formal ativo, treze no
-Norte e sete no Nordeste. Não é dado faltante: é a ausência real de mercado formal de locação,
-e o modelo trata isso como informação.
+O total no Brasil vem do arquivo bruto, com todos os municípios, e é ele que se confronta com a
+realidade conhecida. A última coluna mostra quanto disso está nos municípios analisados: se
+passasse de 100% haveria linha duplicada em algum merge. É o teste que pega erro de extração
+calado, do tipo unidade trocada ou junção que multiplica registros.
+
+20 municípios do universo têm **zero** estabelecimento imobiliário
+formal ativo (13 no Norte, 7 no Nordeste). Não é dado faltante: é a ausência real de mercado
+formal de locação, e o modelo trata isso como informação. Todos eles caíram no mesmo cluster,
+o de Praça sem mercado formal, o que é um sinal de que o agrupamento leu esse fato.
 
 ## 3. Método
 
@@ -103,8 +110,7 @@ sentido de negócio; empatado nisso, fica a de menor VIF.
 | Imobiliárias e corretoras / 10 mil hab. | Administradoras de imóveis / 10 mil hab. |                 0.824 | correlação de 0.82 acima do limiar de 0.80; usada em 3 dos 4 grupos, contra 1 |
 | Veículos por habitante                  | Famílias no CadÚnico / 100 domicílios    |                 0.81  | correlação de 0.81 acima do limiar de 0.80; usada em 3 dos 4 grupos, contra 1 |
 
-Todos os VIF ficaram abaixo de 5, então não há multicolinearidade grave entre as
-sobreviventes.
+O maior VIF é de 4.65, em Veículos por habitante, bem abaixo do limiar usual de 10. Não há multicolinearidade grave entre as variáveis que sobraram.
 
 ### 3.2 Grupos comparados
 
@@ -157,12 +163,24 @@ Por isso a escolha final ficou restrita aos grupos que têm ao menos uma variáv
 
 | grupo   | nome_grupo                  | nome_modelo   |   k |   silhueta |   estabilidade_bootstrap |
 |:--------|:----------------------------|:--------------|----:|-----------:|-------------------------:|
-| D       | Mercado + renda + marketing | KMeans        |   5 |   0.236293 |                   0.937  |
-| C       | Mercado + renda             | KMeans        |   5 |   0.243999 |                   0.7583 |
+| D       | Mercado + renda + marketing | KMeans        |   5 |   0.236293 |                   0.8375 |
+| C       | Mercado + renda             | KMeans        |   5 |   0.243999 |                   0.7006 |
 
-C tem silhueta um pouco maior (0.244 contra 0.236), diferença de menos de 0,01 que está dentro do ruído. Mas os clusters de C **não se reproduzem**: no bootstrap o Rand ajustado de C é 0.758 contra 0.937 de D. Para uma decisão de mídia que vai ser repetida mês a mês, estabilidade vale mais que um terceiro decimal de silhueta.
+C tem silhueta um pouco maior (0.244 contra 0.236). Antes de decidir por isso, essa vantagem foi testada: reamostrando os municípios 200 vezes, refazendo o preparo dentro de cada subamostra e recalculando a silhueta das duas configurações sobre os mesmos municípios.
 
-**Veredito: a hipótese de que o grupo D é o melhor se sustenta**, não porque D separa mais, e sim porque D separa de forma reprodutível. Acrescentar alcance digital não aumenta a separação — o alcance de internet móvel é a variável menos dispersa de todas, com coeficiente de variação de 0,17, já que praticamente todo município de 50 mil habitantes ou mais tem cobertura — mas **estabiliza** a solução e traz para o modelo a dimensão em que a decisão de mídia é executada.
+| configuracao_a   | configuracao_b   |   silhueta_media_a |   silhueta_media_b |   diferenca_media |   intervalo_95_inferior |   intervalo_95_superior |   vezes_que_a_venceu_pct | diferenca_significativa   |   n_reamostragens |
+|:-----------------|:-----------------|-------------------:|-------------------:|------------------:|------------------------:|------------------------:|-------------------------:|:--------------------------|------------------:|
+| D                | C                |             0.2423 |             0.2562 |           -0.0139 |                 -0.0323 |                 -0.0009 |                      1.5 | True                      |               200 |
+
+O intervalo de 95% da diferença vai de -0.0323 a -0.0009 e **não inclui o zero**: a vantagem de C em separação é real, não é ruído. Mas é preciso olhar o tamanho dela.
+
+A vantagem de C em silhueta é de 0.008. Para comparar, a vantagem do próprio agrupamento sobre o baseline de geografia é de cerca de 0.237, ou seja a diferença entre C e D é uma fração pequena do que está em jogo.
+
+Já a diferença de estabilidade vai na direção oposta e é maior: sob subamostragem o Rand ajustado de C é 0.701 contra 0.838 de D, uma distância de 0.137. Os clusters de C mudam de composição quando se troca um quinto dos municípios; os de D não.
+
+O critério aplicado foi esse: trocar 0.008 de separação por 0.137 de reprodutibilidade, porque a decisão de mídia vai ser refeita mês a mês e um agrupamento que se reorganiza a cada rodada não sustenta plano de verba.
+
+**Veredito: a hipótese de que o grupo D é o melhor se sustenta**, não porque D separa mais, e sim porque D separa de forma reprodutível. Acrescentar alcance digital não aumenta a separação, e a razão aparece na descritiva: a variável de menor dispersão entre as do grupo escolhido é **Internet móvel 4G/5G de pessoa física / 100 hab.**, com coeficiente de variação de 0,17. Ou seja, o alcance digital quase não distingue uma praça da outra, porque praticamente todo município de 50 mil habitantes ou mais já tem cobertura. O que essas variáveis fazem é **estabilizar** a solução e trazer para o modelo a dimensão em que a decisão de mídia é executada.
 
 ## 5. Baselines: o cluster ganha de geografia e de porte?
 
@@ -192,10 +210,12 @@ Comparação dos quatro grupos contra os baselines: tabela `10_baselines_por_gru
 
 ## 6. Robustez
 
-- **Bootstrap** (99 comparações, reamostras de 80% dos municípios):
-  Rand ajustado médio de **0.923**
-  (desvio 0.075, faixa de
-  0.749 a 0.991).
+- **Reamostragem** (99 comparações, subamostras sem reposição de
+  80% dos municípios): Rand ajustado médio de
+  **0.847** (desvio 0.107,
+  faixa de 0.668 a 0.984).
+  A reamostragem é sem reposição de propósito: com reposição, os municípios duplicados ficam a
+  distância zero um do outro e inflam a concordância entre rodadas.
 - **Sementes**: 10 sementes diferentes, Rand ajustado médio contra a solução de
   referência de **0.991** (mínimo
   0.984).
@@ -211,6 +231,26 @@ Comparação dos quatro grupos contra os baselines: tabela `10_baselines_por_gru
 | Administradoras de imóveis / 10 mil hab.         |             0.2636 |              0.2363 |     0.0273 |                      0.6396 |
 
 A variável mais crítica é **Famílias no CadÚnico / 100 domicílios**: sem ela a silhueta varia -0.005. A menos crítica é **Administradoras de imóveis / 10 mil hab.** (+0.027). O Rand ajustado contra a solução completa mostra quanto a composição dos grupos muda ao remover cada variável.
+
+### 6.1 A taxa de empresas novas não é artefato de base pequena
+
+A variável de imobiliárias abertas em 12 meses é uma proporção, e proporção com denominador
+pequeno engana: num município com 9 imobiliárias, três aberturas já viram 33%. Como é essa a
+variável que mais define o cluster de **Praça em formação**, ela foi testada exigindo um número
+mínimo de empresas no município.
+
+|   base_minima_de_empresas |   municipios_no_cluster |   mediana_no_cluster |   mediana_no_resto |   p_valor | continua_maior   |
+|--------------------------:|------------------------:|---------------------:|-------------------:|----------:|:-----------------|
+|                         1 |                      73 |                 27.3 |               12.5 |   1e-37   | True             |
+|                        10 |                      36 |                 24.3 |               12.9 |   5.1e-19 | True             |
+|                        20 |                      15 |                 21.1 |               13.1 |   1.1e-08 | True             |
+|                        50 |                       2 |                 23.6 |               13.3 |   0.011   | True             |
+
+O cluster continua com taxa de abertura muito acima do resto mesmo quando se exige base maior,
+e a correlação de Spearman entre a taxa e o número de empresas do município é de apenas
+0,178, ou seja **a taxa alta não vem de denominador pequeno**. O achado
+sobrevive ao teste. Ainda assim a variável é ruidosa em município de base curta, e é por isso
+que ela entra winsorizada.
 
 ## 7. Os tipos de praça encontrados
 
@@ -266,6 +306,16 @@ Os dez maiores municípios de cada cluster estão em `18_top_municipios.csv`.
 6. **Google Trends não desce a município**, então a intenção de busca por fiança só existe como
    descritora por UF.
 7. **CadÚnico com denominador estimado**, pelo motivo já descrito.
+8. **A taxa de empresas novas é ruidosa em praça pequena.** É uma proporção sobre base curta:
+   num município com poucas imobiliárias, duas ou três aberturas já produzem percentual alto.
+   O teste da seção 6.1 mostra que o achado sobrevive a exigir base maior, e a winsorização
+   corta os casos extremos, mas a variável continua sendo a menos precisa do conjunto.
+9. **O FipeZap cobre poucas cidades.** Como descritora, ele fica vazio nos clusters formados por
+   municípios pequenos, então não serve para comparar todos os grupos entre si.
+10. **A escolha entre C e D é um julgamento, não um resultado automático.** C separa melhor por
+    uma margem pequena mas estatisticamente real; D é muito mais estável. Trocamos separação por
+    reprodutibilidade porque a decisão será repetida, e isso está registrado na seção 4 para
+    quem quiser decidir diferente.
 
 ## 10. Próximos passos
 
@@ -286,6 +336,6 @@ Os dez maiores municípios de cada cluster estão em `18_top_municipios.csv`.
 make poc
 ```
 
-Roda tudo do zero: cria o ambiente, coleta as fontes, gera as 29 tabelas em
+Roda tudo do zero: cria o ambiente, coleta as fontes, gera as 32 tabelas em
 `reports/tables`, as figuras em `reports/figures` e este relatório. Exige um projeto do Google
 Cloud configurado em `.env` para as consultas ao BigQuery da Base dos Dados.

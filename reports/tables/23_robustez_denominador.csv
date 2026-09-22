@@ -1,0 +1,5 @@
+base_minima_de_empresas,municipios_no_cluster,mediana_no_cluster,mediana_no_resto,p_valor,continua_maior
+1,73,27.3,12.5,1.0e-37,True
+10,36,24.3,12.9,5.1e-19,True
+20,15,21.1,13.1,1.1e-08,True
+50,2,23.6,13.3,1.1e-02,True

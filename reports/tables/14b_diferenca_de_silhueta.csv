@@ -1,0 +1,2 @@
+configuracao_a,configuracao_b,silhueta_media_a,silhueta_media_b,diferenca_media,intervalo_95_inferior,intervalo_95_superior,vezes_que_a_venceu_pct,diferenca_significativa,n_reamostragens
+D,C,0.2423,0.2562,-0.0139,-0.0323,-0.0009,1.5,True,200

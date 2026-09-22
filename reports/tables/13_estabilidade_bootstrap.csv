@@ -1,2 +1,2 @@
-modelo,k,n_comparacoes,rand_ajustado_medio,rand_ajustado_desvio,rand_ajustado_p5,rand_ajustado_p95
-KMeans,5,99,0.923,0.0751,0.7494,0.9907
+modelo,k,metodo,fracao_reamostrada,n_comparacoes,rand_ajustado_medio,rand_ajustado_desvio,rand_ajustado_p5,rand_ajustado_p95
+KMeans,5,subamostragem sem reposição,0.8,99,0.8473,0.1067,0.6677,0.9837

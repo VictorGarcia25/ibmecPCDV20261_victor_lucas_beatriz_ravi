@@ -1,0 +1,17 @@
+variavel,rotulo,data_referencia,ano_referencia,entra_no_cluster,cumpre_a_regra
+administradoras_10k,Administradoras de imóveis / 10 mil hab.,2026-01-11,2026,True,True
+banda_larga_100,Banda larga fixa / 100 hab.,2025-09,2025,True,True
+cadunico_pct,Famílias no CadÚnico / 100 domicílios,2026-09,2026,True,True
+credito_per_capita,Crédito per capita (R$),2025-09,2025,True,True
+imobiliarias_10k,Imobiliárias e corretoras / 10 mil hab.,2026-01-11,2026,True,True
+imobiliarias_novas_pct,Imobiliárias novas em 12 meses (%),2026-01-11,2026,True,True
+internet_movel_100,Internet móvel 4G/5G de pessoa física / 100 hab.,2026-07,2026,True,True
+pix_pf_por_hab,Pix de pessoa física por habitante,2026-08,2026,True,True
+salario_admissao,Salário mediano de admissão (R$),2026-01,2026,True,True
+saldo_emprego_pct,Saldo de emprego / admissões em 12 meses (%),2026-01,2026,True,True
+veiculos_por_hab,Veículos por habitante,2026-07,2026,True,True
+domicilios_alugados_pct_uf,Domicílios alugados na UF (%),2025,2025,False,True
+fipezap_aluguel,Aluguel médio FipeZap (R$/m²),2026-08,2026,False,True
+inadimplencia_pf_uf,Inadimplência de pessoa física na UF (%),2026-08,2026,False,True
+populacao,População estimada (universo da análise),2026-07-01,2026,False,True
+trends_fianca,"Busca por fiança no Google, por UF (índice)",2026-09,2026,False,True

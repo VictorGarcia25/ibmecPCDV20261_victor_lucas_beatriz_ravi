@@ -29,6 +29,8 @@ VARIAVEIS_PAGAMENTO = (
     "cadunico_pct",
     "credito_per_capita",
     "veiculos_por_hab",
+    "reserva_per_capita",
+    "alavancagem",
 )
 
 
@@ -194,6 +196,8 @@ def executar(forcar_download: bool = False, k_maximo: int = config.K_MAXIMO) -> 
     _salvar_tabela(descritoras, "21_descritoras_por_cluster")
     valor = perfil.tabela_valor_loft(perfil_z, nomes, tamanhos)
     _salvar_tabela(valor, "22_valor_para_a_loft")
+    incremental = avaliacao.valor_incremental(base, variaveis_finais)
+    _salvar_tabela(incremental, "25_valor_incremental_do_cluster")
     robustez_denominador = diagnostico.robustez_denominador(base)
     _salvar_tabela(robustez_denominador, "23_robustez_denominador")
     _salvar_tabela(diagnostico.tabela_volumes(base), "24_volumes_nacionais")
@@ -227,6 +231,7 @@ def executar(forcar_download: bool = False, k_maximo: int = config.K_MAXIMO) -> 
         ablacao=tabela_ablacao,
         diferenca_silhueta=diferenca_silhueta,
         robustez_denominador=robustez_denominador,
+        incremental=incremental,
         perfil_z=perfil_z,
         descricao_marcas=marcas,
         tamanhos=tamanhos,

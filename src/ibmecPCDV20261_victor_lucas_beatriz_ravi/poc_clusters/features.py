@@ -29,10 +29,16 @@ def montar(forcar_download: bool = False) -> pd.DataFrame:
     base = base.merge(familias, on="id_municipio_6", how="left").drop(columns="id_municipio_6")
 
     # Municípios sem nenhuma empresa do setor têm zero de verdade, não dado faltante.
-    for coluna in ["administradoras", "imobiliarias", "setor_total", "setor_novas_12m"]:
+    for coluna in [
+        "administradoras",
+        "imobiliarias",
+        "corretores_seguros",
+        "setor_total",
+        "setor_novas_12m",
+    ]:
         base[coluna] = base[coluna].fillna(0)
     # Sem agência bancária no município o saldo de crédito local é zero.
-    for coluna in ["credito_total", "financiamento_imobiliario"]:
+    for coluna in ["credito_total", "financiamento_imobiliario", "poupanca", "deposito_prazo"]:
         base[coluna] = base[coluna].fillna(0)
 
     base["administradoras_10k"] = base["administradoras"] / base["populacao"] * 10_000
@@ -52,11 +58,27 @@ def montar(forcar_download: bool = False) -> pd.DataFrame:
     base["motos_por_hab"] = base["motocicletas"] / base["populacao"]
     base["saldo_emprego_pct"] = base["saldo_12m"] / base["admissoes_12m"] * 100
     base["internet_movel_100"] = base["acessos_movel_4g5g_pf"] / base["populacao"] * 100
+    base["corretores_seguros_10k"] = base["corretores_seguros"] / base["populacao"] * 10_000
+    # Poupança sozinha aparece negativa em município que sedia banco, por lançamento contábil
+    # líquido; a reserva combinada nunca fica negativa e mede melhor o colchão local.
+    reserva = base["poupanca"] + base["deposito_prazo"]
+    base["reserva_per_capita"] = reserva / base["populacao"]
+    # Sem reserva registrada no município a alavancagem não é definida; fica a mediana depois.
+    base["alavancagem"] = base["credito_total"] / reserva.replace(0, float("nan"))
+    base["crescimento_populacional_pct"] = (
+        base["populacao"] / base["populacao_anterior"] - 1
+    ) * 100
+    base["jovens_admissoes_pct"] = (
+        base["admissoes_jovens_12m"] / base["admissoes_12m"] * 100
+    )
     base["financiamento_imob_per_capita"] = (
         base["financiamento_imobiliario"] / base["populacao"]
     )
 
     base = descritoras.juntar(base, forcar_download)
+
+    for coluna in ["alavancagem", "jovens_admissoes_pct", "crescimento_populacional_pct"]:
+        base[coluna] = base[coluna].fillna(base[coluna].median())
 
     registrar_fonte(
         "cadunico_pct",

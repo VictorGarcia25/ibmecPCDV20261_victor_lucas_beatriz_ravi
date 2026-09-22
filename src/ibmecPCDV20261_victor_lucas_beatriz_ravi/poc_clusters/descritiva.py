@@ -154,6 +154,23 @@ def decidir_cortes(
         )
 
     mantidas = [v for v in variaveis if v not in descartadas]
+
+    # A eliminação é encadeada: uma variável pode vencer um par e cair em outro depois. Para a
+    # tabela não dizer que a mesma variável foi mantida e descartada, cada descartada é
+    # reapresentada contra a sobrevivente com quem ela mais se correlaciona.
+    for decisao in decisoes:
+        if decisao["variavel_mantida"] in descartadas and mantidas:
+            correlatas = correlacao.loc[decisao["variavel_descartada"], mantidas]
+            substituta = str(correlatas.idxmax())
+            decisao["variavel_mantida"] = substituta
+            decisao["rotulo_mantida"] = rotulo(substituta)
+            decisao["vif_mantida"] = vif.get(substituta)
+            decisao["correlacao_spearman"] = round(float(correlatas.max()), 3)
+            decisao["motivo"] = (
+                f"saiu numa cadeia de variáveis correlacionadas entre si; a sobrevivente que a "
+                f"representa é {rotulo(substituta)}, com correlação de {correlatas.max():.2f}"
+            )
+
     if not decisoes:
         decisoes = [
             {

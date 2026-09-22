@@ -10,6 +10,8 @@ from . import bq
 
 TABELA = "basedosdados.br_me_cnpj.estabelecimentos"
 SITUACAO_ATIVA = "2"
+# Corretores de seguros vendem seguro-fiança, o produto que compete com a fiança da Loft.
+CNAE_CORRETORES_SEGUROS = "6622300"
 
 
 def baixar() -> pd.DataFrame:
@@ -25,9 +27,15 @@ def baixar() -> pd.DataFrame:
             (SELECT data_snapshot FROM snapshot) AS data_referencia,
             COUNTIF(e.cnae_fiscal_principal = '{config.CNAE_ADMINISTRADORAS}') AS administradoras,
             COUNTIF(e.cnae_fiscal_principal = '{config.CNAE_IMOBILIARIAS}') AS imobiliarias,
-            COUNT(*) AS setor_total,
+            COUNTIF(e.cnae_fiscal_principal = '{CNAE_CORRETORES_SEGUROS}') AS corretores_seguros,
+            COUNTIF(e.cnae_fiscal_principal IN (
+                '{config.CNAE_ADMINISTRADORAS}', '{config.CNAE_IMOBILIARIAS}'
+            )) AS setor_total,
             COUNTIF(
-                e.data_inicio_atividade
+                e.cnae_fiscal_principal IN (
+                    '{config.CNAE_ADMINISTRADORAS}', '{config.CNAE_IMOBILIARIAS}'
+                )
+                AND e.data_inicio_atividade
                 >= DATE_SUB((SELECT data_snapshot FROM snapshot), INTERVAL 12 MONTH)
             ) AS setor_novas_12m
         FROM `{TABELA}` AS e
@@ -35,7 +43,8 @@ def baixar() -> pd.DataFrame:
           AND e.mes = {mes}
           AND e.situacao_cadastral = '{SITUACAO_ATIVA}'
           AND e.cnae_fiscal_principal IN (
-              '{config.CNAE_ADMINISTRADORAS}', '{config.CNAE_IMOBILIARIAS}'
+              '{config.CNAE_ADMINISTRADORAS}', '{config.CNAE_IMOBILIARIAS}',
+              '{CNAE_CORRETORES_SEGUROS}'
           )
         GROUP BY e.id_municipio
     """
@@ -69,11 +78,19 @@ def carregar(forcar_download: bool = False) -> pd.DataFrame:
         data_referencia,
         "abertas nos 12 meses anteriores ao snapshot, sobre o total ativo do setor",
     )
+    registrar_fonte(
+        "corretores_seguros_10k",
+        f"Receita Federal - CNPJ, CNAE {CNAE_CORRETORES_SEGUROS} (Base dos Dados)",
+        data_referencia,
+        "corretores de seguros ativos: oferta local do seguro-fiança, que é o produto "
+        "concorrente direto da fiança",
+    )
     return df[
         [
             "id_municipio",
             "administradoras",
             "imobiliarias",
+            "corretores_seguros",
             "setor_total",
             "setor_novas_12m",
         ]

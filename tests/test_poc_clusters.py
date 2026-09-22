@@ -268,3 +268,46 @@ def test_robustez_do_denominador_roda_e_identifica_o_cluster_alvo():
     tabela = diagnostico.robustez_denominador(base)
     assert tabela.attrs["cluster_alvo"] == 0
     assert tabela["continua_maior"].all()
+
+
+def test_valor_incremental_reconhece_cluster_informativo():
+    """Um cluster que reproduz a estrutura real tem de acrescentar sobre regiao e porte."""
+    base = _base_sintetica()
+    variaveis = ["administradoras_10k", "pix_pf_por_hab"]
+    matriz, _ = clustering.preparar_matriz(base, variaveis)
+    base["cluster"] = clustering.rotular(matriz, "kmeans", 3)
+    tabela = avaliacao.valor_incremental(
+        base, variaveis, candidatas_retidas=["cadunico_pct"]
+    )
+    assert tabela.loc[0, "ganho"] > 0
+    assert bool(tabela.loc[0, "o_cluster_acrescenta"])
+
+
+def test_valor_incremental_nao_premia_cluster_aleatorio():
+    """Rotulo sorteado nao pode aparecer como ganho: e para isso que o R2 e ajustado."""
+    base = _base_sintetica()
+    gerador = np.random.default_rng(config.SEMENTE)
+    base["cluster"] = gerador.integers(0, 5, len(base))
+    tabela = avaliacao.valor_incremental(
+        base, ["administradoras_10k"], candidatas_retidas=["cadunico_pct", "pix_pf_por_hab"]
+    )
+    assert (tabela["ganho"] <= 0.01).all()
+
+
+def test_tabela_de_cortes_nunca_mantem_e_descarta_a_mesma_variavel():
+    """Numa cadeia de variaveis correlacionadas, a tabela tem de refletir o estado final."""
+    gerador = np.random.default_rng(config.SEMENTE)
+    tronco = gerador.normal(size=300)
+    base = pd.DataFrame(
+        {
+            "administradoras_10k": tronco,
+            "imobiliarias_10k": tronco + gerador.normal(scale=0.04, size=300),
+            "veiculos_por_hab": tronco + gerador.normal(scale=0.05, size=300),
+            "saldo_emprego_pct": gerador.normal(size=300),
+        }
+    )
+    mantidas, decisoes = descritiva.decidir_cortes(base, list(base.columns))
+    descartadas = set(decisoes["variavel_descartada"])
+    apontadas = set(decisoes["variavel_mantida"])
+    assert not (descartadas & apontadas)
+    assert apontadas <= set(mantidas)

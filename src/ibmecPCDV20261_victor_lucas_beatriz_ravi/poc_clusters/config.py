@@ -36,6 +36,11 @@ VARIAVEIS = {
     "saldo_emprego_pct": "Saldo de emprego / admissões em 12 meses (%)",
     "internet_movel_100": "Internet móvel 4G/5G de pessoa física / 100 hab.",
     "banda_larga_100": "Banda larga fixa / 100 hab.",
+    "alavancagem": "Crédito sobre poupança (alavancagem)",
+    "reserva_per_capita": "Poupança e depósito a prazo per capita (R$)",
+    "corretores_seguros_10k": "Corretores de seguros / 10 mil hab.",
+    "crescimento_populacional_pct": "Crescimento da população em 1 ano (%)",
+    "jovens_admissoes_pct": "Admissões de 18 a 30 anos (%)",
 }
 
 # Grupos de variáveis comparados na POC.
@@ -69,6 +74,19 @@ GRUPOS = {
         "internet_movel_100",
         "banda_larga_100",
     ],
+    # Grupo específico da fiança: oferta do mercado, risco, concorrência e demanda.
+    # Nasceu de um teste que mostrou que os grupos A a D descrevem nível socioeconômico,
+    # que no Brasil é quase geografia, e por isso perdiam de "região" ao explicar
+    # variáveis municipais retidas.
+    "E": [
+        "administradoras_10k",
+        "imobiliarias_novas_pct",
+        "alavancagem",
+        "reserva_per_capita",
+        "corretores_seguros_10k",
+        "crescimento_populacional_pct",
+        "jovens_admissoes_pct",
+    ],
 }
 
 NOMES_GRUPOS = {
@@ -76,6 +94,7 @@ NOMES_GRUPOS = {
     "B": "Capacidade de pagamento",
     "C": "Mercado + renda",
     "D": "Mercado + renda + marketing",
+    "E": "Mercado + risco + concorrência + demanda",
 }
 
 # Variáveis que só descrevem os clusters depois de formados.

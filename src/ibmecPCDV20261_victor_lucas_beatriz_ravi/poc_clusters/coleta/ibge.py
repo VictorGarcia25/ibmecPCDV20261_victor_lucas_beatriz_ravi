@@ -20,10 +20,11 @@ def _ano_mais_recente() -> int:
     return max(int(p["id"]) for p in resposta.json())
 
 
-def baixar_populacao(ano: int | None = None) -> pd.DataFrame:
+def baixar_populacao(ano: int | None = None, exigir_ano_minimo: bool = True) -> pd.DataFrame:
+    """A regra de data mínima vale para a população do universo, não para a série de comparação."""
     if ano is None:
         ano = _ano_mais_recente()
-    if ano < config.ANO_POPULACAO:
+    if exigir_ano_minimo and ano < config.ANO_POPULACAO:
         raise ValueError(
             f"Estimativa populacional mais recente é {ano}; a POC exige {config.ANO_POPULACAO} ou posterior."
         )
@@ -69,6 +70,14 @@ def baixar_metadados_municipios() -> pd.DataFrame:
     return pd.DataFrame(registros)
 
 
+def baixar_populacao_anterior(ano_atual: int) -> pd.DataFrame:
+    """População do ano anterior, para medir crescimento, que é o motor da demanda de aluguel."""
+    anterior = baixar_populacao(ano_atual - 1, exigir_ano_minimo=False)
+    return anterior.rename(columns={"populacao": "populacao_anterior"})[
+        ["id_municipio", "populacao_anterior"]
+    ]
+
+
 def carregar_universo(forcar_download: bool = False) -> pd.DataFrame:
     """Municípios com população mínima, com UF e região do IBGE."""
     populacao = None if forcar_download else ler_raw_mais_recente("ibge_populacao")
@@ -80,7 +89,13 @@ def carregar_universo(forcar_download: bool = False) -> pd.DataFrame:
         metadados = baixar_metadados_municipios()
         salvar_raw(metadados, "ibge_municipios")
 
+    anterior = None if forcar_download else ler_raw_mais_recente("ibge_populacao_anterior")
+    if anterior is None:
+        anterior = baixar_populacao_anterior(int(populacao["ano_populacao"].iloc[0]))
+        salvar_raw(anterior, "ibge_populacao_anterior")
+
     df = populacao.merge(metadados, on="id_municipio", how="left", validate="one_to_one")
+    df = df.merge(anterior, on="id_municipio", how="left")
     faltando = df["sigla_uf"].isna().sum()
     if faltando:
         raise ValueError(f"{faltando} municípios sem UF depois do merge com localidades do IBGE.")
@@ -95,6 +110,13 @@ def carregar_universo(forcar_download: bool = False) -> pd.DataFrame:
     )
     universo = universo.sort_values("id_municipio").reset_index(drop=True)
 
+    registrar_fonte(
+        "crescimento_populacional_pct",
+        "IBGE - Estimativas da população, dois anos consecutivos (tabela SIDRA 6579)",
+        f"{ano}-07-01",
+        f"variação da população de {ano - 1} para {ano}: entrada de gente é o que cria demanda "
+        f"de locação, e é independente do nível de renda da praça",
+    )
     registrar_fonte(
         "populacao",
         "IBGE - Estimativas da população (tabela SIDRA 6579)",

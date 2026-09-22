@@ -221,6 +221,76 @@ def diferenca_silhueta(
     )
 
 
+def _r2_ajustado(y: pd.Series, *fatores: pd.Series) -> float:
+    """R² ajustado de y explicado por fatores categóricos, via variáveis indicadoras."""
+    dados = pd.DataFrame({"y": y.to_numpy()})
+    for i, fator in enumerate(fatores):
+        dados[f"f{i}"] = np.asarray(fator)
+    dados = dados.dropna()
+    indicadoras = pd.get_dummies(
+        dados[[c for c in dados.columns if c != "y"]].astype(str), drop_first=True
+    ).astype(float)
+    indicadoras.insert(0, "constante", 1.0)
+
+    valores = dados["y"].to_numpy(dtype=float)
+    matriz = indicadoras.to_numpy(dtype=float)
+    coeficientes, *_ = np.linalg.lstsq(matriz, valores, rcond=None)
+    residuo = valores - matriz @ coeficientes
+    soma_total = ((valores - valores.mean()) ** 2).sum()
+    soma_residuo = (residuo**2).sum()
+    n, p = len(valores), matriz.shape[1]
+    if soma_total == 0 or n <= p:
+        return float("nan")
+    return float(1 - (soma_residuo / (n - p)) / (soma_total / (n - 1)))
+
+
+def valor_incremental(
+    base: pd.DataFrame,
+    variaveis_do_modelo: list[str],
+    coluna_cluster: str = "cluster",
+    candidatas_retidas: list[str] | None = None,
+) -> pd.DataFrame:
+    """O rótulo do cluster acrescenta informação além de região e porte?
+
+    Este é o teste que diz se o cluster serve como variável de entrada num modelo futuro. A
+    pergunta não é se o cluster **substitui** a geografia, e sim se ele **acrescenta** algo a
+    ela: comparamos o R² ajustado de região + porte contra região + porte + cluster, em
+    variáveis municipais que ficaram de fora do modelo. O R² é ajustado justamente para não
+    premiar o simples aumento de parâmetros.
+    """
+    candidatas = candidatas_retidas or [
+        v for v in config.VARIAVEIS if v not in variaveis_do_modelo
+    ] + [v for v in config.DESCRITORAS if v in base.columns]
+    retidas = [
+        v
+        for v in candidatas
+        if v in base.columns and v not in variaveis_do_modelo and base[v].notna().sum() > 50
+    ]
+
+    linhas = []
+    for variavel in retidas:
+        sem_cluster = _r2_ajustado(base[variavel], base["regiao"], base["porte"])
+        com_cluster = _r2_ajustado(
+            base[variavel], base["regiao"], base["porte"], base[coluna_cluster]
+        )
+        linhas.append(
+            {
+                "variavel_retida": variavel,
+                "rotulo": descritiva.rotulo(variavel),
+                "r2_regiao_e_porte": round(sem_cluster, 4),
+                "r2_com_o_cluster": round(com_cluster, 4),
+                "ganho": round(com_cluster - sem_cluster, 4),
+                "o_cluster_acrescenta": bool(com_cluster > sem_cluster),
+            }
+        )
+    tabela = pd.DataFrame(linhas).sort_values("ganho", ascending=False).reset_index(drop=True)
+    if not tabela.empty:
+        tabela.attrs["ganho_medio"] = round(float(tabela["ganho"].mean()), 4)
+        tabela.attrs["quantas_acrescenta"] = int(tabela["o_cluster_acrescenta"].sum())
+        tabela.attrs["total"] = len(tabela)
+    return tabela
+
+
 def ablacao(
     base: pd.DataFrame,
     variaveis: list[str],

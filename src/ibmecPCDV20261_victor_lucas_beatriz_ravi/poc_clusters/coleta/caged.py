@@ -12,6 +12,9 @@ MESES_JANELA = 12
 # Faixa de sanidade do salário mensal declarado, para tirar erro de digitação do microdado.
 SALARIO_MINIMO_VALIDO = 100
 SALARIO_MAXIMO_VALIDO = 200_000
+# Faixa que concentra quem aluga: sai da casa dos pais e ainda não comprou imóvel.
+IDADE_JOVEM_MINIMA = 18
+IDADE_JOVEM_MAXIMA = 30
 
 
 def baixar() -> pd.DataFrame:
@@ -44,6 +47,10 @@ def baixar() -> pd.DataFrame:
                     THEN salario_mensal
                 END, 100
             )[OFFSET(50)] AS salario_admissao_mediano,
+            COUNTIF(
+                saldo_movimentacao = 1
+                AND idade BETWEEN {IDADE_JOVEM_MINIMA} AND {IDADE_JOVEM_MAXIMA}
+            ) AS admissoes_jovens_12m,
             COUNT(DISTINCT FORMAT('%d-%d', ano, mes)) AS meses
         FROM janela
         GROUP BY id_municipio
@@ -71,6 +78,13 @@ def carregar(forcar_download: bool = False) -> pd.DataFrame:
         referencia,
         f"média e mediana do salário de admissão nos {MESES_JANELA} meses até {referencia}; "
         f"salários fora de R$ {SALARIO_MINIMO_VALIDO} a R$ {SALARIO_MAXIMO_VALIDO} descartados",
+    )
+    registrar_fonte(
+        "jovens_admissoes_pct",
+        "Novo CAGED - microdados de movimentação (Base dos Dados)",
+        referencia,
+        f"fatia das admissões com {IDADE_JOVEM_MINIMA} a {IDADE_JOVEM_MAXIMA} anos: é a faixa "
+        f"que aluga, então mede entrada de demanda de locação, não riqueza",
     )
     registrar_fonte(
         "saldo_emprego_pct",

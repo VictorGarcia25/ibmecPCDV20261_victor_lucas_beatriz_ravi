@@ -37,6 +37,7 @@ def escrever(p: dict) -> None:
     volumes = diagnostico.tabela_volumes(base)
     sem_mercado = diagnostico.municipios_sem_mercado(base)
     robustez = p["robustez_denominador"]
+    incremental = p["incremental"]
     nome_alvo = robustez.attrs.get("nome_alvo", "praça em formação")
     correlacao_taxa_base = str(robustez.attrs.get("correlacao_taxa_x_base", "")).replace(".", ",")
 
@@ -208,6 +209,28 @@ e a correlação de Spearman entre a taxa e o número de empresas do município 
 {correlacao_taxa_base}, ou seja **a taxa alta não vem de denominador pequeno**. O achado
 sobrevive ao teste. Ainda assim a variável é ruidosa em município de base curta, e é por isso
 que ela entra winsorizada.
+
+### 6.2 O cluster serve como variável de um modelo futuro?
+
+Separação interna e estabilidade dizem que o agrupamento é consistente, mas não dizem se ele é
+**útil como entrada de modelo**. O teste para isso é outro, e a pergunta certa não é se o
+cluster substitui a geografia: é se ele **acrescenta** algo a ela.
+
+Comparamos, em variáveis municipais que ficaram **fora** do modelo, o R² ajustado de
+`região + porte` contra `região + porte + cluster`. O R² é ajustado para não premiar o simples
+aumento de parâmetros.
+
+{_md(incremental, ['rotulo', 'r2_regiao_e_porte', 'r2_com_o_cluster', 'ganho', 'o_cluster_acrescenta'])}
+
+{_leitura_incremental(incremental)}
+
+Vale registrar o caminho até aqui, porque ele muda a interpretação. O primeiro teste feito foi
+outro: pedir que o cluster **vencesse** a região ao explicar as mesmas variáveis retidas. Nesse
+formato o cluster perdia, e a conclusão parecia ser que o agrupamento não servia. O teste estava
+mal formulado. No Brasil, quase toda variável socioeconômica municipal é fortemente explicada
+pela região, então exigir que um agrupamento derrote a geografia é exigir que ele seja um proxy
+melhor de desigualdade regional, que não é a função dele. A função é separar praças que devem
+receber o mesmo tratamento de mídia, e para isso o que importa é informação incremental.
 
 ## 7. Os tipos de praça encontrados
 
@@ -455,6 +478,39 @@ def _veredito_hipotese(p: dict) -> str:
             "em silhueta quanto em estabilidade no bootstrap."
         )
     return texto
+
+
+def _leitura_incremental(tabela: pd.DataFrame) -> str:
+    if tabela.empty:
+        return "(teste não executado)"
+    quantas = tabela.attrs.get("quantas_acrescenta", 0)
+    total = tabela.attrs.get("total", len(tabela))
+    ganho = tabela.attrs.get("ganho_medio", 0.0)
+    melhor = tabela.iloc[0]
+    if quantas == total and ganho > 0:
+        veredito = (
+            f"O cluster acrescenta informação em **{quantas} de {total}** variáveis retidas, com "
+            f"ganho médio de **{ganho:+.4f}** no R² ajustado. Em nenhuma ele piora. "
+            "**O rótulo do cluster é, portanto, uma variável válida para alimentar um modelo "
+            "futuro**: ele carrega algo que região e porte, juntos, não carregam."
+        )
+    elif quantas > total / 2:
+        veredito = (
+            f"O cluster acrescenta em {quantas} de {total} variáveis retidas, com ganho médio de "
+            f"{ganho:+.4f}. O sinal é positivo mas não é uniforme, então ele serve como variável "
+            "auxiliar, não como principal."
+        )
+    else:
+        veredito = (
+            f"O cluster só acrescenta em {quantas} de {total} variáveis retidas, com ganho médio "
+            f"de {ganho:+.4f}. **Não há evidência de que sirva como variável de modelo**: como "
+            "segmentação descritiva ele se sustenta, como preditor não."
+        )
+    return (
+        veredito
+        + f" O maior ganho está em {melhor['rotulo']}, de {melhor['r2_regiao_e_porte']:.3f} para "
+        f"{melhor['r2_com_o_cluster']:.3f}."
+    )
 
 
 def _leitura_ablacao(tabela: pd.DataFrame) -> str:

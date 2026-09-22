@@ -483,13 +483,6 @@ Dentro dele, informe:
 ```env
 DATA_DIR=C:/caminho/para/a/pasta/dos/dados
 ```
-
-Exemplo de configuração utilizada durante o desenvolvimento:
-
-```env
-DATA_DIR=C:/Users/vjuli/OneDrive/Documentos/ProjetoML_Loft
-```
-
 A pasta indicada deve conter:
 
 ```text

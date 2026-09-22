@@ -1,0 +1,8 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    { "label": "POC: rodar tudo", "type": "shell", "command": "make poc", "group": { "kind": "build", "isDefault": true }, "problemMatcher": [] },
+    { "label": "POC: rodar os testes", "type": "shell", "command": "make testes", "group": "test", "problemMatcher": [] },
+    { "label": "POC: gerar a apresentacao", "type": "shell", "command": "make apresentacao", "problemMatcher": [] }
+  ]
+}

@@ -1,0 +1,14 @@
+{
+  "python.defaultInterpreterPath": "${workspaceFolder}/.venv/bin/python",
+  "python.terminal.activateEnvironment": true,
+  "python.analysis.extraPaths": ["${workspaceFolder}/src"],
+  "python.envFile": "${workspaceFolder}/.env",
+  "terminal.integrated.env.osx": {
+    "PYTHONPATH": "${workspaceFolder}/src"
+  },
+  "jupyter.notebookFileRoot": "${workspaceFolder}",
+  "files.exclude": {
+    "**/__pycache__": true,
+    "**/.pytest_cache": true
+  }
+}

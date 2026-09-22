@@ -1154,3 +1154,254 @@ def montar() -> str:
 
     d.fechar()
     return str(ARQUIVO)
+
+
+ARQUIVO_RESUMIDA = config.RAIZ / "reports" / "apresentacao_poc_resumida.pdf"
+
+
+def montar_resumida() -> str:
+    """Versão curta para apresentar: problema, o que foi feito, resultado, problemas, fim."""
+    baselines = _tabela("11_baselines_modelo_final")
+    tamanhos = _tabela("16_tamanho_clusters")
+    valor = _tabela("22_valor_para_a_loft")
+    incremental = _tabela("25_valor_incremental_do_cluster")
+    estabilidade = _tabela("13_estabilidade_bootstrap")
+    base = pd.read_csv(config.DIR_PROCESSED / "base_municipios.csv", dtype={"id_municipio": str})
+
+    n_municipios = len(base)
+    silhueta = float(baselines.iloc[0]["silhueta"])
+    sil_regiao = baselines[baselines["agrupamento"].str.contains("regi")].iloc[0]
+    sil_porte = baselines[baselines["agrupamento"].str.contains("porte")].iloc[0]
+    sil_aleatorio = baselines[baselines["agrupamento"].str.contains("aleat")].iloc[0]
+    quantas = int(incremental["o_cluster_acrescenta"].sum())
+    ganho = float(incremental["ganho"].mean())
+    rand_estabilidade = float(estabilidade.iloc[0]["rand_ajustado_medio"])
+
+    d = Deck(ARQUIVO_RESUMIDA)
+
+    d.capa(
+        "Onde colocar o próximo R$ 1 em mídia paga?",
+        "Os tipos de praça que existem no Brasil para vender o produto de fiança da Loft",
+        "Beatriz Babinski · Projeto em Ciência de Dados V · IBMEC",
+        [
+            "O problema",
+            "O que fizemos",
+            "O resultado",
+            "Os problemas que tivemos",
+        ],
+    )
+
+    # ---------- 1. o problema ----------
+    d.slide("O problema", "1 de 5")
+    d.destaque("Onde colocar o próximo R$ 1 em mídia paga?")
+    d.topicos(
+        [
+            "*A Loft é 100% B2B: 7 produtos, 4 públicos diferentes.",
+            "*A auditoria dos anúncios mostrou que ~74% das peças são de FIANÇA, e o cliente "
+            "é a IMOBILIÁRIA.",
+            "Produto e público já estavam respondidos. Faltava a PRAÇA: onde vender.",
+            "*A pergunta desta análise: quais tipos de praça existem no Brasil para vender "
+            "fiança?",
+        ],
+        tamanho=16,
+    )
+    d.y -= 6
+    d.paragrafo(
+        "Não temos dado interno da Loft. Então o que agrupamos é MERCADO, não cliente.",
+        tamanho=14,
+        cor=AZUL,
+    )
+    d.fim_slide()
+
+    # ---------- 2. o que fizemos ----------
+    d.slide("O que fizemos", "2 de 5")
+    d.topicos(
+        [
+            f"*Juntamos {len(config.VARIAVEIS)} variáveis de 8 fontes públicas para os "
+            f"{n_municipios} municípios com 50 mil habitantes ou mais.",
+            "*Mercado imobiliário, renda, risco, concorrência, demanda e alcance digital.",
+            "Tudo por habitante, para o modelo não separar só por tamanho de cidade.",
+            "*Nenhum dado anterior a 2025, conferido por código.",
+            "*Testamos 5 conjuntos de variáveis × 3 algoritmos × k de 2 a 10 = 135 combinações.",
+            "Clusterização: KMeans, Aglomerativo (Ward) e Mistura Gaussiana.",
+        ],
+        tamanho=15,
+    )
+    d.y -= 4
+    d.tabela(
+        pd.DataFrame(
+            [
+                ["Receita Federal (CNPJ)", "imobiliárias, administradoras, corretores de seguros"],
+                ["Banco Central", "Pix por município, crédito, poupança"],
+                ["Novo CAGED", "salário de admissão, saldo de emprego, perfil etário"],
+                ["IBGE", "população e crescimento populacional"],
+                ["Anatel", "internet móvel 4G/5G e banda larga fixa"],
+                ["Ministério do Desenvolvimento Social", "famílias no CadÚnico"],
+            ],
+            columns=["fonte", "o_que"],
+        ),
+        ["Fonte", "O que tiramos dela"],
+        [330, 520],
+        tamanho=11,
+    )
+    d.fim_slide()
+
+    # ---------- 3. resultado ----------
+    d.slide("O resultado: existem 5 tipos de praça", "3 de 5")
+    junto = tamanhos.merge(valor[["cluster", "nome"]], on="cluster")
+    d.tabela(
+        junto[["nome", "municipios", "populacao_pct"]],
+        ["Tipo de praça", "Municípios", "% da população"],
+        [420, 200, 230],
+        tamanho=13,
+    )
+    d.y -= 4
+    d.tabela(
+        pd.DataFrame(
+            [
+                ["Praça madura de locação", "São Paulo, Rio, Brasília, Fortaleza"],
+                ["Praça popular de grande porte", "Manaus, Belém, Maceió, São Gonçalo"],
+                ["Praça intermediária conectada", "Caxias do Sul, Mogi das Cruzes, Betim"],
+                ["Praça em formação", "Belford Roxo, Caucaia, Águas Lindas"],
+                ["Praça sem mercado formal", "interior do Maranhão e da Paraíba"],
+            ],
+            columns=["praca", "exemplos"],
+        ),
+        ["Para reconhecer", "Exemplos"],
+        [330, 520],
+        tamanho=11,
+    )
+    d.fim_slide()
+
+    d.slide("Onde eles estão", "3 de 5")
+    d.imagem("09_mapa_clusters", altura_maxima=370)
+    d.fim_slide()
+
+    d.slide("Os clusters não são geografia nem tamanho de cidade", "3 de 5")
+    d.paragrafo(
+        "Esse era o risco principal: o modelo podia só estar redescobrindo o mapa do Brasil ou "
+        "o tamanho das cidades, que a Loft já tem de graça. Comparamos no mesmo espaço:",
+        tamanho=14,
+    )
+    d.barras(
+        [
+            "Clusters da POC",
+            "Se usássemos as 5 regiões",
+            "Se usássemos faixas de porte",
+            "Se sorteássemos",
+        ],
+        [silhueta, float(sil_regiao["silhueta"]), float(sil_porte["silhueta"]), float(sil_aleatorio["silhueta"])],
+        [VERDE, CINZA, CINZA, CINZA],
+        titulo="Qualidade da separação (silhueta, maior é melhor)",
+    )
+    d.destaque(
+        f"O cluster ganha da geografia e do porte. E é estável: {rand_estabilidade:.2f} de "
+        f"concordância ao reamostrar os municípios"
+    )
+    d.fim_slide()
+
+    d.slide("E serve como variável para um modelo futuro", "3 de 5")
+    d.paragrafo(
+        "Testamos se o rótulo do cluster acrescenta informação além de região e porte, em "
+        "variáveis municipais que ficaram fora do modelo.",
+        tamanho=14,
+    )
+    d.barras(
+        [str(r["rotulo"])[:40] for _, r in incremental.head(5).iterrows()],
+        [float(r["ganho"]) for _, r in incremental.head(5).iterrows()],
+        [VERDE] * 5,
+        titulo="Ganho ao adicionar o cluster a região + porte (5 maiores)",
+    )
+    d.destaque(
+        f"Acrescenta em {quantas} de {len(incremental)} variáveis testadas. Em nenhuma piora."
+    )
+    d.fim_slide()
+
+    d.slide("O que isso muda na decisão de mídia", "3 de 5")
+    for _, linha in valor.iterrows():
+        d.c.setFillColor(AZUL)
+        d.c.setFont("Helvetica-Bold", 13)
+        d.c.drawString(MARGEM, d.y, str(linha["nome"]))
+        d.y -= 16
+        d.c.setFillColor(colors.HexColor("#2B3440"))
+        d.c.setFont("Helvetica", 11)
+        for texto in d._quebrar(str(linha["acao_de_marketing_sugerida"]), "Helvetica", 11, LARGURA - 2 * MARGEM):
+            d.c.drawString(MARGEM, d.y, texto)
+            d.y -= 14
+        d.y -= 6
+    d.fim_slide()
+
+    # ---------- 4. problemas ----------
+    d.slide("Os problemas que tivemos", "4 de 5")
+    d.topicos(
+        [
+            "*Sem dado interno da Loft. Descrevemos o mercado, não o desempenho da Loft nele. "
+            "Não dá para dizer qual praça dá mais lucro, só qual tem mais potencial.",
+            "*Os grupos não são naturais. A silhueta é máxima em k=2: o Brasil municipal é um "
+            "contínuo, não tem grupos cravados. Os 5 tipos são um corte útil, não uma fronteira "
+            "que existe na natureza.",
+            "*Fontes com efeito de sede. O Banco Central registra o crédito onde o banco está "
+            "sediado: Osasco aparecia com R$ 1 milhão por habitante. Tratamos cortando as caudas.",
+            "*CNAE não distingue locação de venda. Por isso cidades de praia aparecem cheias de "
+            "imobiliária sem serem mercado de fiança.",
+            "*O Google Trends não desce a município. Virou variável descritora, por UF.",
+        ],
+        tamanho=13,
+    )
+    d.fim_slide()
+
+    d.slide("Um erro que cometemos e corrigimos", "4 de 5")
+    d.paragrafo(
+        "Vale contar porque mudou a conclusão.",
+        tamanho=14,
+        cor=AZUL,
+    )
+    d.topicos(
+        [
+            "*Primeiro testamos se o cluster VENCIA a região ao explicar variáveis retidas. "
+            "Ele perdeu, e quase concluímos que a análise não servia.",
+            "*O teste estava mal formulado. No Brasil quase toda variável socioeconômica é muito "
+            "explicada pela região; exigir que o cluster derrote a geografia é exigir que ele "
+            "seja um proxy melhor de desigualdade regional, que não é a função dele.",
+            "*A função é separar praças que devem receber o mesmo tratamento de mídia. Para isso "
+            "o que importa é se ele ACRESCENTA à geografia, não se a substitui.",
+        ],
+        tamanho=14,
+    )
+    d.y -= 4
+    d.tabela(
+        pd.DataFrame(
+            [
+                ["Cluster SUBSTITUI região + porte", "perde: 2 de 7"],
+                ["Cluster SOMA a região + porte", f"ganha: {quantas} de {len(incremental)}"],
+            ],
+            columns=["pergunta", "resultado"],
+        ),
+        ["A pergunta feita", "Resultado"],
+        [480, 320],
+        tamanho=13,
+        destacar=lambda linha: "SOMA" in str(linha.iloc[0]),
+    )
+    d.fim_slide()
+
+    # ---------- 5. fim ----------
+    d.slide("E é isso", "5 de 5")
+    d.destaque("Existem 5 tipos de praça para vender fiança, e eles não são o mapa do Brasil")
+    d.topicos(
+        [
+            f"*Passou no teste: silhueta {silhueta:.3f} contra {float(sil_regiao['silhueta']):.3f} "
+            f"da geografia e {float(sil_porte['silhueta']):.3f} do porte.",
+            f"*É estável e serve como variável de modelo: acrescenta em {quantas} de "
+            f"{len(incremental)} variáveis testadas.",
+            "*A decisão que sustenta: concentrar conversão na praça madura, captar imobiliária "
+            "na praça popular de grande porte, testar na praça em formação, e EXCLUIR a praça "
+            "sem mercado formal.",
+            "*O próximo passo: cruzar com receita e sinistro de fiança da Loft, para virar "
+            "retorno esperado por real investido.",
+        ],
+        tamanho=15,
+    )
+    d.fim_slide()
+
+    d.fechar()
+    return str(ARQUIVO_RESUMIDA)

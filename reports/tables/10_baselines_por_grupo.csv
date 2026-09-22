@@ -15,3 +15,7 @@ D,Mercado + renda + marketing,5,Clusters da POC,5,0.2363,1.0
 D,Mercado + renda + marketing,5,Baseline: 5 regiões do IBGE,5,-0.001,0.185
 D,Mercado + renda + marketing,5,Baseline: faixas de porte populacional,5,-0.0978,0.0322
 D,Mercado + renda + marketing,5,Baseline: sorteio aleatório (média de 30),5,-0.0314,-0.0001
+E,Mercado + risco + concorrência + demanda,5,Clusters da POC,5,0.1841,1.0
+E,Mercado + risco + concorrência + demanda,5,Baseline: 5 regiões do IBGE,5,0.0477,0.2181
+E,Mercado + risco + concorrência + demanda,5,Baseline: faixas de porte populacional,5,-0.0997,0.0122
+E,Mercado + risco + concorrência + demanda,5,Baseline: sorteio aleatório (média de 30),5,-0.0299,-0.0004

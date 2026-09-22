@@ -566,9 +566,13 @@ anúncios da Loft mostrou que cerca de 74% das peças são de **fiança**, com a
 cliente. Como não temos dado interno da Loft, o que se agrupa aqui é **mercado, não cliente**.
 
 - Unidade: os **687 municípios** com 50 mil habitantes ou mais (estimativa IBGE 2026).
-- 11 variáveis de mercado imobiliário, renda e alcance digital, todas relativas à população.
-- Nenhuma variável do modelo usa dado anterior a 2025, e não há uso do Censo 2022.
+- 16 variáveis de mercado imobiliário, renda, risco, concorrência, demanda e alcance digital,
+  todas relativas à população.
+- Nenhuma variável do modelo usa dado anterior a 2025, e não há uso do Censo 2022. A regra é
+  **conferida em código**: a execução aborta se alguma fonte regredir.
 - Resultado: **5 tipos de praça** que superam os baselines de geografia e de porte populacional.
+- Validação como variável de modelo: adicionar o rótulo do cluster a `região + porte` melhora o
+  R² ajustado em **15 de 15** variáveis municipais retidas, ganho médio de **+0,044**.
 
 Relatório completo: [`reports/poc_clusterizacao.md`](reports/poc_clusterizacao.md).
 Notebook de resultados: [`notebooks/02_poc_clusterizacao.ipynb`](notebooks/02_poc_clusterizacao.ipynb).
@@ -609,6 +613,11 @@ Testes: `PYTHONPATH=src .venv/bin/python -m pytest tests/`
 | Automóveis por habitante | Senatran, frota por município | 2026-07 |
 | Internet móvel 4G/5G de pessoa física | Anatel, acessos de telefonia móvel | 2026-07 |
 | Banda larga fixa por 100 hab. | Anatel, densidade municipal (Base dos Dados) | 2025-09 |
+| Alavancagem: crédito sobre poupança | Banco Central, ESTBAN verbetes 160, 420 e 432 | 2025-09 |
+| Poupança e depósito a prazo per capita | Banco Central, ESTBAN verbetes 420 e 432 | 2025-09 |
+| Corretores de seguros por 10 mil hab. | Receita Federal, CNPJ, CNAE 6622300 | 2026-01 |
+| Crescimento da população em 1 ano | IBGE, estimativas de 2025 e 2026 | 2026 |
+| Admissões de 18 a 30 anos | Novo CAGED, microdados | 2026-01 |
 
 Descritoras, que não entram no cluster: domicílios alugados por UF (PNAD Contínua 2025),
 inadimplência de pessoa física por UF (SCR do Banco Central, 2026-08), aluguel médio FipeZap

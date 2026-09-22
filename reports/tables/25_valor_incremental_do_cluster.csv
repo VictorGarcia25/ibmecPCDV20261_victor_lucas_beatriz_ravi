@@ -1,0 +1,16 @@
+variavel_retida,rotulo,r2_regiao_e_porte,r2_com_o_cluster,ganho,o_cluster_acrescenta
+corretores_seguros_10k,Corretores de seguros / 10 mil hab.,0.404,0.5517,0.1478,True
+imobiliarias_10k,Imobiliárias e corretoras / 10 mil hab.,0.143,0.2825,0.1395,True
+veiculos_por_hab,Veículos por habitante,0.7353,0.8116,0.0763,True
+motos_por_hab,Motocicletas por habitante,0.159,0.2239,0.0649,True
+salario_admissao,Salário mediano de admissão (R$),0.5579,0.6044,0.0465,True
+crescimento_populacional_pct,Crescimento da população em 1 ano (%),0.2272,0.2737,0.0465,True
+financiamento_imob_per_capita,Financiamento imobiliário per capita (R$),0.1375,0.1641,0.0266,True
+jovens_admissoes_pct,Admissões de 18 a 30 anos (%),0.39,0.4132,0.0232,True
+saldo_emprego_pct,Saldo de emprego / admissões em 12 meses (%),0.1509,0.174,0.0231,True
+domicilios_alugados_pct_uf,Domicílios alugados na UF (%),0.5466,0.563,0.0164,True
+reserva_per_capita,Poupança e depósito a prazo per capita (R$),0.2926,0.3076,0.015,True
+alavancagem,Crédito sobre poupança (alavancagem),0.1422,0.1504,0.0083,True
+trends_fianca_uf,"Busca por fiança no Google, por UF (índice)",0.8189,0.8257,0.0068,True
+credito_per_capita,Crédito per capita (R$),0.0756,0.0819,0.0063,True
+inadimplencia_pf_uf,Inadimplência de pessoa física na UF (%),0.5167,0.522,0.0054,True

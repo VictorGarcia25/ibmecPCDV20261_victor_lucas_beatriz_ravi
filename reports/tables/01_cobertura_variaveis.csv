@@ -10,3 +10,8 @@ veiculos_por_hab,Veículos por habitante,0,0.0,0,0.002,0.291,0.762,-0.09
 saldo_emprego_pct,Saldo de emprego / admissões em 12 meses (%),0,0.0,1,-52.721,4.762,47.215,-0.34
 internet_movel_100,Internet móvel 4G/5G de pessoa física / 100 hab.,0,0.0,0,32.645,90.979,127.912,-0.58
 banda_larga_100,Banda larga fixa / 100 hab.,0,0.0,0,1.191,26.407,71.622,0.21
+alavancagem,Crédito sobre poupança (alavancagem),0,0.0,0,0.238,1.231,34.94,9.06
+reserva_per_capita,Poupança e depósito a prazo per capita (R$),0,0.0,0,246.664,7765.194,352534.91,15.11
+corretores_seguros_10k,Corretores de seguros / 10 mil hab.,0,0.0,37,0.0,1.683,20.437,2.39
+crescimento_populacional_pct,Crescimento da população em 1 ano (%),0,0.0,16,-2.448,0.384,5.945,1.96
+jovens_admissoes_pct,Admissões de 18 a 30 anos (%),0,0.0,0,36.239,49.82,72.385,0.77

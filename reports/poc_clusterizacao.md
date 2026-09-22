@@ -32,13 +32,18 @@ domicílios), justamente para o agrupamento **não separar apenas por tamanho de
 | rotulo                                           | fonte                                                                                   | data_referencia   | data_coleta   | entra_no_cluster   |
 |:-------------------------------------------------|:----------------------------------------------------------------------------------------|:------------------|:--------------|:-------------------|
 | Administradoras de imóveis / 10 mil hab.         | Receita Federal - CNPJ, CNAE 6822600 (Base dos Dados)                                   | 2026-01-11        | 2026-09-21    | True               |
+| Crédito sobre poupança (alavancagem)             | Banco Central - ESTBAN, crédito sobre poupança e depósito a prazo (Base dos Dados)      | 2025-09           | 2026-09-21    | True               |
 | Banda larga fixa / 100 hab.                      | Anatel - densidade de banda larga fixa por município (Base dos Dados)                   | 2025-09           | 2026-09-21    | True               |
 | Famílias no CadÚnico / 100 domicílios            | Ministério do Desenvolvimento e Assistência Social - Cadastro Único (API MISocial/SAGI) | 2026-09           | 2026-09-21    | True               |
+| Corretores de seguros / 10 mil hab.              | Receita Federal - CNPJ, CNAE 6622300 (Base dos Dados)                                   | 2026-01-11        | 2026-09-21    | True               |
 | Crédito per capita (R$)                          | Banco Central - ESTBAN, verbete 160 operações de crédito (Base dos Dados)               | 2025-09           | 2026-09-21    | True               |
+| Crescimento da população em 1 ano (%)            | IBGE - Estimativas da população, dois anos consecutivos (tabela SIDRA 6579)             | 2026-07-01        | 2026-09-21    | True               |
 | Imobiliárias e corretoras / 10 mil hab.          | Receita Federal - CNPJ, CNAE 6821801 (Base dos Dados)                                   | 2026-01-11        | 2026-09-21    | True               |
 | Imobiliárias novas em 12 meses (%)               | Receita Federal - CNPJ, CNAE 6821 e 6822 (Base dos Dados)                               | 2026-01-11        | 2026-09-21    | True               |
 | Internet móvel 4G/5G de pessoa física / 100 hab. | Anatel - acessos de telefonia móvel por município e tecnologia (dados abertos)          | 2026-07           | 2026-09-21    | True               |
+| Admissões de 18 a 30 anos (%)                    | Novo CAGED - microdados de movimentação (Base dos Dados)                                | 2026-01           | 2026-09-21    | True               |
 | Pix de pessoa física por habitante               | Banco Central - Transações Pix por Município (API OData)                                | 2026-08           | 2026-09-21    | True               |
+| Poupança e depósito a prazo per capita (R$)      | Banco Central - ESTBAN, verbetes 420 e 432 poupança e depósito a prazo (Base dos Dados) | 2025-09           | 2026-09-21    | True               |
 | Salário mediano de admissão (R$)                 | Novo CAGED - microdados de movimentação (Base dos Dados)                                | 2026-01           | 2026-09-21    | True               |
 | Saldo de emprego / admissões em 12 meses (%)     | Novo CAGED - microdados de movimentação (Base dos Dados)                                | 2026-01           | 2026-09-21    | True               |
 | Veículos por habitante                           | Senatran - frota de veículos por município e tipo (Base dos Dados)                      | 2026-07           | 2026-09-21    | True               |
@@ -46,9 +51,10 @@ domicílios), justamente para o agrupamento **não separar apenas por tamanho de
 | Aluguel médio FipeZap (R$/m²)                    | FIPE/ZAP - índice FipeZap, séries históricas de locação residencial                     | 2026-08           | 2026-09-21    | False              |
 | Inadimplência de pessoa física na UF (%)         | Banco Central - SCR por sub-região, cliente pessoa física (API OData)                   | 2026-08           | 2026-09-21    | False              |
 | População estimada (universo da análise)         | IBGE - Estimativas da população (tabela SIDRA 6579)                                     | 2026-07-01        | 2026-09-21    | False              |
+| poupanca_per_capita                              | Banco Central - ESTBAN, verbete 420 depósitos de poupança (Base dos Dados)              | 2025-09           | 2026-09-21    | False              |
 | Busca por fiança no Google, por UF (índice)      | Google Trends - termos ['aluguel sem fiador', 'fiança aluguel'] (pytrends)              | 2026-09           | 2026-09-21    | False              |
 
-Regra do projeto **conferida em código** nas 11 variáveis do modelo: a mais antiga é Banda larga fixa / 100 hab., com referência de 2025-09. A execução aborta se alguma fonte regredir para antes de 2025, e a conferência completa está em `02b_checagem_regra_de_datas.csv`. Não há uso do Censo 2022. O Índice Brasileiro de Conectividade da Anatel
+Regra do projeto **conferida em código** nas 16 variáveis do modelo: a mais antiga é Crédito sobre poupança (alavancagem), com referência de 2025-09. A execução aborta se alguma fonte regredir para antes de 2025, e a conferência completa está em `02b_checagem_regra_de_datas.csv`. Não há uso do Censo 2022. O Índice Brasileiro de Conectividade da Anatel
 foi **descartado** por ter 2024 como ano mais recente; no lugar dele entraram os acessos de
 telefonia móvel dos dados abertos da Anatel.
 
@@ -68,7 +74,7 @@ Cada número desta tabela é recalculado a cada execução, a partir dos dados c
 
 ### 2.3 Qualidade da base
 
-Cobertura final: **zero valores faltantes** nas 11 variáveis candidatas,
+Cobertura final: **zero valores faltantes** nas 16 variáveis candidatas,
 nos 687 municípios. Conferência de volume contra a realidade, que é o teste que pega
 erro de extração:
 
@@ -105,21 +111,23 @@ Limiar de 0.80 em módulo na correlação de Spearman. Em cada par acima do
 limiar fica a variável que o desenho da POC usa em mais grupos, porque é a que carrega o
 sentido de negócio; empatado nisso, fica a de menor VIF.
 
-| rotulo_descartada                       | rotulo_mantida                           |   correlacao_spearman | motivo                                                                        |
-|:----------------------------------------|:-----------------------------------------|----------------------:|:------------------------------------------------------------------------------|
-| Imobiliárias e corretoras / 10 mil hab. | Administradoras de imóveis / 10 mil hab. |                 0.824 | correlação de 0.82 acima do limiar de 0.80; usada em 3 dos 4 grupos, contra 1 |
-| Veículos por habitante                  | Famílias no CadÚnico / 100 domicílios    |                 0.81  | correlação de 0.81 acima do limiar de 0.80; usada em 3 dos 4 grupos, contra 1 |
+| rotulo_descartada                       | rotulo_mantida                              |   correlacao_spearman | motivo                                                                                                                                                  |
+|:----------------------------------------|:--------------------------------------------|----------------------:|:--------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Imobiliárias e corretoras / 10 mil hab. | Administradoras de imóveis / 10 mil hab.    |                 0.824 | correlação de 0.82 acima do limiar de 0.80; usada em 4 dos 4 grupos, contra 1                                                                           |
+| Veículos por habitante                  | Famílias no CadÚnico / 100 domicílios       |                 0.81  | saiu numa cadeia de variáveis correlacionadas entre si; a sobrevivente que a representa é Famílias no CadÚnico / 100 domicílios, com correlação de 0.81 |
+| Corretores de seguros / 10 mil hab.     | Poupança e depósito a prazo per capita (R$) |                 0.802 | correlação de 0.80 acima do limiar de 0.80; mesmo peso no desenho, ficou a de menor VIF                                                                 |
 
-O maior VIF é de 4.65, em Veículos por habitante, bem abaixo do limiar usual de 10. Não há multicolinearidade grave entre as variáveis que sobraram.
+O maior VIF é de 6.56, em Veículos por habitante, bem abaixo do limiar usual de 10. Não há multicolinearidade grave entre as variáveis que sobraram.
 
 ### 3.2 Grupos comparados
 
-| grupo   | nome                        |   n_variaveis | variaveis                                                                                                                                                                                                                              |   k_do_cotovelo |
-|:--------|:----------------------------|--------------:|:---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|----------------:|
-| A       | Mercado imobiliário         |             3 | Administradoras de imóveis / 10 mil hab., Imobiliárias novas em 12 meses (%), Saldo de emprego / admissões em 12 meses (%)                                                                                                             |               4 |
-| B       | Capacidade de pagamento     |             4 | Pix de pessoa física por habitante, Salário mediano de admissão (R$), Famílias no CadÚnico / 100 domicílios, Crédito per capita (R$)                                                                                                   |               4 |
-| C       | Mercado + renda             |             6 | Administradoras de imóveis / 10 mil hab., Imobiliárias novas em 12 meses (%), Pix de pessoa física por habitante, Salário mediano de admissão (R$), Famílias no CadÚnico / 100 domicílios, Crédito per capita (R$)                     |               5 |
-| D       | Mercado + renda + marketing |             6 | Administradoras de imóveis / 10 mil hab., Imobiliárias novas em 12 meses (%), Pix de pessoa física por habitante, Famílias no CadÚnico / 100 domicílios, Internet móvel 4G/5G de pessoa física / 100 hab., Banda larga fixa / 100 hab. |               5 |
+| grupo   | nome                                     |   n_variaveis | variaveis                                                                                                                                                                                                                              |   k_do_cotovelo |
+|:--------|:-----------------------------------------|--------------:|:---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|----------------:|
+| A       | Mercado imobiliário                      |             3 | Administradoras de imóveis / 10 mil hab., Imobiliárias novas em 12 meses (%), Saldo de emprego / admissões em 12 meses (%)                                                                                                             |               4 |
+| B       | Capacidade de pagamento                  |             4 | Pix de pessoa física por habitante, Salário mediano de admissão (R$), Famílias no CadÚnico / 100 domicílios, Crédito per capita (R$)                                                                                                   |               4 |
+| C       | Mercado + renda                          |             6 | Administradoras de imóveis / 10 mil hab., Imobiliárias novas em 12 meses (%), Pix de pessoa física por habitante, Salário mediano de admissão (R$), Famílias no CadÚnico / 100 domicílios, Crédito per capita (R$)                     |               5 |
+| D       | Mercado + renda + marketing              |             6 | Administradoras de imóveis / 10 mil hab., Imobiliárias novas em 12 meses (%), Pix de pessoa física por habitante, Famílias no CadÚnico / 100 domicílios, Internet móvel 4G/5G de pessoa física / 100 hab., Banda larga fixa / 100 hab. |               5 |
+| E       | Mercado + risco + concorrência + demanda |             6 | Administradoras de imóveis / 10 mil hab., Imobiliárias novas em 12 meses (%), Crédito sobre poupança (alavancagem), Poupança e depósito a prazo per capita (R$), Crescimento da população em 1 ano (%), Admissões de 18 a 30 anos (%)  |               5 |
 
 Três modelos por grupo: KMeans, Aglomerativo com ligação de Ward e Mistura Gaussiana, com k de
 2 a 10.
@@ -134,7 +142,7 @@ Aceitar k = 2 seria entregar à Loft uma divisão entre praça rica e praça pob
 decisão de mídia. Por isso o k foi escolhido pelo **cotovelo da inércia**, e a qualidade do
 resultado foi julgada pela comparação com os baselines, que é o teste que importa.
 
-k do cotovelo por grupo: A = 4, B = 4, C = 5, D = 5.
+k do cotovelo por grupo: A = 4, B = 4, C = 5, D = 5, E = 5.
 
 Configuração escolhida: **grupo D (Mercado + renda + marketing), modelo
 KMeans, k = 5**. O critério está detalhado
@@ -142,20 +150,23 @@ logo abaixo: entre os grupos que respondem à pergunta de negócio e têm todos 
 de 20 municípios, vale a maior silhueta; quando a diferença de silhueta é menor que 0,02, o
 desempate é a estabilidade no bootstrap.
 
-| grupo   | nome_grupo                  | nome_modelo         |   k |   silhueta |   davies_bouldin |   calinski_harabasz |   menor_cluster |
-|:--------|:----------------------------|:--------------------|----:|-----------:|-----------------:|--------------------:|----------------:|
-| B       | Capacidade de pagamento     | KMeans              |   4 |   0.325386 |          1.04193 |             474.627 |              79 |
-| B       | Capacidade de pagamento     | Aglomerativo (Ward) |   4 |   0.322432 |          1.09028 |             425.223 |              49 |
-| A       | Mercado imobiliário         | KMeans              |   4 |   0.304609 |          1.05968 |             311.734 |              86 |
-| B       | Capacidade de pagamento     | Mistura Gaussiana   |   4 |   0.256395 |          1.27452 |             296.247 |              49 |
-| A       | Mercado imobiliário         | Aglomerativo (Ward) |   4 |   0.25341  |          1.21873 |             238.371 |              40 |
-| C       | Mercado + renda             | KMeans              |   5 |   0.243999 |          1.30668 |             273.625 |              97 |
-| D       | Mercado + renda + marketing | KMeans              |   5 |   0.236293 |          1.32513 |             283.778 |              73 |
-| A       | Mercado imobiliário         | Mistura Gaussiana   |   4 |   0.231248 |          1.46331 |             200.07  |              68 |
-| C       | Mercado + renda             | Aglomerativo (Ward) |   5 |   0.222841 |          1.37759 |             234.941 |              36 |
-| C       | Mercado + renda             | Mistura Gaussiana   |   5 |   0.196851 |          1.49698 |             198.25  |              70 |
-| D       | Mercado + renda + marketing | Aglomerativo (Ward) |   5 |   0.177003 |          1.42773 |             226.545 |              43 |
-| D       | Mercado + renda + marketing | Mistura Gaussiana   |   5 |   0.167716 |          1.76591 |             186.56  |              94 |
+| grupo   | nome_grupo                               | nome_modelo         |   k |   silhueta |   davies_bouldin |   calinski_harabasz |   menor_cluster |
+|:--------|:-----------------------------------------|:--------------------|----:|-----------:|-----------------:|--------------------:|----------------:|
+| B       | Capacidade de pagamento                  | KMeans              |   4 |   0.325403 |          1.04193 |             474.709 |              79 |
+| B       | Capacidade de pagamento                  | Aglomerativo (Ward) |   4 |   0.318937 |          1.0902  |             423.148 |              49 |
+| A       | Mercado imobiliário                      | KMeans              |   4 |   0.304609 |          1.05968 |             311.734 |              86 |
+| B       | Capacidade de pagamento                  | Mistura Gaussiana   |   4 |   0.25638  |          1.27456 |             296.232 |              49 |
+| A       | Mercado imobiliário                      | Aglomerativo (Ward) |   4 |   0.25341  |          1.21873 |             238.371 |              40 |
+| C       | Mercado + renda                          | KMeans              |   5 |   0.244021 |          1.30664 |             273.658 |              97 |
+| D       | Mercado + renda + marketing              | KMeans              |   5 |   0.236293 |          1.32513 |             283.778 |              73 |
+| A       | Mercado imobiliário                      | Mistura Gaussiana   |   4 |   0.231248 |          1.46331 |             200.07  |              68 |
+| C       | Mercado + renda                          | Aglomerativo (Ward) |   5 |   0.222848 |          1.37757 |             234.966 |              36 |
+| C       | Mercado + renda                          | Mistura Gaussiana   |   5 |   0.197982 |          1.48267 |             199.365 |              70 |
+| E       | Mercado + risco + concorrência + demanda | KMeans              |   5 |   0.184086 |          1.4849  |             174.632 |              62 |
+| D       | Mercado + renda + marketing              | Aglomerativo (Ward) |   5 |   0.177003 |          1.42773 |             226.545 |              43 |
+| D       | Mercado + renda + marketing              | Mistura Gaussiana   |   5 |   0.167716 |          1.76591 |             186.56  |              94 |
+| E       | Mercado + risco + concorrência + demanda | Aglomerativo (Ward) |   5 |   0.149123 |          1.60976 |             133.982 |              23 |
+| E       | Mercado + risco + concorrência + demanda | Mistura Gaussiana   |   5 |   0.102363 |          1.93732 |             115.497 |              81 |
 
 Sobre a hipótese inicial de que o grupo D separaria melhor: na silhueta pura, quem ganha é o grupo B (Capacidade de pagamento), com 0.325. Isso **não** significa que ele seja o melhor modelo. A silhueta premia espaços com menos variáveis e mais redundantes, porque ali é mais fácil achar corte limpo; e os grupos A e B, sozinhos, não respondem à pergunta do projeto: um só tem mercado e o outro só tem renda, e ninguém decide onde vender fiança olhando apenas um dos dois lados.
 
@@ -164,21 +175,21 @@ Por isso a escolha final ficou restrita aos grupos que têm ao menos uma variáv
 | grupo   | nome_grupo                  | nome_modelo   |   k |   silhueta |   estabilidade_bootstrap |
 |:--------|:----------------------------|:--------------|----:|-----------:|-------------------------:|
 | D       | Mercado + renda + marketing | KMeans        |   5 |   0.236293 |                   0.8375 |
-| C       | Mercado + renda             | KMeans        |   5 |   0.243999 |                   0.7006 |
+| C       | Mercado + renda             | KMeans        |   5 |   0.244021 |                   0.7024 |
 
 C tem silhueta um pouco maior (0.244 contra 0.236). Antes de decidir por isso, essa vantagem foi testada: reamostrando os municípios 200 vezes, refazendo o preparo dentro de cada subamostra e recalculando a silhueta das duas configurações sobre os mesmos municípios.
 
 | configuracao_a   | configuracao_b   |   silhueta_media_a |   silhueta_media_b |   diferenca_media |   intervalo_95_inferior |   intervalo_95_superior |   vezes_que_a_venceu_pct | diferenca_significativa   |   n_reamostragens |
 |:-----------------|:-----------------|-------------------:|-------------------:|------------------:|------------------------:|------------------------:|-------------------------:|:--------------------------|------------------:|
-| D                | C                |             0.2423 |             0.2562 |           -0.0139 |                 -0.0323 |                 -0.0009 |                      1.5 | True                      |               200 |
+| D                | C                |             0.2423 |             0.2561 |           -0.0139 |                 -0.0323 |                  -0.001 |                      1.5 | True                      |               200 |
 
-O intervalo de 95% da diferença vai de -0.0323 a -0.0009 e **não inclui o zero**: a vantagem de C em separação é real, não é ruído. Mas é preciso olhar o tamanho dela.
+O intervalo de 95% da diferença vai de -0.0323 a -0.0010 e **não inclui o zero**: a vantagem de C em separação é real, não é ruído. Mas é preciso olhar o tamanho dela.
 
 A vantagem de C em silhueta é de 0.008. Para comparar, a vantagem do próprio agrupamento sobre o baseline de geografia é de cerca de 0.237, ou seja a diferença entre C e D é uma fração pequena do que está em jogo.
 
-Já a diferença de estabilidade vai na direção oposta e é maior: sob subamostragem o Rand ajustado de C é 0.701 contra 0.838 de D, uma distância de 0.137. Os clusters de C mudam de composição quando se troca um quinto dos municípios; os de D não.
+Já a diferença de estabilidade vai na direção oposta e é maior: sob subamostragem o Rand ajustado de C é 0.702 contra 0.838 de D, uma distância de 0.135. Os clusters de C mudam de composição quando se troca um quinto dos municípios; os de D não.
 
-O critério aplicado foi esse: trocar 0.008 de separação por 0.137 de reprodutibilidade, porque a decisão de mídia vai ser refeita mês a mês e um agrupamento que se reorganiza a cada rodada não sustenta plano de verba.
+O critério aplicado foi esse: trocar 0.008 de separação por 0.135 de reprodutibilidade, porque a decisão de mídia vai ser refeita mês a mês e um agrupamento que se reorganiza a cada rodada não sustenta plano de verba.
 
 **Veredito: a hipótese de que o grupo D é o melhor se sustenta**, não porque D separa mais, e sim porque D separa de forma reprodutível. Acrescentar alcance digital não aumenta a separação, e a razão aparece na descritiva: a variável de menor dispersão entre as do grupo escolhido é **Internet móvel 4G/5G de pessoa física / 100 hab.**, com coeficiente de variação de 0,17. Ou seja, o alcance digital quase não distingue uma praça da outra, porque praticamente todo município de 50 mil habitantes ou mais já tem cobertura. O que essas variáveis fazem é **estabilizar** a solução e trazer para o modelo a dimensão em que a decisão de mídia é executada.
 
@@ -251,6 +262,44 @@ e a correlação de Spearman entre a taxa e o número de empresas do município 
 0,178, ou seja **a taxa alta não vem de denominador pequeno**. O achado
 sobrevive ao teste. Ainda assim a variável é ruidosa em município de base curta, e é por isso
 que ela entra winsorizada.
+
+### 6.2 O cluster serve como variável de um modelo futuro?
+
+Separação interna e estabilidade dizem que o agrupamento é consistente, mas não dizem se ele é
+**útil como entrada de modelo**. O teste para isso é outro, e a pergunta certa não é se o
+cluster substitui a geografia: é se ele **acrescenta** algo a ela.
+
+Comparamos, em variáveis municipais que ficaram **fora** do modelo, o R² ajustado de
+`região + porte` contra `região + porte + cluster`. O R² é ajustado para não premiar o simples
+aumento de parâmetros.
+
+| rotulo                                       |   r2_regiao_e_porte |   r2_com_o_cluster |   ganho | o_cluster_acrescenta   |
+|:---------------------------------------------|--------------------:|-------------------:|--------:|:-----------------------|
+| Corretores de seguros / 10 mil hab.          |              0.404  |             0.5517 |  0.1478 | True                   |
+| Imobiliárias e corretoras / 10 mil hab.      |              0.143  |             0.2825 |  0.1395 | True                   |
+| Veículos por habitante                       |              0.7353 |             0.8116 |  0.0763 | True                   |
+| Motocicletas por habitante                   |              0.159  |             0.2239 |  0.0649 | True                   |
+| Salário mediano de admissão (R$)             |              0.5579 |             0.6044 |  0.0465 | True                   |
+| Crescimento da população em 1 ano (%)        |              0.2272 |             0.2737 |  0.0465 | True                   |
+| Financiamento imobiliário per capita (R$)    |              0.1375 |             0.1641 |  0.0266 | True                   |
+| Admissões de 18 a 30 anos (%)                |              0.39   |             0.4132 |  0.0232 | True                   |
+| Saldo de emprego / admissões em 12 meses (%) |              0.1509 |             0.174  |  0.0231 | True                   |
+| Domicílios alugados na UF (%)                |              0.5466 |             0.563  |  0.0164 | True                   |
+| Poupança e depósito a prazo per capita (R$)  |              0.2926 |             0.3076 |  0.015  | True                   |
+| Crédito sobre poupança (alavancagem)         |              0.1422 |             0.1504 |  0.0083 | True                   |
+| Busca por fiança no Google, por UF (índice)  |              0.8189 |             0.8257 |  0.0068 | True                   |
+| Crédito per capita (R$)                      |              0.0756 |             0.0819 |  0.0063 | True                   |
+| Inadimplência de pessoa física na UF (%)     |              0.5167 |             0.522  |  0.0054 | True                   |
+
+O cluster acrescenta informação em **15 de 15** variáveis retidas, com ganho médio de **+0.0435** no R² ajustado. Em nenhuma ele piora. **O rótulo do cluster é, portanto, uma variável válida para alimentar um modelo futuro**: ele carrega algo que região e porte, juntos, não carregam. O maior ganho está em Corretores de seguros / 10 mil hab., de 0.404 para 0.552.
+
+Vale registrar o caminho até aqui, porque ele muda a interpretação. O primeiro teste feito foi
+outro: pedir que o cluster **vencesse** a região ao explicar as mesmas variáveis retidas. Nesse
+formato o cluster perdia, e a conclusão parecia ser que o agrupamento não servia. O teste estava
+mal formulado. No Brasil, quase toda variável socioeconômica municipal é fortemente explicada
+pela região, então exigir que um agrupamento derrote a geografia é exigir que ele seja um proxy
+melhor de desigualdade regional, que não é a função dele. A função é separar praças que devem
+receber o mesmo tratamento de mídia, e para isso o que importa é informação incremental.
 
 ## 7. Os tipos de praça encontrados
 
@@ -336,6 +385,6 @@ Os dez maiores municípios de cada cluster estão em `18_top_municipios.csv`.
 make poc
 ```
 
-Roda tudo do zero: cria o ambiente, coleta as fontes, gera as 32 tabelas em
+Roda tudo do zero: cria o ambiente, coleta as fontes, gera as 33 tabelas em
 `reports/tables`, as figuras em `reports/figures` e este relatório. Exige um projeto do Google
 Cloud configurado em `.env` para as consultas ao BigQuery da Base dos Dados.

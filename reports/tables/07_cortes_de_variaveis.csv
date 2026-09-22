@@ -1,3 +1,4 @@
 variavel_descartada,rotulo_descartada,variavel_mantida,rotulo_mantida,correlacao_spearman,vif_descartada,vif_mantida,motivo
-imobiliarias_10k,Imobiliárias e corretoras / 10 mil hab.,administradoras_10k,Administradoras de imóveis / 10 mil hab.,0.824,3.05,3.09,"correlação de 0.82 acima do limiar de 0.80; usada em 3 dos 4 grupos, contra 1"
-veiculos_por_hab,Veículos por habitante,cadunico_pct,Famílias no CadÚnico / 100 domicílios,0.81,4.65,3.96,"correlação de 0.81 acima do limiar de 0.80; usada em 3 dos 4 grupos, contra 1"
+imobiliarias_10k,Imobiliárias e corretoras / 10 mil hab.,administradoras_10k,Administradoras de imóveis / 10 mil hab.,0.824,3.36,3.58,"correlação de 0.82 acima do limiar de 0.80; usada em 4 dos 4 grupos, contra 1"
+veiculos_por_hab,Veículos por habitante,cadunico_pct,Famílias no CadÚnico / 100 domicílios,0.81,6.56,4.55,"saiu numa cadeia de variáveis correlacionadas entre si; a sobrevivente que a representa é Famílias no CadÚnico / 100 domicílios, com correlação de 0.81"
+corretores_seguros_10k,Corretores de seguros / 10 mil hab.,reserva_per_capita,Poupança e depósito a prazo per capita (R$),0.802,4.22,3.92,"correlação de 0.80 acima do limiar de 0.80; mesmo peso no desenho, ficou a de menor VIF"

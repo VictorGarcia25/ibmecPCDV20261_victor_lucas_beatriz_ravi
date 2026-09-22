@@ -1,0 +1,6 @@
+cluster,nome,marcas_do_cluster
+0,Praça em formação,Imobiliárias novas em 12 meses (%): +1.71 desvios; Internet móvel 4G/5G de pessoa física / 100 hab.: -0.95 desvios; Pix de pessoa física por habitante: -0.94 desvios
+1,Praça intermediária conectada,Famílias no CadÚnico / 100 domicílios: -0.79 desvios; Banda larga fixa / 100 hab.: +0.53 desvios; Internet móvel 4G/5G de pessoa física / 100 hab.: +0.07 desvios
+2,Praça popular de grande porte,Famílias no CadÚnico / 100 domicílios: +0.54 desvios; Banda larga fixa / 100 hab.: -0.46 desvios; Internet móvel 4G/5G de pessoa física / 100 hab.: +0.35 desvios
+3,Praça sem mercado formal,Internet móvel 4G/5G de pessoa física / 100 hab.: -1.43 desvios; Famílias no CadÚnico / 100 domicílios: +1.20 desvios; Banda larga fixa / 100 hab.: -1.20 desvios
+4,Praça madura de locação,Administradoras de imóveis / 10 mil hab.: +1.39 desvios; Banda larga fixa / 100 hab.: +1.08 desvios; Pix de pessoa física por habitante: +1.07 desvios

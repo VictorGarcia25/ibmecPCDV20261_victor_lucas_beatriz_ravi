@@ -1,0 +1,12 @@
+variavel,rotulo,vif
+veiculos_por_hab,Veículos por habitante,4.65
+cadunico_pct,Famílias no CadÚnico / 100 domicílios,3.96
+banda_larga_100,Banda larga fixa / 100 hab.,3.34
+pix_pf_por_hab,Pix de pessoa física por habitante,3.17
+administradoras_10k,Administradoras de imóveis / 10 mil hab.,3.09
+imobiliarias_10k,Imobiliárias e corretoras / 10 mil hab.,3.05
+salario_admissao,Salário mediano de admissão (R$),2.92
+internet_movel_100,Internet móvel 4G/5G de pessoa física / 100 hab.,2.79
+credito_per_capita,Crédito per capita (R$),2.26
+saldo_emprego_pct,Saldo de emprego / admissões em 12 meses (%),1.3
+imobiliarias_novas_pct,Imobiliárias novas em 12 meses (%),1.02

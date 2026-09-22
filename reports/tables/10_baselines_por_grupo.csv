@@ -1,0 +1,17 @@
+grupo,nome_grupo,k,agrupamento,n_grupos,silhueta,rand_ajustado_vs_cluster
+A,Mercado imobiliário,4,Clusters da POC,4,0.3046,1.0
+A,Mercado imobiliário,4,Baseline: 5 regiões do IBGE,5,-0.0906,0.0922
+A,Mercado imobiliário,4,Baseline: faixas de porte populacional,5,-0.1671,-0.0095
+A,Mercado imobiliário,4,Baseline: sorteio aleatório (média de 30),4,-0.0262,0.0001
+B,Capacidade de pagamento,4,Clusters da POC,4,0.3254,1.0
+B,Capacidade de pagamento,4,Baseline: 5 regiões do IBGE,5,0.0152,0.2479
+B,Capacidade de pagamento,4,Baseline: faixas de porte populacional,5,-0.0769,0.0616
+B,Capacidade de pagamento,4,Baseline: sorteio aleatório (média de 30),4,-0.0276,0.0004
+C,Mercado + renda,5,Clusters da POC,5,0.244,1.0
+C,Mercado + renda,5,Baseline: 5 regiões do IBGE,5,0.0054,0.1794
+C,Mercado + renda,5,Baseline: faixas de porte populacional,5,-0.0797,0.0399
+C,Mercado + renda,5,Baseline: sorteio aleatório (média de 30),5,-0.0299,-0.0003
+D,Mercado + renda + marketing,5,Clusters da POC,5,0.2363,1.0
+D,Mercado + renda + marketing,5,Baseline: 5 regiões do IBGE,5,-0.001,0.185
+D,Mercado + renda + marketing,5,Baseline: faixas de porte populacional,5,-0.0978,0.0322
+D,Mercado + renda + marketing,5,Baseline: sorteio aleatório (média de 30),5,-0.0314,-0.0001

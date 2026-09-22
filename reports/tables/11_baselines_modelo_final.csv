@@ -1,0 +1,5 @@
+agrupamento,n_grupos,silhueta,rand_ajustado_vs_cluster
+Clusters da POC,5,0.2363,1.0
+Baseline: 5 regiões do IBGE,5,-0.001,0.185
+Baseline: faixas de porte populacional,5,-0.0978,0.0322
+Baseline: sorteio aleatório (média de 30),5,-0.0314,-0.0001

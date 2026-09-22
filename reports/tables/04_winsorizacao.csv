@@ -1,0 +1,12 @@
+variavel,rotulo,limite_inferior,limite_superior,municipios_cortados_abaixo,municipios_cortados_acima,assimetria_antes,assimetria_depois
+administradoras_10k,Administradoras de imóveis / 10 mil hab.,0.0,7.705,0,7,3.86,1.62
+imobiliarias_10k,Imobiliárias e corretoras / 10 mil hab.,0.0,25.016,0,7,11.29,2.33
+imobiliarias_novas_pct,Imobiliárias novas em 12 meses (%),0.0,50.0,0,5,2.42,0.95
+pix_pf_por_hab,Pix de pessoa física por habitante,24088.872,106999.731,7,7,0.93,0.64
+salario_admissao,Salário mediano de admissão (R$),1518.0,2204.064,0,7,0.45,0.35
+cadunico_pct,Famílias no CadÚnico / 100 domicílios,15.684,102.413,7,7,0.26,0.24
+credito_per_capita,Crédito per capita (R$),1101.378,58663.754,7,7,20.24,2.04
+veiculos_por_hab,Veículos por habitante,0.01,0.543,7,7,-0.09,-0.16
+saldo_emprego_pct,Saldo de emprego / admissões em 12 meses (%),-14.241,29.89,7,7,-0.34,0.67
+internet_movel_100,Internet móvel 4G/5G de pessoa física / 100 hab.,48.535,122.791,7,7,-0.58,-0.53
+banda_larga_100,Banda larga fixa / 100 hab.,3.517,56.352,7,7,0.21,0.08

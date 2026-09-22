@@ -1,0 +1,2 @@
+modelo,k,n_comparacoes,rand_ajustado_medio,rand_ajustado_desvio,rand_ajustado_p5,rand_ajustado_p95
+KMeans,5,99,0.923,0.0751,0.7494,0.9907

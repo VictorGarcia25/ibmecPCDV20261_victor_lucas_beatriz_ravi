@@ -554,3 +554,62 @@ A visão de longo prazo do projeto é evoluir para uma ferramenta capaz de apoia
 > **Onde o próximo investimento tem maior potencial de gerar resultado adicional?**
 
 Nesta primeira entrega, a POC tem como objetivo validar o pipeline inicial de dados, análise estatística e Machine Learning necessário para avançar para as próximas etapas do projeto.
+---
+
+# POC não supervisionada: tipos de praça para o produto de fiança
+
+Responsável: Beatriz Babinski.
+
+Complementa a POC supervisionada (`notebooks/01_poc.py`) atacando o outro lado da pergunta
+"onde colocar o próximo R$ 1 em mídia paga": **em que tipo de praça**. A auditoria pública dos
+anúncios da Loft mostrou que cerca de 74% das peças são de **fiança**, com a imobiliária como
+cliente. Como não temos dado interno da Loft, o que se agrupa aqui é **mercado, não cliente**.
+
+- Unidade: os **687 municípios** com 50 mil habitantes ou mais (estimativa IBGE 2026).
+- 11 variáveis de mercado imobiliário, renda e alcance digital, todas relativas à população.
+- Nenhuma variável do modelo usa dado anterior a 2025, e não há uso do Censo 2022.
+- Resultado: **5 tipos de praça** que superam os baselines de geografia e de porte populacional.
+
+Relatório completo: [`reports/poc_clusterizacao.md`](reports/poc_clusterizacao.md).
+Notebook de resultados: [`notebooks/02_poc_clusterizacao.ipynb`](notebooks/02_poc_clusterizacao.ipynb).
+
+## Como rodar
+
+```bash
+make poc
+```
+
+Cria o ambiente, reaproveita o que já está em `data/raw` e gera tabelas, figuras e relatório
+em cerca de 1 minuto. Para refazer a coleta de todas as fontes oficiais:
+
+```bash
+make poc-completa
+```
+
+Exige um arquivo `.env` na raiz, fora do controle de versão, com o projeto do Google Cloud
+usado nas consultas ao BigQuery da Base dos Dados:
+
+```
+GCP_PROJETO=seu-projeto-no-google-cloud
+```
+
+Testes: `PYTHONPATH=src .venv/bin/python -m pytest tests/`
+
+## Fontes
+
+| Variável | Fonte | Referência |
+| --- | --- | --- |
+| Administradoras e imobiliárias por 10 mil hab. | Receita Federal, CNPJ, CNAE 6821 e 6822 (Base dos Dados) | 2026-01 |
+| Imobiliárias abertas em 12 meses | Receita Federal, CNPJ | 2026-01 |
+| Pix de pessoa física por habitante | Banco Central, Transações Pix por Município (OData) | 2026-08 |
+| Salário mediano de admissão | Novo CAGED, microdados (Base dos Dados) | 2026-01 |
+| Saldo de emprego em 12 meses | Novo CAGED, microdados | 2026-01 |
+| Famílias no CadÚnico | MDS, API MISocial do SAGI | 2026-09 |
+| Crédito per capita | Banco Central, ESTBAN verbete 160 | 2025-09 |
+| Automóveis por habitante | Senatran, frota por município | 2026-07 |
+| Internet móvel 4G/5G de pessoa física | Anatel, acessos de telefonia móvel | 2026-07 |
+| Banda larga fixa por 100 hab. | Anatel, densidade municipal (Base dos Dados) | 2025-09 |
+
+Descritoras, que não entram no cluster: domicílios alugados por UF (PNAD Contínua 2025),
+inadimplência de pessoa física por UF (SCR do Banco Central, 2026-08), aluguel médio FipeZap
+(2026-08) e busca por fiança no Google Trends por UF.

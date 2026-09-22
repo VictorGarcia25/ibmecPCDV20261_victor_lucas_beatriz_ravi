@@ -1,0 +1,7 @@
+variavel_removida,rotulo,silhueta_sem_ela,silhueta_completa,variacao,rand_ajustado_vs_completo
+cadunico_pct,Famílias no CadÚnico / 100 domicílios,0.2312,0.2363,-0.0051,0.641
+internet_movel_100,Internet móvel 4G/5G de pessoa física / 100 hab.,0.2382,0.2363,0.0019,0.7111
+imobiliarias_novas_pct,Imobiliárias novas em 12 meses (%),0.2499,0.2363,0.0136,0.5946
+banda_larga_100,Banda larga fixa / 100 hab.,0.25,0.2363,0.0137,0.7706
+pix_pf_por_hab,Pix de pessoa física por habitante,0.258,0.2363,0.0217,0.7184
+administradoras_10k,Administradoras de imóveis / 10 mil hab.,0.2636,0.2363,0.0273,0.6396

@@ -1,0 +1,3 @@
+grupo,nome_grupo,nome_modelo,k,silhueta,estabilidade_bootstrap,menor_cluster,responde_a_pergunta,escolhido
+D,Mercado + renda + marketing,KMeans,5,0.23629283216648259,0.937,73,True,True
+C,Mercado + renda,KMeans,5,0.24399857273114314,0.7583,97,True,False

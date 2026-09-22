@@ -2,10 +2,10 @@
 
 ## Incrementalidade e Tendência de Campanhas
 
-**Repo:** `ibmecPCDV20261_victor_lucas_beatriz_ravi`  
-**Disciplina:** Ciência de Dados  
-**Instituição:** IBMEC  
-**Python:** 3.13  
+**Repo:** `ibmecPCDV20261_victor_lucas_beatriz_ravi`
+**Disciplina:** Ciência de Dados
+**Instituição:** IBMEC
+**Python:** 3.13
 
 ## Equipe
 
@@ -41,9 +41,10 @@ Nesta primeira entrega foi desenvolvida uma **Prova de Conceito (POC)** com foco
 - análise estatística inicial;
 - agregação dos dados por campanha e período;
 - criação de indicadores;
-- construção de um baseline;
+- verificação de correlação entre variáveis de volume;
+- construção de dois baselines de referência;
 - treinamento de modelos de Machine Learning;
-- comparação de desempenho;
+- comparação de desempenho entre baselines e modelos;
 - geração de tabelas e gráficos para análise.
 
 ---
@@ -58,7 +59,7 @@ Por exemplo, conhecer apenas o custo médio de uma campanha não responde direta
 
 O projeto busca criar uma base analítica para estudar esse problema.
 
-A POC atual ainda não estima causalmente o retorno do próximo real investido. Nesta etapa, o objetivo é verificar se as informações históricas das campanhas contêm sinal suficiente para prever o volume de conversões atribuídas.
+A POC atual ainda não estima causalmente o retorno do próximo real investido. Nesta etapa, o objetivo é verificar se as informações históricas das campanhas contêm sinal suficiente para prever o volume de conversões atribuídas — e se esse sinal vai além do que já seria esperado apenas pelo volume de impressões de cada campanha.
 
 A análise de eficiência marginal e as recomendações de aumento, manutenção ou redução de investimento serão desenvolvidas nas próximas etapas do projeto.
 
@@ -194,13 +195,17 @@ Agregação por campanha e hora
   ↓
 Criação de indicadores
   ↓
+Verificação de correlação entre variáveis de volume
+  ↓
 Divisão temporal treino/teste
   ↓
-Baseline
+Baselines (mínimo e de negócio)
   ↓
 Modelos de Machine Learning
   ↓
 Avaliação das métricas
+  ↓
+Conclusão automática da POC
 ```
 
 ## 6.1 Análise inicial dos dados
@@ -250,6 +255,14 @@ Também foram criados indicadores como:
 
 `taxa de conversão = conversões atribuídas / impressões`
 
+## 6.3 Verificação de correlação entre variáveis
+
+Antes de definir as features do modelo, foi calculada a correlação entre `impressoes` e `cliques` na base agregada por campanha e hora.
+
+O objetivo dessa checagem é identificar, ainda na fase exploratória, sinais de multicolinearidade entre as variáveis de volume — o que pode dificultar a interpretação dos coeficientes da Regressão Linear, mesmo sem necessariamente prejudicar a capacidade preditiva do modelo.
+
+Nesta POC as duas variáveis foram mantidas como features, já que o foco atual é validar o sinal preditivo do pipeline. A eventual necessidade de tratar a colinearidade (por exemplo, removendo ou combinando variáveis) será reavaliada nas próximas etapas, à medida que o modelo evoluir para uma análise mais explicativa.
+
 ---
 
 # 7. Variável Alvo e Features
@@ -287,27 +300,31 @@ Como a POC utiliza apenas os primeiros 100 mil registros da base, essa validaç�
 
 ---
 
-# 9. Baseline e Modelos
+# 9. Baselines e Modelos
 
-Foram avaliadas três abordagens nesta primeira POC.
+Foram avaliadas quatro abordagens nesta primeira POC: dois baselines de referência e dois modelos treinados.
 
-## 9.1 DummyRegressor
+## 9.1 Baseline mínimo — DummyRegressor
 
-O `DummyRegressor` foi utilizado como **baseline**.
+O `DummyRegressor` foi utilizado como **baseline mínimo**.
 
 Ele gera previsões utilizando uma estratégia simples baseada na média da variável alvo observada no conjunto de treinamento.
 
-O objetivo do baseline é estabelecer uma referência mínima de desempenho.
+O objetivo desse baseline é estabelecer uma referência mínima de desempenho: um modelo de Machine Learning só apresenta ganho real se conseguir superá-lo.
 
-Um modelo de Machine Learning só apresenta ganho real se conseguir superar essa referência.
+## 9.2 Baseline simples — Taxa média × Impressões
 
-## 9.2 Regressão Linear
+Como referência adicional, foi construído um segundo baseline, mais próximo de uma heurística de negócio: a taxa média de conversão observada no treino é multiplicada pelo número de impressões de cada campanha/hora no teste.
+
+Esse baseline responde a uma pergunta mais exigente do que o `DummyRegressor`: os modelos treinados conseguem capturar algo além da relação óbvia "mais impressões geram mais conversões"? Se um modelo não superar esse baseline, é sinal de que seu ganho ainda depende, em grande parte, apenas do volume de impressões.
+
+## 9.3 Regressão Linear
 
 A Regressão Linear foi utilizada como primeiro modelo preditivo.
 
 O objetivo foi verificar se existe relação entre as características agregadas das campanhas e o volume de conversões atribuídas.
 
-## 9.3 Random Forest Regressor
+## 9.4 Random Forest Regressor
 
 Também foi utilizado o `RandomForestRegressor`.
 
@@ -319,7 +336,7 @@ Nesta POC foram utilizadas **100 árvores**, com `random_state=42` para permitir
 
 # 10. Métricas de Avaliação
 
-Os modelos foram avaliados utilizando três métricas.
+Os modelos foram avaliados utilizando três métricas, calculadas por uma função auxiliar (`avaliar_modelo`) reutilizada para todas as abordagens.
 
 ## MAE — Mean Absolute Error
 
@@ -343,25 +360,33 @@ Valores maiores indicam melhor ajuste.
 
 # 11. Resultados da POC
 
+> ⚠️ **Atenção:** a tabela abaixo foi atualizada para refletir as quatro abordagens do script atual (incluindo o novo baseline simples), mas os valores da nova linha ainda não foram recalculados com os dados reais. Rodem `python notebooks/01_poc.py` com a versão atual do script e substituam os valores marcados como `A PREENCHER` pelos números gerados em `reports/tables/comparacao_modelos.csv`.
+
 Os resultados obtidos no conjunto de teste foram:
 
 | Modelo | MAE | RMSE | R² |
 |---|---:|---:|---:|
-| DummyRegressor | 1.2238 | 3.3948 | -0.0296 |
+| Baseline mínimo - Dummy | 1.2238 | 3.3948 | -0.0296 |
+| Baseline simples - Taxa média x Impressões | A PREENCHER | A PREENCHER | A PREENCHER |
 | Regressão Linear | **0.9236** | **1.8979** | **0.6782** |
 | Random Forest | 0.9954 | 2.1979 | 0.5684 |
 
-Nesta primeira POC, a **Regressão Linear apresentou o melhor desempenho** entre os modelos avaliados.
+Nesta primeira POC, a **Regressão Linear apresentou o melhor desempenho** entre os modelos treinados.
 
-O RMSE foi reduzido de aproximadamente **3,39 no baseline para 1,90 na Regressão Linear**.
+O RMSE foi reduzido de aproximadamente **3,39 no baseline mínimo para 1,90 na Regressão Linear**, uma redução relevante.
 
 O R² da Regressão Linear foi de aproximadamente **0,68 no conjunto de teste desta POC**.
 
-O Random Forest também apresentou desempenho superior ao baseline, porém ficou abaixo da Regressão Linear nesta primeira análise.
+O Random Forest também apresentou desempenho superior ao baseline mínimo, porém ficou abaixo da Regressão Linear nesta primeira análise.
 
-Esses resultados mostram que as variáveis utilizadas apresentam sinal preditivo para estimar as conversões atribuídas dentro da amostra analisada.
+O script também compara automaticamente o melhor modelo treinado (o de menor RMSE entre Regressão Linear e Random Forest) contra os **dois** baselines, separadamente:
 
-Como a POC utiliza apenas uma parcela inicial da base, os resultados ainda não devem ser generalizados para todo o período disponível.
+- se o melhor modelo superar o baseline mínimo (Dummy), isso indica que existe sinal preditivo nas variáveis das campanhas;
+- se o melhor modelo também superar o baseline simples (taxa média × impressões), isso indica que o modelo captura informação além do volume de impressões — um resultado mais forte do que apenas vencer o Dummy.
+
+Caso o melhor modelo não supere o baseline simples, isso é um indício de que boa parte do desempenho atual ainda vem do volume de impressões, e reforça a necessidade das features temporais e defasadas previstas nas próximas etapas.
+
+Como a POC utiliza apenas uma parcela inicial da base (apenas 9 horas de dados, com o conjunto de teste cobrindo somente as duas últimas), os resultados ainda não devem ser generalizados para todo o período disponível.
 
 ---
 
@@ -382,6 +407,8 @@ São gerados:
 - `importancia_variaveis.csv`
 - `previsoes_teste.csv`
 - `resumo_estatistico.csv`
+
+`comparacao_modelos.csv` agora traz as quatro abordagens (os dois baselines e os dois modelos treinados), e `previsoes_teste.csv` traz as previsões de todas elas lado a lado (`Real`, `Baseline_Dummy`, `Baseline_Taxa_Media`, `Regressao_Linear`, `Random_Forest`), o que facilita comparar erro por observação em vez de apenas na média.
 
 ## Gráficos
 
@@ -473,6 +500,8 @@ O arquivo `.env` é específico de cada computador e não deve ser enviado para 
 
 Por esse motivo, ele está incluído no `.gitignore`.
 
+Se a variável `DATA_DIR` não for encontrada, o script interrompe a execução com uma mensagem clara (`A variável DATA_DIR não foi encontrada. Confira o arquivo .env.`), em vez de um erro genérico — facilitando identificar o problema na primeira execução.
+
 ## 13.6 Executar a POC
 
 Com o ambiente virtual ativado e o `.env` configurado:
@@ -490,11 +519,13 @@ O script executa automaticamente:
 - análise de cliques e conversões;
 - agregação por campanha e hora;
 - criação dos indicadores;
+- verificação de correlação entre impressões e cliques;
 - divisão temporal de treino e teste;
-- treinamento do baseline;
+- treinamento do baseline mínimo (Dummy) e do baseline simples (taxa média × impressões);
 - treinamento da Regressão Linear;
 - treinamento do Random Forest;
 - cálculo das métricas;
+- conclusão automática comparando o melhor modelo contra os dois baselines;
 - geração das tabelas;
 - geração dos gráficos.
 
@@ -521,10 +552,11 @@ A lista completa das dependências utilizadas está disponível em:
 Esta primeira versão possui algumas limitações importantes.
 
 - Foram utilizados apenas 100 mil registros dos aproximadamente 5 milhões disponíveis na base de trabalho.
-- Como os dados estão ordenados pelo `timestamp`, a amostra representa somente a parcela inicial do período disponível.
+- Como os dados estão ordenados pelo `timestamp`, a amostra representa somente a parcela inicial do período disponível (cerca de 9 horas, com apenas 2 horas no conjunto de teste).
 - Os valores de `cost` e `cpo` foram transformados pela Criteo e não representam diretamente valores monetários reais.
 - A análise atual identifica relações preditivas, mas não permite afirmar causalidade.
 - As features utilizadas ainda representam informações do próprio período analisado.
+- `impressoes` e `cliques` apresentam correlação relevante entre si, o que ainda não foi tratado nesta etapa.
 - A análise de eficiência marginal ainda não foi desenvolvida.
 - Os resultados desta POC não devem ser interpretados como recomendações finais de investimento.
 
@@ -543,7 +575,8 @@ As próximas etapas previstas para o projeto são:
 7. estimar o custo incremental associado a novas conversões;
 8. desenvolver critérios para apoiar decisões de investimento;
 9. avaliar outros modelos de Machine Learning;
-10. validar os modelos em períodos futuros.
+10. validar os modelos em períodos futuros;
+11. avaliar formas de tratar a colinearidade entre impressões e cliques (ex.: seleção ou combinação de variáveis).
 
 ---
 

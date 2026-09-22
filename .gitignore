@@ -4,3 +4,9 @@ __pycache__/
 .ipynb_checkpoints/
 .DS_Store
 .env
+# Dados brutos e intermediarios nao vao para o repositorio
+data/raw/*
+data/interim/*
+data/processed/*
+data/external/*
+!data/**/.gitkeep

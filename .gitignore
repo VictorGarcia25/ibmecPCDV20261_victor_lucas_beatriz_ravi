@@ -10,3 +10,7 @@ data/interim/*
 data/processed/*
 data/external/*
 !data/**/.gitkeep
+
+# O roteiro da fala e pessoal, nao vai para o repositorio
+reports/roteiro_da_fala.md
+reports/roteiro*.md

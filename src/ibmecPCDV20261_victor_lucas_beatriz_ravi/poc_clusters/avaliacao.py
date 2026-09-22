@@ -6,7 +6,7 @@ import numpy as np
 import pandas as pd
 from sklearn.metrics import adjusted_rand_score, silhouette_score
 
-from . import clustering, config
+from . import clustering, config, descritiva
 
 
 def cotovelo(varredura: pd.DataFrame, grupo: str) -> int:
@@ -118,17 +118,26 @@ def estabilidade_bootstrap(
     n_bootstrap: int = config.N_BOOTSTRAP,
     fracao: float = 0.8,
 ) -> pd.DataFrame:
-    """Reamostra municípios e mede o Rand ajustado nos municípios em comum entre rodadas."""
-    matriz, _ = clustering.preparar_matriz(base, variaveis)
+    """Reamostra municípios e mede o Rand ajustado nos municípios em comum entre rodadas.
+
+    Duas escolhas de protocolo importam aqui. A reamostragem é sem reposição, ou seja
+    subamostragem de uma fração fixa: com reposição, os municípios duplicados ficam a distância
+    zero e inflam a concordância. E a winsorização, o log e a padronização são refeitos dentro
+    de cada subamostra, não herdados da base cheia, senão parte da informação do conjunto todo
+    vaza para dentro de cada rodada e a estabilidade sai otimista.
+    """
     gerador = np.random.default_rng(config.SEMENTE)
-    n = len(matriz)
+    n = len(base)
     tamanho = int(n * fracao)
 
     resultados = []
     anterior_indices, anterior_rotulos = None, None
     for _ in range(n_bootstrap):
         indices = gerador.choice(n, size=tamanho, replace=False)
-        rotulos = clustering.rotular(matriz[indices], nome_modelo, k)
+        matriz, _ = clustering.preparar_matriz(
+            base.iloc[indices].reset_index(drop=True), variaveis
+        )
+        rotulos = clustering.rotular(matriz, nome_modelo, k)
         if anterior_indices is not None:
             comuns = np.intersect1d(indices, anterior_indices)
             if len(comuns) > k:
@@ -147,11 +156,66 @@ def estabilidade_bootstrap(
             {
                 "modelo": clustering.NOMES_MODELOS[nome_modelo],
                 "k": k,
+                "metodo": "subamostragem sem reposição",
+                "fracao_reamostrada": fracao,
                 "n_comparacoes": len(serie),
                 "rand_ajustado_medio": round(float(serie.mean()), 4),
                 "rand_ajustado_desvio": round(float(serie.std()), 4),
                 "rand_ajustado_p5": round(float(serie.quantile(0.05)), 4),
                 "rand_ajustado_p95": round(float(serie.quantile(0.95)), 4),
+            }
+        ]
+    )
+
+
+def diferenca_silhueta(
+    base: pd.DataFrame,
+    configuracoes: list[tuple[str, list[str], str, int]],
+    n_repeticoes: int = 200,
+    fracao: float = 0.8,
+) -> pd.DataFrame:
+    """Intervalo da diferença de silhueta entre duas configurações, sob reamostragem.
+
+    Serve para não tratar como vantagem uma diferença de terceira casa decimal: se o intervalo
+    de 95% cruza o zero, as duas configurações são equivalentes e o desempate tem de ser outro.
+    """
+    if len(configuracoes) < 2:
+        return pd.DataFrame()
+
+    gerador = np.random.default_rng(config.SEMENTE)
+    n = len(base)
+    tamanho = int(n * fracao)
+
+    amostras: dict[str, list[float]] = {nome: [] for nome, _, _, _ in configuracoes}
+    for _ in range(n_repeticoes):
+        indices = gerador.choice(n, size=tamanho, replace=False)
+        recorte_base = base.iloc[indices].reset_index(drop=True)
+        for nome, variaveis, modelo, k in configuracoes:
+            # Preparo refeito dentro da subamostra, pelo mesmo motivo da estabilidade.
+            recorte, _ = clustering.preparar_matriz(recorte_base, variaveis)
+            rotulos = clustering.rotular(recorte, modelo, k)
+            if len(set(rotulos)) < 2:
+                amostras[nome].append(np.nan)
+                continue
+            amostras[nome].append(float(silhouette_score(recorte, rotulos)))
+
+    primeiro, segundo = configuracoes[0][0], configuracoes[1][0]
+    diferenca = pd.Series(amostras[primeiro]) - pd.Series(amostras[segundo])
+    diferenca = diferenca.dropna()
+    inferior, superior = diferenca.quantile([0.025, 0.975])
+    return pd.DataFrame(
+        [
+            {
+                "configuracao_a": primeiro,
+                "configuracao_b": segundo,
+                "silhueta_media_a": round(float(pd.Series(amostras[primeiro]).mean()), 4),
+                "silhueta_media_b": round(float(pd.Series(amostras[segundo]).mean()), 4),
+                "diferenca_media": round(float(diferenca.mean()), 4),
+                "intervalo_95_inferior": round(float(inferior), 4),
+                "intervalo_95_superior": round(float(superior), 4),
+                "vezes_que_a_venceu_pct": round(float((diferenca > 0).mean() * 100), 1),
+                "diferenca_significativa": bool(inferior > 0 or superior < 0),
+                "n_reamostragens": len(diferenca),
             }
         ]
     )
@@ -177,7 +241,7 @@ def ablacao(
         linhas.append(
             {
                 "variavel_removida": variavel,
-                "rotulo": config.VARIAVEIS[variavel],
+                "rotulo": descritiva.rotulo(variavel),
                 "silhueta_sem_ela": round(float(silhueta), 4),
                 "silhueta_completa": round(float(referencia), 4),
                 "variacao": round(float(silhueta - referencia), 4),

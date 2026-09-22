@@ -180,3 +180,91 @@ def test_tabela_de_valor_cobre_todos_os_clusters():
 def test_todo_grupo_tem_variavel_declarada(grupo):
     for variavel in config.GRUPOS[grupo]:
         assert variavel in config.VARIAVEIS
+
+
+def _fontes_falsas(data_banda_larga: str = "2025-09") -> pd.DataFrame:
+    return pd.DataFrame(
+        [
+            {
+                "variavel": "banda_larga_100",
+                "rotulo": "Banda larga fixa / 100 hab.",
+                "data_referencia": data_banda_larga,
+                "entra_no_cluster": True,
+            },
+            {
+                "variavel": "fipezap_aluguel",
+                "rotulo": "Aluguel médio FipeZap (R$/m²)",
+                "data_referencia": "2019-01",
+                "entra_no_cluster": False,
+            },
+        ]
+    )
+
+
+def test_regra_de_datas_aprova_fonte_recente():
+    from ibmecPCDV20261_victor_lucas_beatriz_ravi.poc_clusters import diagnostico
+
+    assert diagnostico.violacoes_da_regra_de_datas(_fontes_falsas("2026-07")).empty
+
+
+def test_regra_de_datas_reprova_fonte_antiga_do_modelo():
+    from ibmecPCDV20261_victor_lucas_beatriz_ravi.poc_clusters import diagnostico
+
+    violacoes = diagnostico.violacoes_da_regra_de_datas(_fontes_falsas("2022-12"))
+    assert list(violacoes["variavel"]) == ["banda_larga_100"]
+
+
+def test_regra_de_datas_ignora_descritora_antiga():
+    """A descritora de 2019 não pode reprovar a execução: ela não entra no cluster."""
+    from ibmecPCDV20261_victor_lucas_beatriz_ravi.poc_clusters import diagnostico
+
+    checagem = diagnostico.verificar_regra_de_datas(_fontes_falsas())
+    antiga = checagem[checagem["variavel"] == "fipezap_aluguel"].iloc[0]
+    assert not antiga["cumpre_a_regra"]
+    assert diagnostico.violacoes_da_regra_de_datas(_fontes_falsas()).empty
+
+
+def test_diferenca_de_silhueta_acusa_empate_quando_as_variaveis_sao_iguais():
+    """Comparar uma configuração consigo mesma tem de dar diferença zero."""
+    base = _base_sintetica()
+    variaveis = ["administradoras_10k", "pix_pf_por_hab", "cadunico_pct"]
+    resultado = avaliacao.diferenca_silhueta(
+        base,
+        [("igual_a", variaveis, "kmeans", 3), ("igual_b", variaveis, "kmeans", 3)],
+        n_repeticoes=15,
+    )
+    assert resultado.loc[0, "diferenca_media"] == 0
+    assert not bool(resultado.loc[0, "diferenca_significativa"])
+
+
+def test_diferenca_de_silhueta_acusa_vantagem_real():
+    """Tirar a variável que separa tem de gerar diferença detectável."""
+    base = _base_sintetica()
+    completo = ["administradoras_10k", "pix_pf_por_hab", "cadunico_pct"]
+    gerador = np.random.default_rng(config.SEMENTE)
+    base["ruido_puro"] = gerador.normal(size=len(base))
+    resultado = avaliacao.diferenca_silhueta(
+        base,
+        [("completo", completo, "kmeans", 3), ("so_ruido", ["ruido_puro"], "kmeans", 3)],
+        n_repeticoes=25,
+    )
+    assert resultado.loc[0, "diferenca_media"] > 0
+    assert bool(resultado.loc[0, "diferenca_significativa"])
+
+
+def test_robustez_do_denominador_roda_e_identifica_o_cluster_alvo():
+    from ibmecPCDV20261_victor_lucas_beatriz_ravi.poc_clusters import diagnostico
+
+    gerador = np.random.default_rng(config.SEMENTE)
+    base = pd.DataFrame(
+        {
+            "cluster": [0] * 40 + [1] * 40,
+            "nome_cluster": ["alvo"] * 40 + ["outro"] * 40,
+            # o cluster 0 tem taxa alta de verdade, e base grande, então resiste ao corte
+            "imobiliarias_novas_pct": list(gerador.normal(28, 3, 40)) + list(gerador.normal(13, 3, 40)),
+            "setor_total": list(gerador.integers(25, 120, 40)) + list(gerador.integers(25, 120, 40)),
+        }
+    )
+    tabela = diagnostico.robustez_denominador(base)
+    assert tabela.attrs["cluster_alvo"] == 0
+    assert tabela["continua_maior"].all()

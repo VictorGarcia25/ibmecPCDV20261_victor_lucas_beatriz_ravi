@@ -6,7 +6,17 @@ import time
 
 import pandas as pd
 
-from . import avaliacao, clustering, config, descritiva, features, graficos, perfil, relatorio
+from . import (
+    avaliacao,
+    clustering,
+    config,
+    descritiva,
+    diagnostico,
+    features,
+    graficos,
+    perfil,
+    relatorio,
+)
 from .io_utils import tabela_fontes
 
 MINIMO_POR_CLUSTER = 20
@@ -79,7 +89,17 @@ def executar(forcar_download: bool = False, k_maximo: int = config.K_MAXIMO) -> 
     features.salvar(base)
     variaveis = list(config.VARIAVEIS)
     _salvar_tabela(features.relatorio_cobertura(base), "01_cobertura_variaveis")
-    _salvar_tabela(tabela_fontes(), "02_fontes_data_referencia")
+    fontes = tabela_fontes()
+    _salvar_tabela(fontes, "02_fontes_data_referencia")
+
+    checagem_datas = diagnostico.verificar_regra_de_datas(fontes)
+    _salvar_tabela(checagem_datas, "02b_checagem_regra_de_datas")
+    violacoes = diagnostico.violacoes_da_regra_de_datas(fontes)
+    if not violacoes.empty:
+        raise RuntimeError(
+            "Regra de datas violada: estas variáveis do modelo têm referência anterior a "
+            f"{diagnostico.ANO_MINIMO_PERMITIDO}:\n{violacoes.to_string(index=False)}"
+        )
 
     print("[2/8] estatística descritiva")
     descritivas = descritiva.tabela_descritiva(base, variaveis)
@@ -93,7 +113,8 @@ def executar(forcar_download: bool = False, k_maximo: int = config.K_MAXIMO) -> 
     correlacao = descritiva.matriz_correlacao(tratada, variaveis)
     correlacao.round(3).to_csv(config.DIR_TABELAS / "05_correlacao_spearman.csv")
     graficos.heatmap_correlacao(correlacao)
-    _salvar_tabela(descritiva.tabela_vif(tratada, variaveis), "06_vif")
+    vif = descritiva.tabela_vif(tratada, variaveis)
+    _salvar_tabela(vif, "06_vif")
     mantidas, decisoes = descritiva.decidir_cortes(tratada, variaveis)
     _salvar_tabela(decisoes, "07_cortes_de_variaveis")
     grupos = {g: [v for v in vs if v in mantidas] for g, vs in config.GRUPOS.items()}
@@ -145,6 +166,13 @@ def executar(forcar_download: bool = False, k_maximo: int = config.K_MAXIMO) -> 
     _salvar_tabela(tabela_ablacao, "14_ablacao")
     graficos.ablacao(tabela_ablacao)
 
+    concorrentes = [
+        (str(linha["grupo"]), grupos[str(linha["grupo"])], str(modelo_final), int(linha["k"]))
+        for _, linha in escolha.iterrows()
+    ]
+    diferenca_silhueta = avaliacao.diferenca_silhueta(base, concorrentes)
+    _salvar_tabela(diferenca_silhueta, "14b_diferenca_de_silhueta")
+
     print("[7/8] perfil dos clusters e leitura para a Loft")
     base["cluster"] = rotulos_finais
     perfil_z = perfil.perfil_padronizado(base, variaveis_finais)
@@ -166,6 +194,9 @@ def executar(forcar_download: bool = False, k_maximo: int = config.K_MAXIMO) -> 
     _salvar_tabela(descritoras, "21_descritoras_por_cluster")
     valor = perfil.tabela_valor_loft(perfil_z, nomes, tamanhos)
     _salvar_tabela(valor, "22_valor_para_a_loft")
+    robustez_denominador = diagnostico.robustez_denominador(base)
+    _salvar_tabela(robustez_denominador, "23_robustez_denominador")
+    _salvar_tabela(diagnostico.tabela_volumes(base), "24_volumes_nacionais")
 
     graficos.heatmap_perfil(perfil_z, nomes)
     graficos.radar(perfil_z, nomes)
@@ -194,13 +225,17 @@ def executar(forcar_download: bool = False, k_maximo: int = config.K_MAXIMO) -> 
         sementes=sementes,
         bootstrap=bootstrap,
         ablacao=tabela_ablacao,
+        diferenca_silhueta=diferenca_silhueta,
+        robustez_denominador=robustez_denominador,
         perfil_z=perfil_z,
         descricao_marcas=marcas,
         tamanhos=tamanhos,
         valor=valor,
         descritoras=descritoras,
         mapa_ok=mapa_ok,
-        fontes=tabela_fontes(),
+        fontes=fontes,
+        checagem_datas=checagem_datas,
+        vif=vif,
     )
     relatorio.escrever(passos)
     passos["duracao_minutos"] = round((time.time() - inicio) / 60, 1)

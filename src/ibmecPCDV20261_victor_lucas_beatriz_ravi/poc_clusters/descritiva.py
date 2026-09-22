@@ -8,6 +8,11 @@ from statsmodels.stats.outliers_influence import variance_inflation_factor
 
 from . import config
 
+def rotulo(variavel: str) -> str:
+    """Rótulo em português da variável, com o próprio nome como reserva."""
+    return config.VARIAVEIS.get(variavel, config.ROTULOS_DESCRITORAS.get(variavel, variavel))
+
+
 LIMIAR_ASSIMETRIA_LOG = 1.0
 LIMIAR_CORRELACAO = 0.8
 LIMIAR_VIF = 10.0
@@ -22,7 +27,7 @@ def tabela_descritiva(base: pd.DataFrame, variaveis: list[str] | None = None) ->
         linhas.append(
             {
                 "variavel": v,
-                "rotulo": config.VARIAVEIS[v],
+                "rotulo": rotulo(v),
                 "faltantes": int(s.isna().sum()),
                 "media": s.mean(),
                 "desvio_padrao": s.std(),
@@ -69,7 +74,7 @@ def winsorizar(base: pd.DataFrame, variaveis: list[str], quantil: float = QUANTI
         registro.append(
             {
                 "variavel": v,
-                "rotulo": config.VARIAVEIS[v],
+                "rotulo": rotulo(v),
                 "limite_inferior": round(float(inferior), 3),
                 "limite_superior": round(float(superior), 3),
                 "municipios_cortados_abaixo": n_baixo,
@@ -92,7 +97,7 @@ def tabela_vif(base: pd.DataFrame, variaveis: list[str]) -> pd.DataFrame:
     linhas = [
         {
             "variavel": v,
-            "rotulo": config.VARIAVEIS[v],
+            "rotulo": rotulo(v),
             "vif": round(float(variance_inflation_factor(dados.values, i)), 2),
         }
         for i, v in enumerate(variaveis)
@@ -138,9 +143,9 @@ def decidir_cortes(
         decisoes.append(
             {
                 "variavel_descartada": perdedora,
-                "rotulo_descartada": config.VARIAVEIS[perdedora],
+                "rotulo_descartada": rotulo(perdedora),
                 "variavel_mantida": vencedora,
-                "rotulo_mantida": config.VARIAVEIS[vencedora],
+                "rotulo_mantida": rotulo(vencedora),
                 "correlacao_spearman": round(float(valor), 3),
                 "vif_descartada": vif.get(perdedora),
                 "vif_mantida": vif.get(vencedora),

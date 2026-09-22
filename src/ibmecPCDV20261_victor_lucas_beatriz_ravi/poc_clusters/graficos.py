@@ -12,6 +12,7 @@ import pandas as pd
 import seaborn as sns
 
 from . import config
+from .descritiva import rotulo
 
 sns.set_theme(style="whitegrid", palette="deep")
 plt.rcParams["figure.dpi"] = 130
@@ -32,12 +33,12 @@ def histogramas(base: pd.DataFrame, variaveis: list[str]) -> None:
     figura, eixos = plt.subplots(linhas, 3, figsize=(13, 3.1 * linhas))
     for eixo, variavel in zip(eixos.ravel(), variaveis):
         sns.histplot(base[variavel].dropna(), bins=40, ax=eixo, color="#4C72B0")
-        eixo.set_title(f"{config.VARIAVEIS[variavel]}\nassimetria = {base[variavel].skew():.2f}")
+        eixo.set_title(f"{rotulo(variavel)}\nassimetria = {base[variavel].skew():.2f}")
         eixo.set_xlabel("")
         eixo.set_ylabel("Municípios")
     for eixo in eixos.ravel()[len(variaveis) :]:
         eixo.axis("off")
-    figura.suptitle("Distribuição das variáveis nos 687 municípios", y=1.01, fontsize=13)
+    figura.suptitle(f"Distribuição das variáveis nos {len(base)} municípios", y=1.01, fontsize=13)
     _salvar(figura, "01_histogramas")
 
 
@@ -46,7 +47,7 @@ def boxplots(base: pd.DataFrame, variaveis: list[str]) -> None:
     figura, eixos = plt.subplots(linhas, 3, figsize=(13, 2.7 * linhas))
     for eixo, variavel in zip(eixos.ravel(), variaveis):
         sns.boxplot(x=base[variavel].dropna(), ax=eixo, color="#DD8452", fliersize=2)
-        eixo.set_title(config.VARIAVEIS[variavel])
+        eixo.set_title(rotulo(variavel))
         eixo.set_xlabel("")
     for eixo in eixos.ravel()[len(variaveis) :]:
         eixo.axis("off")
@@ -55,7 +56,7 @@ def boxplots(base: pd.DataFrame, variaveis: list[str]) -> None:
 
 
 def heatmap_correlacao(correlacao: pd.DataFrame) -> None:
-    rotulos = [config.VARIAVEIS.get(c, c) for c in correlacao.columns]
+    rotulos = [rotulo(c) for c in correlacao.columns]
     figura, eixo = plt.subplots(figsize=(9.5, 7.5))
     sns.heatmap(
         correlacao,
@@ -141,7 +142,7 @@ def heatmap_perfil(perfil: pd.DataFrame, nomes: dict[int, str] | None = None) ->
         fmt=".2f",
         cmap="RdBu_r",
         center=0,
-        xticklabels=[config.VARIAVEIS.get(c, c) for c in perfil.columns],
+        xticklabels=[rotulo(c) for c in perfil.columns],
         yticklabels=rotulos_linha,
         ax=eixo,
         annot_kws={"size": 8},
@@ -166,7 +167,7 @@ def radar(perfil: pd.DataFrame, nomes: dict[int, str] | None = None) -> None:
         eixo.fill(angulos, valores, alpha=0.08, color=cor)
     eixo.set_xticks(angulos[:-1])
     eixo.set_xticklabels(
-        [config.VARIAVEIS.get(v, v).replace(" / ", "\n") for v in variaveis], fontsize=7
+        [rotulo(v).replace(" / ", "\n") for v in variaveis], fontsize=7
     )
     eixo.set_title("Assinatura de cada tipo de praça", y=1.10)
     eixo.legend(loc="upper right", bbox_to_anchor=(1.32, 1.12), fontsize=7)
@@ -227,8 +228,8 @@ def dispersao_decisao(base: pd.DataFrame, nomes: dict[int, str] | None = None) -
             linewidth=0.4,
         )
     eixo.set_xscale("log")
-    eixo.set_xlabel(config.VARIAVEIS["administradoras_10k"] + " (escala log)")
-    eixo.set_ylabel(config.VARIAVEIS["pix_pf_por_hab"])
+    eixo.set_xlabel(rotulo("administradoras_10k") + " (escala log)")
+    eixo.set_ylabel(rotulo("pix_pf_por_hab"))
     eixo.set_title(
         "Onde colocar o próximo real: densidade de administradoras x capacidade de pagamento\n"
         "tamanho do círculo é a população do município"

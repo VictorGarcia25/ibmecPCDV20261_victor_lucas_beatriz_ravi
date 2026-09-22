@@ -6,6 +6,7 @@ import numpy as np
 import pandas as pd
 
 from . import config
+from .descritiva import rotulo
 
 # Regras de nome: cada cluster recebe o nome da primeira regra que ele satisfaz, olhando
 # o perfil padronizado (z) das variáveis. z > 0 é acima da média nacional.
@@ -14,7 +15,7 @@ LIMIAR_BAIXO = -0.4
 
 
 def perfil_padronizado(base: pd.DataFrame, variaveis: list[str]) -> pd.DataFrame:
-    """Média de cada cluster em desvios padrão em relação à média dos 687 municípios."""
+    """Média de cada cluster em desvios padrão em relação à média de todo o universo."""
     z = (base[variaveis] - base[variaveis].mean()) / base[variaveis].std()
     z["cluster"] = base["cluster"].to_numpy()
     return z.groupby("cluster")[variaveis].mean().round(3)
@@ -187,7 +188,7 @@ def descricao_variaveis_chave(perfil: pd.DataFrame, nomes: dict[int, str]) -> pd
                 "cluster": cluster,
                 "nome": nomes[cluster],
                 "marcas_do_cluster": "; ".join(
-                    f"{config.VARIAVEIS.get(v, v)}: {valor:+.2f} desvios"
+                    f"{rotulo(v)}: {valor:+.2f} desvios"
                     for v, valor in ordenada.items()
                 ),
             }

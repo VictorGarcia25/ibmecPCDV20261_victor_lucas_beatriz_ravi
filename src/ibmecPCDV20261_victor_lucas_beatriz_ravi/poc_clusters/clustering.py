@@ -117,6 +117,9 @@ def varrer_k(
                     "nome_modelo": NOMES_MODELOS[nome_modelo],
                     "k": k,
                     "menor_cluster": int(pd.Series(rotulos).value_counts().min()),
+                    "maior_cluster_pct": round(
+                        float(pd.Series(rotulos).value_counts(normalize=True).max() * 100), 1
+                    ),
                 }
                 linha.update(metricas(matriz, rotulos))
                 if nome_modelo == "kmeans":

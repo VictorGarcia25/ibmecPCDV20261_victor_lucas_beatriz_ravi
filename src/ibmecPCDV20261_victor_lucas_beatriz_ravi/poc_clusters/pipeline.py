@@ -7,6 +7,7 @@ import time
 import pandas as pd
 
 from . import (
+    anuncios,
     avaliacao,
     clustering,
     config,
@@ -20,9 +21,11 @@ from . import (
 from .io_utils import tabela_fontes
 
 MINIMO_POR_CLUSTER = 20
+# Uma praça com mais de 40% dos municípios não separa nada: vira "o resto do Brasil".
+MAXIMO_POR_CLUSTER_PCT = 40.0
 # Diferença de silhueta abaixo disso é ruído, e o desempate passa a ser estabilidade.
 DIFERENCA_IRRELEVANTE = 0.02
-VARIAVEIS_MERCADO = ("administradoras_10k", "imobiliarias_10k", "imobiliarias_novas_pct")
+VARIAVEIS_MERCADO = ("imobiliarias_loft_10k", "locacao_pct", "imobiliarias_novas_pct")
 VARIAVEIS_PAGAMENTO = (
     "pix_pf_por_hab",
     "salario_admissao",
@@ -32,17 +35,25 @@ VARIAVEIS_PAGAMENTO = (
     "reserva_per_capita",
     "alavancagem",
 )
+# A pergunta é onde colocar mídia PAGA: sem medir se a mídia alcança o público, o grupo não
+# diz se o real investido chega a alguém. Critério acrescentado depois da reunião com a Loft.
+VARIAVEIS_ALCANCE = ("internet_movel_100", "banda_larga_100")
 
 
 def _salvar_tabela(df: pd.DataFrame, nome: str) -> None:
     df.to_csv(config.DIR_TABELAS / f"{nome}.csv", index=False)
 
 
-def _responde_a_pergunta(variaveis: list[str]) -> bool:
-    """Para dizer onde vender fiança o grupo precisa de mercado e de capacidade de pagamento."""
+def _tem_mercado_e_renda(variaveis: list[str]) -> bool:
     return any(v in variaveis for v in VARIAVEIS_MERCADO) and any(
         v in variaveis for v in VARIAVEIS_PAGAMENTO
     )
+
+
+def _responde_a_pergunta(variaveis: list[str]) -> bool:
+    """Para dizer onde pôr mídia paga de fiança o grupo precisa de mercado, capacidade de
+    pagamento e alcance digital."""
+    return _tem_mercado_e_renda(variaveis) and any(v in variaveis for v in VARIAVEIS_ALCANCE)
 
 
 def _escolher_configuracao(
@@ -79,6 +90,26 @@ def _escolher_configuracao(
     escolha["escolhido"] = [True] + [False] * (len(escolha) - 1)
 
     vencedor = empatados.iloc[0]
+
+    # O concorrente mais forte que ficou de fora do critério entra na tabela, para que a
+    # escolha seja comparada com ele e não apareça sozinha.
+    fora = candidatos[
+        (candidatos["grupo"] != vencedor["grupo"])
+        & (candidatos["modelo"] == vencedor["modelo"])
+        & candidatos["grupo"].map(lambda g: _tem_mercado_e_renda(grupos[g]))
+    ]
+    if not fora.empty:
+        rival = fora.iloc[0]
+        boot = avaliacao.estabilidade_bootstrap(
+            base, grupos[rival["grupo"]], str(rival["modelo"]), int(rival["k"]), n_bootstrap=60
+        )
+        linha = rival[["grupo", "nome_grupo", "nome_modelo", "k", "silhueta", "menor_cluster"]].to_dict()
+        linha.update(
+            estabilidade_bootstrap=float(boot.iloc[0]["rand_ajustado_medio"]),
+            responde_a_pergunta=False,
+            escolhido=False,
+        )
+        escolha = pd.concat([escolha, pd.DataFrame([linha])], ignore_index=True)
     return str(vencedor["grupo"]), str(vencedor["modelo"]), int(vencedor["k"]), escolha
 
 
@@ -132,6 +163,7 @@ def executar(forcar_download: bool = False, k_maximo: int = config.K_MAXIMO) -> 
     candidatos = varredura[
         varredura.apply(lambda r: r["k"] == cotovelos[r["grupo"]], axis=1)
         & (varredura["menor_cluster"] >= MINIMO_POR_CLUSTER)
+        & (varredura["maior_cluster_pct"] <= MAXIMO_POR_CLUSTER_PCT)
     ].copy()
     candidatos["k_cotovelo"] = candidatos["grupo"].map(cotovelos)
     candidatos = candidatos.sort_values("silhueta", ascending=False).reset_index(drop=True)
@@ -159,11 +191,13 @@ def executar(forcar_download: bool = False, k_maximo: int = config.K_MAXIMO) -> 
     _salvar_tabela(comparacao_final, "11_baselines_modelo_final")
     graficos.grafico_baselines(comparacao_final)
 
-    print("[6/8] robustez: sementes, bootstrap e ablação")
+    print("[6/8] robustez: sementes, reamostragem, metades treino/teste e ablação")
     sementes = avaliacao.estabilidade_sementes(base, variaveis_finais, modelo_final, k_final)
     _salvar_tabela(sementes, "12_estabilidade_sementes")
     bootstrap = avaliacao.estabilidade_bootstrap(base, variaveis_finais, modelo_final, k_final)
     _salvar_tabela(bootstrap, "13_estabilidade_bootstrap")
+    metades = avaliacao.validacao_metades(base, variaveis_finais, modelo_final, k_final)
+    _salvar_tabela(metades, "13b_validacao_metades")
     tabela_ablacao = avaliacao.ablacao(base, variaveis_finais, modelo_final, k_final)
     _salvar_tabela(tabela_ablacao, "14_ablacao")
     graficos.ablacao(tabela_ablacao)
@@ -191,7 +225,8 @@ def executar(forcar_download: bool = False, k_maximo: int = config.K_MAXIMO) -> 
     _salvar_tabela(perfil.composicao_geografica(base), "19_composicao_regiao")
     _salvar_tabela(perfil.composicao_porte(base), "20_composicao_porte")
     descritoras = perfil.media_por_cluster(
-        base, config.DESCRITORAS + ["populacao", "imobiliarias_10k", "veiculos_por_hab"]
+        base, config.DESCRITORAS
+        + ["populacao", "administradoras_10k", "imobiliarias_10k", "veiculos_por_hab"]
     )
     _salvar_tabela(descritoras, "21_descritoras_por_cluster")
     valor = perfil.tabela_valor_loft(perfil_z, nomes, tamanhos)
@@ -201,6 +236,8 @@ def executar(forcar_download: bool = False, k_maximo: int = config.K_MAXIMO) -> 
     robustez_denominador = diagnostico.robustez_denominador(base)
     _salvar_tabela(robustez_denominador, "23_robustez_denominador")
     _salvar_tabela(diagnostico.tabela_volumes(base), "24_volumes_nacionais")
+
+    validacao_anuncios = anuncios.validar(base)
 
     graficos.heatmap_perfil(perfil_z, nomes)
     graficos.radar(perfil_z, nomes)
@@ -228,6 +265,8 @@ def executar(forcar_download: bool = False, k_maximo: int = config.K_MAXIMO) -> 
         comparacao_final=comparacao_final,
         sementes=sementes,
         bootstrap=bootstrap,
+        metades=metades,
+        validacao_anuncios=validacao_anuncios,
         ablacao=tabela_ablacao,
         diferenca_silhueta=diferenca_silhueta,
         robustez_denominador=robustez_denominador,

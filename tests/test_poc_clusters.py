@@ -145,7 +145,7 @@ def test_ablacao_mede_queda_ao_remover_variavel():
 def test_nomes_dos_clusters_sao_unicos_e_descrevem_o_perfil():
     perfil_z = pd.DataFrame(
         {
-            "administradoras_10k": [1.4, -0.8, -0.3],
+            "imobiliarias_loft_10k": [1.4, -0.8, -0.3],
             "imobiliarias_novas_pct": [0.0, -1.2, 1.7],
             "pix_pf_por_hab": [1.1, -1.1, -0.9],
             "cadunico_pct": [-0.8, 1.2, 0.9],
@@ -163,7 +163,7 @@ def test_nomes_dos_clusters_sao_unicos_e_descrevem_o_perfil():
 
 def test_tabela_de_valor_cobre_todos_os_clusters():
     perfil_z = pd.DataFrame(
-        {"administradoras_10k": [1.4, -0.8], "pix_pf_por_hab": [1.1, -1.1], "cadunico_pct": [-0.8, 1.2],
+        {"imobiliarias_loft_10k": [1.4, -0.8], "pix_pf_por_hab": [1.1, -1.1], "cadunico_pct": [-0.8, 1.2],
          "internet_movel_100": [1.0, -1.4], "banda_larga_100": [1.1, -1.2],
          "imobiliarias_novas_pct": [0.0, -1.2]},
         index=pd.Index([0, 1], name="cluster"),
@@ -319,7 +319,7 @@ def test_todo_nome_de_cluster_tem_leitura_de_negocio():
 
     perfis_possiveis = pd.DataFrame(
         {
-            "administradoras_10k": [1.4, -0.7, -0.3, -0.8, 0.0, 0.6],
+            "imobiliarias_loft_10k": [1.4, -0.7, -0.3, -0.8, 0.0, 0.6],
             "imobiliarias_novas_pct": [0.0, 1.7, 0.0, -1.2, 0.0, 0.0],
             "pix_pf_por_hab": [1.1, -0.9, 0.2, -1.1, 0.0, -0.9],
             "cadunico_pct": [-0.8, 0.9, 0.5, 1.2, 0.0, -0.5],
@@ -337,3 +337,17 @@ def test_todo_nome_de_cluster_tem_leitura_de_negocio():
     assert tabela["o_que_significa_para_a_fianca"].notna().all()
     assert tabela["acao_de_marketing_sugerida"].str.len().gt(30).all()
     assert not tabela["o_que_significa_para_a_fianca"].eq("").any()
+
+
+def test_validacao_metades_reconhece_grupos_reais_e_rejeita_ruido():
+    """Metade treino, metade teste: grupos verdadeiros se repetem, ruído puro não."""
+    gerador = np.random.default_rng(42)
+    centros = [(-3, -3), (0, 3), (3, -3)]
+    blocos = [gerador.normal(c, 0.5, size=(80, 2)) for c in centros]
+    separados = pd.DataFrame(np.vstack(blocos) + 10, columns=["imobiliarias_loft_10k", "pix_pf_por_hab"])
+    ruido = pd.DataFrame(gerador.normal(10, 1, size=(240, 2)), columns=separados.columns)
+    variaveis = list(separados.columns)
+    real = avaliacao.validacao_metades(separados, variaveis, "kmeans", 3, n_repeticoes=5)
+    falso = avaliacao.validacao_metades(ruido, variaveis, "kmeans", 3, n_repeticoes=5)
+    assert real.iloc[0]["rand_ajustado_medio"] > 0.9
+    assert real.iloc[0]["rand_ajustado_medio"] > falso.iloc[0]["rand_ajustado_medio"]

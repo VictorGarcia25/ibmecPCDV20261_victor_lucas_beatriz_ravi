@@ -168,6 +168,81 @@ def estabilidade_bootstrap(
     )
 
 
+def _ajustar_metade(treino: pd.DataFrame, variaveis: list[str], nome_modelo: str, k: int):
+    """Aprende winsorização, log, padronização e centros só com a metade de treino."""
+    limites = {
+        v: (treino[v].quantile(descritiva.QUANTIL_WINSOR), treino[v].quantile(1 - descritiva.QUANTIL_WINSOR))
+        for v in variaveis
+    }
+    tratada = treino[variaveis].copy()
+    for v, (inferior, superior) in limites.items():
+        tratada[v] = tratada[v].clip(inferior, superior)
+    variaveis_log = descritiva.variaveis_com_log(tratada, variaveis)
+    preparo = clustering.construir_preparo(variaveis, variaveis_log).fit(tratada)
+    matriz = np.asarray(preparo.transform(tratada))
+    rotulos = clustering.rotular(matriz, nome_modelo, k)
+    presentes = np.unique(rotulos)
+    centros = np.vstack([matriz[rotulos == c].mean(axis=0) for c in presentes])
+
+    def classificar(outra: pd.DataFrame) -> np.ndarray:
+        dados = outra[variaveis].copy()
+        for v, (inferior, superior) in limites.items():
+            dados[v] = dados[v].clip(inferior, superior)
+        pontos = np.asarray(preparo.transform(dados))
+        distancias = ((pontos[:, None, :] - centros[None, :, :]) ** 2).sum(axis=2)
+        return presentes[distancias.argmin(axis=1)]
+
+    return classificar
+
+
+def validacao_metades(
+    base: pd.DataFrame,
+    variaveis: list[str],
+    nome_modelo: str,
+    k: int,
+    n_repeticoes: int = 50,
+) -> pd.DataFrame:
+    """Validação metade treino, metade teste: o agrupamento se repete em municípios novos?
+
+    Em cada repetição os municípios são sorteados em duas metades. O modelo aprende tudo na
+    metade de treino (cortes da winsorização, log, padronização e centros dos clusters) e
+    classifica a metade de teste sem nunca ter visto esses municípios. Em paralelo, a metade
+    de teste é clusterizada sozinha. Se o Rand ajustado entre as duas leituras da metade de
+    teste for alto, os tipos de praça são estrutura real dos dados, não sorte da amostra.
+    As metades trocam de papel, então cada sorteio gera duas comparações.
+    """
+    gerador = np.random.default_rng(config.SEMENTE)
+    n = len(base)
+    resultados = []
+    for _ in range(n_repeticoes):
+        ordem = gerador.permutation(n)
+        metade_1 = base.iloc[ordem[: n // 2]].reset_index(drop=True)
+        metade_2 = base.iloc[ordem[n // 2 :]].reset_index(drop=True)
+        for treino, teste in ((metade_1, metade_2), (metade_2, metade_1)):
+            classificar = _ajustar_metade(treino, variaveis, nome_modelo, k)
+            previstos = classificar(teste)
+            matriz_teste, _ = clustering.preparar_matriz(teste, variaveis)
+            proprios = clustering.rotular(matriz_teste, nome_modelo, k)
+            resultados.append(float(adjusted_rand_score(proprios, previstos)))
+
+    serie = pd.Series(resultados)
+    return pd.DataFrame(
+        [
+            {
+                "modelo": clustering.NOMES_MODELOS[nome_modelo],
+                "k": k,
+                "metodo": "metade treino, metade teste",
+                "n_sorteios": n_repeticoes,
+                "n_comparacoes": len(serie),
+                "rand_ajustado_medio": round(float(serie.mean()), 4),
+                "rand_ajustado_desvio": round(float(serie.std()), 4),
+                "rand_ajustado_p5": round(float(serie.quantile(0.05)), 4),
+                "rand_ajustado_p95": round(float(serie.quantile(0.95)), 4),
+            }
+        ]
+    )
+
+
 def diferenca_silhueta(
     base: pd.DataFrame,
     configuracoes: list[tuple[str, list[str], str, int]],

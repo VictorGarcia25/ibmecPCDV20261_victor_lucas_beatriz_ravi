@@ -27,6 +27,7 @@ def escrever(p: dict) -> None:
     silhueta_aleatorio = comparacao[comparacao["agrupamento"].str.contains("aleatório")].iloc[0]
     bootstrap = p["bootstrap"].iloc[0]
     sementes = p["sementes"]
+    metades = p["metades"].iloc[0]
 
     populacao_brasil = diagnostico.populacao_brasil() or base["populacao"].sum()
     ev_pix = diagnostico.evidencia_pix()
@@ -149,9 +150,10 @@ k do cotovelo por grupo: {', '.join(f'{g} = {k}' for g, k in p['cotovelos'].item
 
 Configuração escolhida: **grupo {grupo} ({config.NOMES_GRUPOS[grupo]}), modelo
 {clustering.NOMES_MODELOS[p['modelo_final']]}, k = {p['k_final']}**. O critério está detalhado
-logo abaixo: entre os grupos que respondem à pergunta de negócio e têm todos os clusters acima
-de 20 municípios, vale a maior silhueta; quando a diferença de silhueta é menor que 0,02, o
-desempate é a estabilidade no bootstrap.
+logo abaixo: entre os grupos que respondem à pergunta de negócio (mercado imobiliário,
+capacidade de pagamento **e** alcance digital, porque a pergunta é sobre mídia paga), com todos
+os clusters acima de 20 municípios e nenhum acima de 40% deles, vale a maior silhueta; quando
+a diferença de silhueta é menor que 0,02, o desempate é a estabilidade na reamostragem.
 
 {_md(p['candidatos'], ['grupo', 'nome_grupo', 'nome_modelo', 'k', 'silhueta', 'davies_bouldin', 'calinski_harabasz', 'menor_cluster'])}
 
@@ -186,6 +188,12 @@ Comparação dos quatro grupos contra os baselines: tabela `10_baselines_por_gru
   faixa de {bootstrap['rand_ajustado_p5']:.3f} a {bootstrap['rand_ajustado_p95']:.3f}).
   A reamostragem é sem reposição de propósito: com reposição, os municípios duplicados ficam a
   distância zero um do outro e inflam a concordância entre rodadas.
+- **Metade treino, metade teste** ({metades['n_comparacoes']} comparações): os municípios são
+  sorteados em duas metades; o modelo aprende cortes, log, padronização e centros só numa
+  metade e classifica a outra, que nunca viu. Comparado com o agrupamento que a metade de
+  teste forma sozinha, o Rand ajustado médio é **{metades['rand_ajustado_medio']:.3f}** (faixa de
+  {metades['rand_ajustado_p5']:.3f} a {metades['rand_ajustado_p95']:.3f}). Os tipos de praça se
+  repetem em municípios que o modelo não conhecia.
 - **Sementes**: {len(sementes)} sementes diferentes, Rand ajustado médio contra a solução de
   referência de **{sementes['rand_ajustado_vs_referencia'].mean():.3f}** (mínimo
   {sementes['rand_ajustado_vs_referencia'].min():.3f}).
@@ -194,6 +202,8 @@ Comparação dos quatro grupos contra os baselines: tabela `10_baselines_por_gru
 {_md(p['ablacao'], ['rotulo', 'silhueta_sem_ela', 'silhueta_completa', 'variacao', 'rand_ajustado_vs_completo'])}
 
 {_leitura_ablacao(p['ablacao'])}
+
+{_leitura_anuncios(p.get('validacao_anuncios'))}
 
 ### 6.1 A taxa de empresas novas não é artefato de base pequena
 
@@ -251,18 +261,18 @@ Os dez maiores municípios de cada cluster estão em `18_top_municipios.csv`.
 
 ## 9. Limitações
 
-1. **Sem dado interno da Loft.** Não há receita, CAC, taxa de conversão nem sinistro de fiança
-   por praça. O agrupamento descreve o mercado, não o desempenho da Loft nele. Só o dado
-   interno transforma "praça promissora" em "praça rentável".
+1. **Ainda sem dado de mídia da Loft.** Já usamos a regra de CNAE e a base de anúncios da Loft,
+   mas não há investimento, MQL, cadastro nem sinistro por praça. O agrupamento descreve o
+   mercado, não o desempenho da Loft nele.
 2. **Os grupos não são naturais.** A silhueta cai com k e o melhor valor puro é k = 2. Os
    clusters são um **corte útil de um contínuo**, não fronteiras que existem na natureza. A
    defesa deles é a comparação com os baselines, não a separação absoluta.
 3. **Efeito de sede na fonte.** ESTBAN e telefonia móvel registram a operação onde a empresa
    está sediada. Tratamos com winsorização e com o filtro de pessoa física, mas o viés não
    desaparece: praças que sediam banco ou operadora continuam distorcidas.
-4. **CNAE não é produto.** CNAE 6821 e 6822 não distinguem locação de venda nem contrato
-   residencial de temporada. Por isso as praças de veraneio aparecem com densidade altíssima de
-   imobiliária sem serem mercado de fiança.
+4. **CNAE não é produto.** Usamos o filtro da Loft (CNAE principal 6821801, 6821802 e 6822600,
+   empresa ativa), mas o CNAE não distingue contrato residencial de temporada nem diz se a
+   imobiliária usa garantia locatícia.
 5. **Base dos Dados tem defasagem no acesso gratuito.** CNPJ e CAGED só liberam até 2026-01 sem
    assinatura, embora a fonte original esteja mais adiantada.
 6. **Google Trends não desce a município**, então a intenção de busca por fiança só existe como
@@ -274,22 +284,25 @@ Os dez maiores municípios de cada cluster estão em `18_top_municipios.csv`.
    corta os casos extremos, mas a variável continua sendo a menos precisa do conjunto.
 9. **O FipeZap cobre poucas cidades.** Como descritora, ele fica vazio nos clusters formados por
    municípios pequenos, então não serve para comparar todos os grupos entre si.
-10. **A escolha entre C e D é um julgamento, não um resultado automático.** C separa melhor por
-    uma margem pequena mas estatisticamente real; D é muito mais estável. Trocamos separação por
-    reprodutibilidade porque a decisão será repetida, e isso está registrado na seção 4 para
-    quem quiser decidir diferente.
+10. **A escolha do grupo D é um julgamento de negócio, não um resultado automático.** C separa
+    um pouco melhor, mas não tem alcance digital, que a decisão de mídia paga exige. O
+    critério está registrado na seção 4 para quem quiser decidir diferente.
+11. **A base de anúncios é incompleta.** Cobre só parte dos municípios, quase nada do Norte e do
+    Nordeste, e mudou de coleta em 2024. Serve como validação, não como variável.
 
 ## 10. Próximos passos
 
-1. **Cruzar com o dado interno da Loft**: receita e sinistro de fiança por município,
-   transformando os clusters em faixas de retorno esperado por real investido.
-2. **Separar locação de venda** nos estabelecimentos, usando CNAE secundária e razão social,
-   para isolar a praça de temporada da praça de locação residencial.
-3. **Testar de verdade**: escolher dois municípios por cluster, rodar a mesma campanha e medir
+1. **Cruzar com os dados de mídia da Loft** (investimento, MQL e cadastro, agregados por data,
+   canal e campanha) e calcular o **custo do próximo MQL por tipo de praça**.
+2. **Quantificar a realocação**: quanto investimento sai de praças de baixa propensão e quantos
+   MQLs a mais essa verba gera nas outras.
+3. **Otimização de orçamento**: dado um orçamento mensal, recomendar a divisão entre canais,
+   campanhas e praças. A metodologia vale para outros produtos da Loft além da fiança.
+4. **Testar de verdade**: escolher dois municípios por cluster, rodar a mesma campanha e medir
    custo por lead qualificado. É o que valida se o cluster prediz desempenho de mídia.
-4. **Cobrir a intenção de busca** por município via Google Ads Keyword Planner, que tem
+5. **Cobrir a intenção de busca** por município via Google Ads Keyword Planner, que tem
    granularidade melhor que o Trends.
-5. **Repetir de forma mensal** com os mesmos scripts, acompanhando a migração de municípios
+6. **Repetir de forma mensal** com os mesmos scripts, acompanhando a migração de municípios
    entre clusters como sinal antecedente de mercado em formação.
 
 ## 11. Como reproduzir
@@ -410,74 +423,71 @@ def _veredito_hipotese(p: dict) -> str:
     escolha = p["escolha"]
     melhor_geral = candidatos.iloc[0]
     vencedor = escolha[escolha["escolhido"]].iloc[0]
+    rivais = escolha[~escolha["escolhido"]]
 
     texto = (
         f"na silhueta pura, quem ganha é o grupo {melhor_geral['grupo']} "
         f"({config.NOMES_GRUPOS[str(melhor_geral['grupo'])]}), com "
-        f"{melhor_geral['silhueta']:.3f}. Isso **não** significa que ele seja o melhor modelo. "
-        "A silhueta premia espaços com menos variáveis e mais redundantes, porque ali é mais "
-        "fácil achar corte limpo; e os grupos A e B, sozinhos, não respondem à pergunta do "
-        "projeto: um só tem mercado e o outro só tem renda, e ninguém decide onde vender fiança "
-        "olhando apenas um dos dois lados.\n\n"
-        "Por isso a escolha final ficou restrita aos grupos que têm ao menos uma variável de "
-        "mercado imobiliário **e** uma de capacidade de pagamento, ou seja C e D. Entre eles:\n\n"
-        f"{_md(escolha, ['grupo', 'nome_grupo', 'nome_modelo', 'k', 'silhueta', 'estabilidade_bootstrap'])}\n\n"
+        f"{melhor_geral['silhueta']:.3f}. Isso **não** faz dele o melhor modelo: a silhueta "
+        "premia espaços com menos variáveis e mais redundantes, e um grupo só de renda ou só de "
+        "mercado não diz onde vender fiança.\n\n"
+        "Depois da reunião com a Loft o critério ficou explícito em três regras de negócio, "
+        "decididas antes de olhar qual grupo venceria: (1) o grupo precisa ter mercado, "
+        "capacidade de pagamento **e** alcance digital, porque a pergunta é onde pôr mídia "
+        "paga e sem alcance não se sabe se o real investido chega a alguém; (2) nenhuma praça "
+        "pode ter mais de 40% dos municípios, senão ela vira \"o resto do Brasil\" e não "
+        "orienta verba; (3) todo cluster precisa de pelo menos 20 municípios.\n\n"
+        f"{_md(escolha, ['grupo', 'nome_grupo', 'nome_modelo', 'k', 'silhueta', 'estabilidade_bootstrap', 'escolhido'])}\n\n"
     )
+    if rivais.empty:
+        return texto + f"Só o grupo {vencedor['grupo']} atende às três regras."
+
+    rival = rivais.iloc[0]
     diferenca = p.get("diferenca_silhueta")
-    if str(vencedor["grupo"]) == "D":
-        silhueta_c = float(escolha[escolha["grupo"] == "C"]["silhueta"].iloc[0])
-        estabilidade_c = float(escolha[escolha["grupo"] == "C"]["estabilidade_bootstrap"].iloc[0])
-        texto += (
-            f"C tem silhueta um pouco maior ({silhueta_c:.3f} contra {float(vencedor['silhueta']):.3f}). "
-            "Antes de decidir por isso, essa vantagem foi testada: reamostrando os municípios "
-            "200 vezes, refazendo o preparo dentro de cada subamostra e recalculando a silhueta "
-            "das duas configurações sobre os mesmos municípios.\n\n"
-            f"{_md(diferenca) if diferenca is not None and not diferenca.empty else '(teste não executado)'}\n\n"
-        )
-        vantagem_silhueta = abs(silhueta_c - float(vencedor["silhueta"]))
-        vantagem_estabilidade = float(vencedor["estabilidade_bootstrap"]) - estabilidade_c
-        if diferenca is not None and not diferenca.empty:
-            linha = diferenca.iloc[0]
-            if bool(linha["diferenca_significativa"]):
-                texto += (
-                    f"O intervalo de 95% da diferença vai de {linha['intervalo_95_inferior']:+.4f} "
-                    f"a {linha['intervalo_95_superior']:+.4f} e **não inclui o zero**: a vantagem "
-                    "de C em separação é real, não é ruído. Mas é preciso olhar o tamanho dela.\n\n"
-                )
-            else:
-                texto += (
-                    f"O intervalo de 95% da diferença vai de {linha['intervalo_95_inferior']:+.4f} "
-                    f"a {linha['intervalo_95_superior']:+.4f} e **inclui o zero**, logo as duas "
-                    "configurações são estatisticamente equivalentes em separação.\n\n"
-                )
-        texto += (
-            f"A vantagem de C em silhueta é de {vantagem_silhueta:.3f}. Para comparar, a vantagem "
-            f"do próprio agrupamento sobre o baseline de geografia é de cerca de "
-            f"{silhueta_cluster_menos_baseline(p):.3f}, ou seja a diferença entre C e D é uma "
-            "fração pequena do que está em jogo.\n\n"
-            "Já a diferença de estabilidade vai na direção oposta e é maior: sob subamostragem o "
-            f"Rand ajustado de C é {estabilidade_c:.3f} contra "
-            f"{float(vencedor['estabilidade_bootstrap']):.3f} de D, uma distância de "
-            f"{vantagem_estabilidade:.3f}. Os clusters de C mudam de composição quando se troca "
-            "um quinto dos municípios; os de D não.\n\n"
-            "O critério aplicado foi esse: trocar "
-            f"{vantagem_silhueta:.3f} de separação por {vantagem_estabilidade:.3f} de "
-            "reprodutibilidade, porque a decisão de mídia vai ser refeita mês a mês e um "
-            "agrupamento que se reorganiza a cada rodada não sustenta plano de verba.\n\n"
-            "**Veredito: a hipótese de que o grupo D é o melhor se sustenta**, não porque D separa "
-            "mais, e sim porque D separa de forma reprodutível. Acrescentar alcance digital não "
-            f"aumenta a separação, e a razão aparece na descritiva: {_menos_dispersa(p)} "
-            "Ou seja, o alcance digital quase não distingue uma praça da outra, porque "
-            "praticamente todo município de 50 mil habitantes ou mais já tem cobertura. O que "
-            "essas variáveis fazem é **estabilizar** a solução e trazer para o modelo a dimensão "
-            "em que a decisão de mídia é executada."
-        )
-    else:
-        texto += (
-            f"**Veredito: a hipótese não se sustenta.** O grupo {vencedor['grupo']} venceu tanto "
-            "em silhueta quanto em estabilidade no bootstrap."
-        )
+    texto += (
+        f"O concorrente mais forte fora do critério é o grupo {rival['grupo']}, sem variável de "
+        f"alcance digital. Ele separa um pouco mais ({float(rival['silhueta']):.3f} contra "
+        f"{float(vencedor['silhueta']):.3f}). Reamostrando os municípios 200 vezes e refazendo "
+        "o preparo dentro de cada subamostra:\n\n"
+        f"{_md(diferenca) if diferenca is not None and not diferenca.empty else '(teste não executado)'}\n\n"
+    )
+    estabilidade_v = float(vencedor["estabilidade_bootstrap"])
+    estabilidade_r = float(rival["estabilidade_bootstrap"])
+    comparacao = "maior" if estabilidade_v > estabilidade_r else "menor"
+    texto += (
+        f"Na estabilidade, {vencedor['grupo']} fica com {estabilidade_v:.3f} contra "
+        f"{estabilidade_r:.3f} de {rival['grupo']} ({comparacao}). A vantagem de "
+        f"{rival['grupo']} em separação é pequena perto da vantagem do próprio agrupamento "
+        f"sobre a geografia (cerca de {silhueta_cluster_menos_baseline(p):.3f}).\n\n"
+        f"**Veredito: mantemos o grupo {vencedor['grupo']}.** Não porque ele vence todas as "
+        "métricas, e sim porque é o único que tem as três dimensões que a decisão de mídia "
+        "paga exige, continua muito acima dos baselines e se reproduz bem em amostras novas. "
+        f"O alcance digital quase não separa praças ({_menos_dispersa(p)}), mas traz para o "
+        "modelo a dimensão em que a verba é executada."
+    )
     return texto
+
+
+def _leitura_anuncios(validacao: dict | None) -> str:
+    """Só estatísticas do teste: os volumes de anúncios são dado interno da Loft."""
+    if not validacao:
+        return (
+            "- **Validação externa com anúncios**: não executada, porque a base de anúncios da Loft "
+            "não está em data/raw."
+        )
+    r = validacao["resumo"].iloc[0]
+    ordem = " > ".join(validacao["por_praca"]["nome_cluster"])
+    return (
+        f"- **Validação externa com os anúncios dos portais (base da Loft, {r['janela']})**: o "
+        f"volume de anúncios de aluguel por habitante segue a ordem {ordem} "
+        f"(Kruskal-Wallis H = {r['kruskal_wallis_h']:.1f}, p < 0,001). A base cobre "
+        f"{r['municipios_com_anuncio']} dos {r['municipios_total']} municípios. Controlando por "
+        f"região e porte, o cluster acrescenta pouco ao volume de anúncios (R² ajustado de "
+        f"{r['r2_regiao_e_porte']:.3f} para {r['r2_com_o_cluster']:.3f}): ele ordena o mercado, "
+        "mas o tamanho do mercado anunciado é explicado sobretudo por porte e região. Os anúncios "
+        "ficaram fora do modelo de propósito, só como prova. Os volumes ficam em reports/interno, "
+        "fora do repositório."
+    )
 
 
 def _leitura_incremental(tabela: pd.DataFrame) -> str:

@@ -14,3 +14,7 @@ data/external/*
 # O roteiro da fala e pessoal, nao vai para o repositorio
 reports/roteiro_da_fala.md
 reports/roteiro*.md
+
+# Dados internos da Loft e tabelas derivadas deles: nunca vão para o GitHub
+reports/interno/
+bq-results-*.csv

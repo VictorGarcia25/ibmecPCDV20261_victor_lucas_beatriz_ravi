@@ -1,0 +1,688 @@
+id_municipio,municipio,sigla_uf,tipo_de_praca_apresentado
+1100023,Ariquemes,RO,Praça popular de grande porte
+1100049,Cacoal,RO,Praça intermediária conectada
+1100114,Jaru,RO,Praça popular de grande porte
+1100122,Ji-Paraná,RO,Praça popular de grande porte
+1100205,Porto Velho,RO,Praça popular de grande porte
+1100288,Rolim de Moura,RO,Praça popular de grande porte
+1100304,Vilhena,RO,Praça popular de grande porte
+1200203,Cruzeiro do Sul,AC,Praça em formação
+1200401,Rio Branco,AC,Praça popular de grande porte
+1301209,Coari,AM,Praça sem mercado formal
+1301704,Humaitá,AM,Praça em formação
+1301852,Iranduba,AM,Praça sem mercado formal
+1301902,Itacoatiara,AM,Praça em formação
+1302405,Lábrea,AM,Praça sem mercado formal
+1302504,Manacapuru,AM,Praça sem mercado formal
+1302603,Manaus,AM,Praça popular de grande porte
+1302702,Manicoré,AM,Praça sem mercado formal
+1302900,Maués,AM,Praça sem mercado formal
+1303403,Parintins,AM,Praça em formação
+1303809,São Gabriel da Cachoeira,AM,Praça sem mercado formal
+1304062,Tabatinga,AM,Praça sem mercado formal
+1304203,Tefé,AM,Praça sem mercado formal
+1400100,Boa Vista,RR,Praça popular de grande porte
+1500107,Abaetetuba,PA,Praça em formação
+1500206,Acará,PA,Praça sem mercado formal
+1500404,Alenquer,PA,Praça sem mercado formal
+1500602,Altamira,PA,Praça popular de grande porte
+1500800,Ananindeua,PA,Praça popular de grande porte
+1501204,Baião,PA,Praça sem mercado formal
+1501303,Barcarena,PA,Praça popular de grande porte
+1501402,Belém,PA,Praça popular de grande porte
+1501501,Benevides,PA,Praça em formação
+1501709,Bragança,PA,Praça sem mercado formal
+1501808,Breves,PA,Praça em formação
+1502103,Cametá,PA,Praça sem mercado formal
+1502152,Canaã dos Carajás,PA,Praça popular de grande porte
+1502202,Capanema,PA,Praça sem mercado formal
+1502301,Capitão Poço,PA,Praça sem mercado formal
+1502400,Castanhal,PA,Praça popular de grande porte
+1502939,Dom Eliseu,PA,Praça em formação
+1503309,Igarapé-Miri,PA,Praça sem mercado formal
+1503606,Itaituba,PA,Praça popular de grande porte
+1503705,Itupiranga,PA,Praça sem mercado formal
+1503903,Juruti,PA,Praça sem mercado formal
+1504208,Marabá,PA,Praça popular de grande porte
+1504422,Marituba,PA,Praça sem mercado formal
+1504703,Moju,PA,Praça sem mercado formal
+1504802,Monte Alegre,PA,Praça sem mercado formal
+1504901,Muaná,PA,Praça sem mercado formal
+1505064,Novo Repartimento,PA,Praça em formação
+1505106,Óbidos,PA,Praça em formação
+1505304,Oriximiná,PA,Praça em formação
+1505502,Paragominas,PA,Praça popular de grande porte
+1505536,Parauapebas,PA,Praça popular de grande porte
+1505809,Portel,PA,Praça sem mercado formal
+1506138,Redenção,PA,Praça popular de grande porte
+1506187,Rondon do Pará,PA,Praça em formação
+1506500,Santa Izabel do Pará,PA,Praça sem mercado formal
+1506807,Santarém,PA,Praça popular de grande porte
+1507300,São Félix do Xingu,PA,Praça sem mercado formal
+1507607,São Miguel do Guamá,PA,Praça sem mercado formal
+1507953,Tailândia,PA,Praça popular de grande porte
+1508001,Tomé-Açu,PA,Praça sem mercado formal
+1508100,Tucuruí,PA,Praça popular de grande porte
+1508209,Vigia,PA,Praça sem mercado formal
+1508308,Viseu,PA,Praça sem mercado formal
+1508407,Xinguara,PA,Praça popular de grande porte
+1600303,Macapá,AP,Praça popular de grande porte
+1600600,Santana,AP,Praça popular de grande porte
+1702109,Araguaína,TO,Praça popular de grande porte
+1709500,Gurupi,TO,Praça popular de grande porte
+1716109,Paraíso do Tocantins,TO,Praça popular de grande porte
+1718204,Porto Nacional,TO,Praça popular de grande porte
+1721000,Palmas,TO,Praça madura de locação
+2100055,Açailândia,MA,Praça popular de grande porte
+2101202,Bacabal,MA,Praça em formação
+2101400,Balsas,MA,Praça popular de grande porte
+2101608,Barra do Corda,MA,Praça em formação
+2101707,Barreirinhas,MA,Praça em formação
+2102325,Buriticupu,MA,Praça sem mercado formal
+2103000,Caxias,MA,Praça sem mercado formal
+2103208,Chapadinha,MA,Praça em formação
+2103307,Codó,MA,Praça sem mercado formal
+2103604,Coroatá,MA,Praça sem mercado formal
+2104800,Grajaú,MA,Praça em formação
+2105302,Imperatriz,MA,Praça popular de grande porte
+2105401,Itapecuru Mirim,MA,Praça sem mercado formal
+2107506,Paço do Lumiar,MA,Praça em formação
+2108603,Pinheiro,MA,Praça sem mercado formal
+2109908,Santa Inês,MA,Praça em formação
+2110005,Santa Luzia,MA,Praça sem mercado formal
+2111201,São José de Ribamar,MA,Praça sem mercado formal
+2111300,São Luís,MA,Praça madura de locação
+2112209,Timon,MA,Praça sem mercado formal
+2112506,Tutóia,MA,Praça sem mercado formal
+2112803,Viana,MA,Praça sem mercado formal
+2200400,Altos,PI,Praça em formação
+2203909,Floriano,PI,Praça popular de grande porte
+2207702,Parnaíba,PI,Praça popular de grande porte
+2208007,Picos,PI,Praça popular de grande porte
+2208403,Piripiri,PI,Praça em formação
+2211001,Teresina,PI,Praça popular de grande porte
+2300200,Acaraú,CE,Praça sem mercado formal
+2301000,Aquiraz,CE,Praça popular de grande porte
+2301109,Aracati,CE,Praça popular de grande porte
+2301901,Barbalha,CE,Praça sem mercado formal
+2302206,Beberibe,CE,Praça sem mercado formal
+2302404,Boa Viagem,CE,Praça sem mercado formal
+2302503,Brejo Santo,CE,Praça em formação
+2302602,Camocim,CE,Praça sem mercado formal
+2302800,Canindé,CE,Praça em formação
+2303501,Cascavel,CE,Praça em formação
+2303709,Caucaia,CE,Praça em formação
+2304103,Crateús,CE,Praça em formação
+2304202,Crato,CE,Praça em formação
+2304285,Eusébio,CE,Praça madura de locação
+2304400,Fortaleza,CE,Praça madura de locação
+2304707,Granja,CE,Praça sem mercado formal
+2305233,Horizonte,CE,Praça popular de grande porte
+2305407,Icó,CE,Praça sem mercado formal
+2305506,Iguatu,CE,Praça popular de grande porte
+2306256,Itaitinga,CE,Praça em formação
+2306405,Itapipoca,CE,Praça em formação
+2307304,Juazeiro do Norte,CE,Praça popular de grande porte
+2307601,Limoeiro do Norte,CE,Praça popular de grande porte
+2307650,Maracanaú,CE,Praça popular de grande porte
+2307700,Maranguape,CE,Praça sem mercado formal
+2308708,Morada Nova,CE,Praça sem mercado formal
+2309607,Pacajus,CE,Praça em formação
+2309706,Pacatuba,CE,Praça em formação
+2311306,Quixadá,CE,Praça em formação
+2311405,Quixeramobim,CE,Praça em formação
+2311801,Russas,CE,Praça sem mercado formal
+2312304,São Benedito,CE,Praça sem mercado formal
+2312403,São Gonçalo do Amarante,CE,Praça popular de grande porte
+2312908,Sobral,CE,Praça popular de grande porte
+2313302,Tauá,CE,Praça em formação
+2313401,Tianguá,CE,Praça sem mercado formal
+2313500,Trairi,CE,Praça sem mercado formal
+2314102,Viçosa do Ceará,CE,Praça em formação
+2400208,Assú,RN,Praça em formação
+2402006,Caicó,RN,Praça popular de grande porte
+2402600,Ceará-Mirim,RN,Praça sem mercado formal
+2403251,Parnamirim,RN,Praça intermediária conectada
+2403608,Extremoz,RN,Praça em formação
+2407104,Macaíba,RN,Praça em formação
+2408003,Mossoró,RN,Praça popular de grande porte
+2408102,Natal,RN,Praça madura de locação
+2412005,São Gonçalo do Amarante,RN,Praça em formação
+2412203,São José de Mipibu,RN,Praça sem mercado formal
+2501807,Bayeux,PB,Praça popular de grande porte
+2503209,Cabedelo,PB,Praça popular de grande porte
+2503704,Cajazeiras,PB,Praça em formação
+2504009,Campina Grande,PB,Praça popular de grande porte
+2506301,Guarabira,PB,Praça popular de grande porte
+2507507,João Pessoa,PB,Praça madura de locação
+2510808,Patos,PB,Praça popular de grande porte
+2512507,Queimadas,PB,Praça sem mercado formal
+2513703,Santa Rita,PB,Praça sem mercado formal
+2515302,Sapé,PB,Praça sem mercado formal
+2516201,Sousa,PB,Praça sem mercado formal
+2600054,Abreu e Lima,PE,Praça em formação
+2601102,Araripina,PE,Praça sem mercado formal
+2601201,Arcoverde,PE,Praça em formação
+2601706,Belo Jardim,PE,Praça sem mercado formal
+2601904,Bezerros,PE,Praça sem mercado formal
+2602605,Brejo da Madre de Deus,PE,Praça sem mercado formal
+2602803,Buíque,PE,Praça sem mercado formal
+2602902,Cabo de Santo Agostinho,PE,Praça popular de grande porte
+2603454,Camaragibe,PE,Praça popular de grande porte
+2604007,Carpina,PE,Praça popular de grande porte
+2604106,Caruaru,PE,Praça popular de grande porte
+2605202,Escada,PE,Praça sem mercado formal
+2606002,Garanhuns,PE,Praça popular de grande porte
+2606200,Goiana,PE,Praça popular de grande porte
+2606408,Gravatá,PE,Praça popular de grande porte
+2606804,Igarassu,PE,Praça em formação
+2607208,Ipojuca,PE,Praça popular de grande porte
+2607901,Jaboatão dos Guararapes,PE,Praça popular de grande porte
+2608909,Limoeiro,PE,Praça sem mercado formal
+2609402,Moreno,PE,Praça em formação
+2609600,Olinda,PE,Praça popular de grande porte
+2609907,Ouricuri,PE,Praça sem mercado formal
+2610004,Palmares,PE,Praça sem mercado formal
+2610608,Paudalho,PE,Praça sem mercado formal
+2610707,Paulista,PE,Praça popular de grande porte
+2610905,Pesqueira,PE,Praça em formação
+2611101,Petrolina,PE,Praça popular de grande porte
+2611606,Recife,PE,Praça madura de locação
+2612208,Salgueiro,PE,Praça sem mercado formal
+2612505,Santa Cruz do Capibaribe,PE,Praça popular de grande porte
+2613008,São Bento do Una,PE,Praça sem mercado formal
+2613701,São Lourenço da Mata,PE,Praça em formação
+2613909,Serra Talhada,PE,Praça em formação
+2614501,Surubim,PE,Praça sem mercado formal
+2616407,Vitória de Santo Antão,PE,Praça popular de grande porte
+2700300,Arapiraca,AL,Praça popular de grande porte
+2702306,Coruripe,AL,Praça em formação
+2702405,Delmiro Gouveia,AL,Praça sem mercado formal
+2704302,Maceió,AL,Praça popular de grande porte
+2704708,Marechal Deodoro,AL,Praça popular de grande porte
+2706307,Palmeira dos Índios,AL,Praça sem mercado formal
+2706703,Penedo,AL,Praça sem mercado formal
+2707701,Rio Largo,AL,Praça sem mercado formal
+2708600,São Miguel dos Campos,AL,Praça em formação
+2709301,União dos Palmares,AL,Praça sem mercado formal
+2800308,Aracaju,SE,Praça madura de locação
+2802106,Estância,SE,Praça sem mercado formal
+2802908,Itabaiana,SE,Praça popular de grande porte
+2803500,Lagarto,SE,Praça em formação
+2804805,Nossa Senhora do Socorro,SE,Praça em formação
+2806701,São Cristóvão,SE,Praça em formação
+2807402,Tobias Barreto,SE,Praça sem mercado formal
+2900702,Alagoinhas,BA,Praça popular de grande porte
+2902104,Araci,BA,Praça sem mercado formal
+2902708,Barra,BA,Praça em formação
+2903201,Barreiras,BA,Praça popular de grande porte
+2903904,Bom Jesus da Lapa,BA,Praça popular de grande porte
+2904605,Brumado,BA,Praça sem mercado formal
+2905206,Caetité,BA,Praça em formação
+2905701,Camaçari,BA,Praça popular de grande porte
+2906006,Campo Formoso,BA,Praça em formação
+2906501,Candeias,BA,Praça popular de grande porte
+2907202,Casa Nova,BA,Praça sem mercado formal
+2907509,Catu,BA,Praça sem mercado formal
+2908408,Conceição do Coité,BA,Praça em formação
+2909802,Cruz das Almas,BA,Praça em formação
+2910057,Dias d'Ávila,BA,Praça sem mercado formal
+2910701,Euclides da Cunha,BA,Praça sem mercado formal
+2910727,Eunápolis,BA,Praça popular de grande porte
+2910800,Feira de Santana,BA,Praça popular de grande porte
+2911709,Guanambi,BA,Praça popular de grande porte
+2913606,Ilhéus,BA,Praça popular de grande porte
+2914000,Ipirá,BA,Praça sem mercado formal
+2914604,Irecê,BA,Praça popular de grande porte
+2914703,Itaberaba,BA,Praça popular de grande porte
+2914802,Itabuna,BA,Praça popular de grande porte
+2915601,Itamaraju,BA,Praça popular de grande porte
+2916401,Itapetinga,BA,Praça sem mercado formal
+2917508,Jacobina,BA,Praça popular de grande porte
+2918001,Jequié,BA,Praça popular de grande porte
+2918407,Juazeiro,BA,Praça popular de grande porte
+2919207,Lauro de Freitas,BA,Praça madura de locação
+2919553,Luís Eduardo Magalhães,BA,Praça madura de locação
+2924009,Paulo Afonso,BA,Praça popular de grande porte
+2925105,Poções,BA,Praça sem mercado formal
+2925303,Porto Seguro,BA,Praça popular de grande porte
+2926608,Ribeira do Pombal,BA,Praça sem mercado formal
+2927408,Salvador,BA,Praça madura de locação
+2928604,Santo Amaro,BA,Praça em formação
+2928703,Santo Antônio de Jesus,BA,Praça popular de grande porte
+2928802,Santo Estêvão,BA,Praça popular de grande porte
+2930105,Senhor do Bonfim,BA,Praça popular de grande porte
+2930501,Serrinha,BA,Praça popular de grande porte
+2930709,Simões Filho,BA,Praça popular de grande porte
+2931350,Teixeira de Freitas,BA,Praça popular de grande porte
+2931905,Tucano,BA,Praça sem mercado formal
+2932903,Valença,BA,Praça em formação
+2933307,Vitória da Conquista,BA,Praça popular de grande porte
+3101607,Alfenas,MG,Praça intermediária conectada
+3103504,Araguari,MG,Praça intermediária conectada
+3104007,Araxá,MG,Praça intermediária conectada
+3105608,Barbacena,MG,Praça intermediária conectada
+3106200,Belo Horizonte,MG,Praça madura de locação
+3106705,Betim,MG,Praça intermediária conectada
+3107406,Bom Despacho,MG,Praça intermediária conectada
+3111200,Campo Belo,MG,Praça popular de grande porte
+3113404,Caratinga,MG,Praça intermediária conectada
+3115300,Cataguases,MG,Praça intermediária conectada
+3118007,Congonhas,MG,Praça intermediária conectada
+3118304,Conselheiro Lafaiete,MG,Praça intermediária conectada
+3118601,Contagem,MG,Praça madura de locação
+3119401,Coronel Fabriciano,MG,Praça intermediária conectada
+3120904,Curvelo,MG,Praça popular de grande porte
+3122306,Divinópolis,MG,Praça intermediária conectada
+3124104,Esmeraldas,MG,Praça em formação
+3125101,Extrema,MG,Praça madura de locação
+3126109,Formiga,MG,Praça intermediária conectada
+3127107,Frutal,MG,Praça intermediária conectada
+3127701,Governador Valadares,MG,Praça madura de locação
+3128709,Guaxupé,MG,Praça intermediária conectada
+3129806,Ibirité,MG,Praça popular de grande porte
+3131307,Ipatinga,MG,Praça intermediária conectada
+3131703,Itabira,MG,Praça intermediária conectada
+3131901,Itabirito,MG,Praça intermediária conectada
+3132404,Itajubá,MG,Praça intermediária conectada
+3133808,Itaúna,MG,Praça intermediária conectada
+3134202,Ituiutaba,MG,Praça intermediária conectada
+3135100,Janaúba,MG,Praça popular de grande porte
+3135209,Januária,MG,Praça em formação
+3136207,João Monlevade,MG,Praça intermediária conectada
+3136702,Juiz de Fora,MG,Praça madura de locação
+3137205,Lagoa da Prata,MG,Praça intermediária conectada
+3137601,Lagoa Santa,MG,Praça madura de locação
+3138203,Lavras,MG,Praça intermediária conectada
+3138401,Leopoldina,MG,Praça popular de grande porte
+3139409,Manhuaçu,MG,Praça intermediária conectada
+3140001,Mariana,MG,Praça popular de grande porte
+3143302,Montes Claros,MG,Praça popular de grande porte
+3143906,Muriaé,MG,Praça intermediária conectada
+3144805,Nova Lima,MG,Praça madura de locação
+3145208,Nova Serrana,MG,Praça intermediária conectada
+3146107,Ouro Preto,MG,Praça intermediária conectada
+3147006,Paracatu,MG,Praça intermediária conectada
+3147105,Pará de Minas,MG,Praça intermediária conectada
+3147907,Passos,MG,Praça intermediária conectada
+3148004,Patos de Minas,MG,Praça intermediária conectada
+3148103,Patrocínio,MG,Praça popular de grande porte
+3149309,Pedro Leopoldo,MG,Praça intermediária conectada
+3151206,Pirapora,MG,Praça popular de grande porte
+3151800,Poços de Caldas,MG,Praça madura de locação
+3152105,Ponte Nova,MG,Praça intermediária conectada
+3152501,Pouso Alegre,MG,Praça madura de locação
+3154606,Ribeirão das Neves,MG,Praça popular de grande porte
+3156700,Sabará,MG,Praça intermediária conectada
+3157807,Santa Luzia,MG,Praça intermediária conectada
+3161106,São Francisco,MG,Praça sem mercado formal
+3162500,São João del Rei,MG,Praça intermediária conectada
+3164704,São Sebastião do Paraíso,MG,Praça intermediária conectada
+3167202,Sete Lagoas,MG,Praça intermediária conectada
+3168606,Teófilo Otoni,MG,Praça popular de grande porte
+3168705,Timóteo,MG,Praça intermediária conectada
+3169307,Três Corações,MG,Praça intermediária conectada
+3169406,Três Pontas,MG,Praça intermediária conectada
+3169901,Ubá,MG,Praça intermediária conectada
+3170107,Uberaba,MG,Praça intermediária conectada
+3170206,Uberlândia,MG,Praça madura de locação
+3170404,Unaí,MG,Praça intermediária conectada
+3170701,Varginha,MG,Praça intermediária conectada
+3171204,Vespasiano,MG,Praça intermediária conectada
+3171303,Viçosa,MG,Praça intermediária conectada
+3200607,Aracruz,ES,Praça popular de grande porte
+3201209,Cachoeiro de Itapemirim,ES,Praça intermediária conectada
+3201308,Cariacica,ES,Praça popular de grande porte
+3201506,Colatina,ES,Praça intermediária conectada
+3202405,Guarapari,ES,Praça madura de locação
+3203205,Linhares,ES,Praça popular de grande porte
+3203908,Nova Venécia,ES,Praça popular de grande porte
+3204906,São Mateus,ES,Praça popular de grande porte
+3205002,Serra,ES,Praça popular de grande porte
+3205101,Viana,ES,Praça em formação
+3205200,Vila Velha,ES,Praça madura de locação
+3205309,Vitória,ES,Praça madura de locação
+3300100,Angra dos Reis,RJ,Praça popular de grande porte
+3300209,Araruama,RJ,Praça popular de grande porte
+3300308,Barra do Piraí,RJ,Praça em formação
+3300407,Barra Mansa,RJ,Praça intermediária conectada
+3300456,Belford Roxo,RJ,Praça em formação
+3300704,Cabo Frio,RJ,Praça madura de locação
+3300803,Cachoeiras de Macacu,RJ,Praça em formação
+3301009,Campos dos Goytacazes,RJ,Praça popular de grande porte
+3301702,Duque de Caxias,RJ,Praça popular de grande porte
+3301850,Guapimirim,RJ,Praça sem mercado formal
+3301900,Itaboraí,RJ,Praça popular de grande porte
+3302007,Itaguaí,RJ,Praça popular de grande porte
+3302205,Itaperuna,RJ,Praça intermediária conectada
+3302270,Japeri,RJ,Praça em formação
+3302403,Macaé,RJ,Praça popular de grande porte
+3302502,Magé,RJ,Praça popular de grande porte
+3302700,Maricá,RJ,Praça popular de grande porte
+3302858,Mesquita,RJ,Praça em formação
+3303203,Nilópolis,RJ,Praça intermediária conectada
+3303302,Niterói,RJ,Praça madura de locação
+3303401,Nova Friburgo,RJ,Praça intermediária conectada
+3303500,Nova Iguaçu,RJ,Praça popular de grande porte
+3303906,Petrópolis,RJ,Praça intermediária conectada
+3304144,Queimados,RJ,Praça popular de grande porte
+3304201,Resende,RJ,Praça intermediária conectada
+3304300,Rio Bonito,RJ,Praça popular de grande porte
+3304524,Rio das Ostras,RJ,Praça intermediária conectada
+3304557,Rio de Janeiro,RJ,Praça madura de locação
+3304904,São Gonçalo,RJ,Praça popular de grande porte
+3305109,São João de Meriti,RJ,Praça popular de grande porte
+3305208,São Pedro da Aldeia,RJ,Praça popular de grande porte
+3305505,Saquarema,RJ,Praça popular de grande porte
+3305554,Seropédica,RJ,Praça sem mercado formal
+3305802,Teresópolis,RJ,Praça madura de locação
+3306008,Três Rios,RJ,Praça intermediária conectada
+3306107,Valença,RJ,Praça em formação
+3306305,Volta Redonda,RJ,Praça intermediária conectada
+3501608,Americana,SP,Praça madura de locação
+3501905,Amparo,SP,Praça intermediária conectada
+3502101,Andradina,SP,Praça intermediária conectada
+3502804,Araçatuba,SP,Praça madura de locação
+3503208,Araraquara,SP,Praça intermediária conectada
+3503307,Araras,SP,Praça intermediária conectada
+3503802,Artur Nogueira,SP,Praça intermediária conectada
+3503901,Arujá,SP,Praça madura de locação
+3504008,Assis,SP,Praça intermediária conectada
+3504107,Atibaia,SP,Praça madura de locação
+3504503,Avaré,SP,Praça intermediária conectada
+3505500,Barretos,SP,Praça madura de locação
+3505708,Barueri,SP,Praça madura de locação
+3505906,Batatais,SP,Praça intermediária conectada
+3506003,Bauru,SP,Praça madura de locação
+3506102,Bebedouro,SP,Praça intermediária conectada
+3506359,Bertioga,SP,Praça madura de locação
+3506508,Birigui,SP,Praça intermediária conectada
+3507001,Boituva,SP,Praça madura de locação
+3507506,Botucatu,SP,Praça madura de locação
+3507605,Bragança Paulista,SP,Praça madura de locação
+3508504,Caçapava,SP,Praça intermediária conectada
+3509007,Caieiras,SP,Praça intermediária conectada
+3509205,Cajamar,SP,Praça madura de locação
+3509502,Campinas,SP,Praça madura de locação
+3509601,Campo Limpo Paulista,SP,Praça intermediária conectada
+3510401,Capivari,SP,Praça intermediária conectada
+3510500,Caraguatatuba,SP,Praça madura de locação
+3510609,Carapicuíba,SP,Praça intermediária conectada
+3511102,Catanduva,SP,Praça madura de locação
+3512803,Cosmópolis,SP,Praça intermediária conectada
+3513009,Cotia,SP,Praça madura de locação
+3513405,Cruzeiro,SP,Praça intermediária conectada
+3513504,Cubatão,SP,Praça popular de grande porte
+3513801,Diadema,SP,Praça intermediária conectada
+3515004,Embu das Artes,SP,Praça popular de grande porte
+3515103,Embu-Guaçu,SP,Praça popular de grande porte
+3515509,Fernandópolis,SP,Praça intermediária conectada
+3515707,Ferraz de Vasconcelos,SP,Praça popular de grande porte
+3516200,Franca,SP,Praça madura de locação
+3516309,Francisco Morato,SP,Praça popular de grande porte
+3516408,Franco da Rocha,SP,Praça popular de grande porte
+3518404,Guaratinguetá,SP,Praça intermediária conectada
+3518701,Guarujá,SP,Praça madura de locação
+3518800,Guarulhos,SP,Praça madura de locação
+3519071,Hortolândia,SP,Praça intermediária conectada
+3519600,Ibitinga,SP,Praça madura de locação
+3519709,Ibiúna,SP,Praça intermediária conectada
+3520509,Indaiatuba,SP,Praça madura de locação
+3522109,Itanhaém,SP,Praça madura de locação
+3522208,Itapecerica da Serra,SP,Praça popular de grande porte
+3522307,Itapetininga,SP,Praça intermediária conectada
+3522406,Itapeva,SP,Praça intermediária conectada
+3522505,Itapevi,SP,Praça popular de grande porte
+3522604,Itapira,SP,Praça intermediária conectada
+3523107,Itaquaquecetuba,SP,Praça popular de grande porte
+3523404,Itatiba,SP,Praça intermediária conectada
+3523909,Itu,SP,Praça madura de locação
+3524006,Itupeva,SP,Praça madura de locação
+3524303,Jaboticabal,SP,Praça intermediária conectada
+3524402,Jacareí,SP,Praça intermediária conectada
+3524709,Jaguariúna,SP,Praça madura de locação
+3524808,Jales,SP,Praça intermediária conectada
+3525003,Jandira,SP,Praça intermediária conectada
+3525300,Jaú,SP,Praça madura de locação
+3525904,Jundiaí,SP,Praça madura de locação
+3526704,Leme,SP,Praça intermediária conectada
+3526803,Lençóis Paulista,SP,Praça intermediária conectada
+3526902,Limeira,SP,Praça intermediária conectada
+3527108,Lins,SP,Praça intermediária conectada
+3527207,Lorena,SP,Praça intermediária conectada
+3527306,Louveira,SP,Praça intermediária conectada
+3528403,Mairinque,SP,Praça intermediária conectada
+3528502,Mairiporã,SP,Praça intermediária conectada
+3529005,Marília,SP,Praça intermediária conectada
+3529302,Matão,SP,Praça intermediária conectada
+3529401,Mauá,SP,Praça intermediária conectada
+3530300,Mirassol,SP,Praça intermediária conectada
+3530508,Mococa,SP,Praça intermediária conectada
+3530607,Mogi das Cruzes,SP,Praça intermediária conectada
+3530706,Mogi Guaçu,SP,Praça intermediária conectada
+3530805,Mogi Mirim,SP,Praça intermediária conectada
+3531100,Mongaguá,SP,Praça madura de locação
+3531803,Monte Mor,SP,Praça popular de grande porte
+3533403,Nova Odessa,SP,Praça madura de locação
+3533908,Olímpia,SP,Praça intermediária conectada
+3534401,Osasco,SP,Praça madura de locação
+3534708,Ourinhos,SP,Praça intermediária conectada
+3536505,Paulínia,SP,Praça madura de locação
+3537305,Penápolis,SP,Praça intermediária conectada
+3537602,Peruíbe,SP,Praça madura de locação
+3537800,Piedade,SP,Praça intermediária conectada
+3538006,Pindamonhangaba,SP,Praça intermediária conectada
+3538709,Piracicaba,SP,Praça madura de locação
+3539301,Pirassununga,SP,Praça intermediária conectada
+3539806,Poá,SP,Praça popular de grande porte
+3540606,Porto Feliz,SP,Praça intermediária conectada
+3540705,Porto Ferreira,SP,Praça intermediária conectada
+3541000,Praia Grande,SP,Praça madura de locação
+3541406,Presidente Prudente,SP,Praça madura de locação
+3542602,Registro,SP,Praça intermediária conectada
+3543303,Ribeirão Pires,SP,Praça intermediária conectada
+3543402,Ribeirão Preto,SP,Praça madura de locação
+3543907,Rio Claro,SP,Praça intermediária conectada
+3545209,Salto,SP,Praça intermediária conectada
+3545803,Santa Bárbara d'Oeste,SP,Praça intermediária conectada
+3546801,Santa Isabel,SP,Praça popular de grande porte
+3547304,Santana de Parnaíba,SP,Praça madura de locação
+3547809,Santo André,SP,Praça madura de locação
+3548500,Santos,SP,Praça madura de locação
+3548708,São Bernardo do Campo,SP,Praça madura de locação
+3548807,São Caetano do Sul,SP,Praça madura de locação
+3548906,São Carlos,SP,Praça madura de locação
+3549102,São João da Boa Vista,SP,Praça intermediária conectada
+3549706,São José do Rio Pardo,SP,Praça intermediária conectada
+3549805,São José do Rio Preto,SP,Praça madura de locação
+3549904,São José dos Campos,SP,Praça madura de locação
+3550308,São Paulo,SP,Praça madura de locação
+3550605,São Roque,SP,Praça madura de locação
+3550704,São Sebastião,SP,Praça madura de locação
+3551009,São Vicente,SP,Praça intermediária conectada
+3551702,Sertãozinho,SP,Praça intermediária conectada
+3552205,Sorocaba,SP,Praça madura de locação
+3552403,Sumaré,SP,Praça intermediária conectada
+3552502,Suzano,SP,Praça intermediária conectada
+3552809,Taboão da Serra,SP,Praça intermediária conectada
+3553708,Taquaritinga,SP,Praça popular de grande porte
+3554003,Tatuí,SP,Praça intermediária conectada
+3554102,Taubaté,SP,Praça intermediária conectada
+3554805,Tremembé,SP,Praça intermediária conectada
+3555000,Tupã,SP,Praça intermediária conectada
+3555406,Ubatuba,SP,Praça madura de locação
+3556206,Valinhos,SP,Praça madura de locação
+3556453,Vargem Grande Paulista,SP,Praça madura de locação
+3556503,Várzea Paulista,SP,Praça intermediária conectada
+3556701,Vinhedo,SP,Praça madura de locação
+3557006,Votorantim,SP,Praça intermediária conectada
+3557105,Votuporanga,SP,Praça intermediária conectada
+4100400,Almirante Tamandaré,PR,Praça em formação
+4101408,Apucarana,PR,Praça intermediária conectada
+4101507,Arapongas,PR,Praça intermediária conectada
+4101804,Araucária,PR,Praça intermediária conectada
+4103701,Cambé,PR,Praça intermediária conectada
+4104006,Campina Grande do Sul,PR,Praça intermediária conectada
+4104204,Campo Largo,PR,Praça intermediária conectada
+4104303,Campo Mourão,PR,Praça madura de locação
+4104808,Cascavel,PR,Praça madura de locação
+4104907,Castro,PR,Praça popular de grande porte
+4105508,Cianorte,PR,Praça intermediária conectada
+4105805,Colombo,PR,Praça intermediária conectada
+4106902,Curitiba,PR,Praça madura de locação
+4107652,Fazenda Rio Grande,PR,Praça intermediária conectada
+4108304,Foz do Iguaçu,PR,Praça madura de locação
+4108403,Francisco Beltrão,PR,Praça intermediária conectada
+4109401,Guarapuava,PR,Praça intermediária conectada
+4109807,Ibiporã,PR,Praça popular de grande porte
+4110706,Irati,PR,Praça intermediária conectada
+4113700,Londrina,PR,Praça madura de locação
+4114609,Marechal Cândido Rondon,PR,Praça intermediária conectada
+4115200,Maringá,PR,Praça madura de locação
+4115804,Medianeira,PR,Praça intermediária conectada
+4117602,Palmas,PR,Praça intermediária conectada
+4118204,Paranaguá,PR,Praça intermediária conectada
+4118402,Paranavaí,PR,Praça intermediária conectada
+4118501,Pato Branco,PR,Praça madura de locação
+4119152,Pinhais,PR,Praça madura de locação
+4119509,Piraquara,PR,Praça intermediária conectada
+4119905,Ponta Grossa,PR,Praça madura de locação
+4120606,Prudentópolis,PR,Praça em formação
+4122404,Rolândia,PR,Praça intermediária conectada
+4125506,São José dos Pinhais,PR,Praça madura de locação
+4126256,Sarandi,PR,Praça intermediária conectada
+4127106,Telêmaco Borba,PR,Praça intermediária conectada
+4127700,Toledo,PR,Praça madura de locação
+4128104,Umuarama,PR,Praça madura de locação
+4128203,União da Vitória,PR,Praça intermediária conectada
+4201307,Araquari,SC,Praça intermediária conectada
+4201406,Araranguá,SC,Praça intermediária conectada
+4202008,Balneário Camboriú,SC,Praça madura de locação
+4202107,Barra Velha,SC,Praça madura de locação
+4202305,Biguaçu,SC,Praça madura de locação
+4202404,Blumenau,SC,Praça madura de locação
+4202909,Brusque,SC,Praça madura de locação
+4203006,Caçador,SC,Praça intermediária conectada
+4203204,Camboriú,SC,Praça intermediária conectada
+4203808,Canoinhas,SC,Praça intermediária conectada
+4204202,Chapecó,SC,Praça intermediária conectada
+4204301,Concórdia,SC,Praça intermediária conectada
+4204608,Criciúma,SC,Praça madura de locação
+4205407,Florianópolis,SC,Praça madura de locação
+4205902,Gaspar,SC,Praça madura de locação
+4206504,Guaramirim,SC,Praça intermediária conectada
+4207007,Içara,SC,Praça intermediária conectada
+4207304,Imbituba,SC,Praça madura de locação
+4207502,Indaial,SC,Praça intermediária conectada
+4208203,Itajaí,SC,Praça madura de locação
+4208302,Itapema,SC,Praça madura de locação
+4208906,Jaraguá do Sul,SC,Praça intermediária conectada
+4209102,Joinville,SC,Praça madura de locação
+4209300,Lages,SC,Praça intermediária conectada
+4210100,Mafra,SC,Praça intermediária conectada
+4211306,Navegantes,SC,Praça madura de locação
+4211900,Palhoça,SC,Praça madura de locação
+4214805,Rio do Sul,SC,Praça intermediária conectada
+4215802,São Bento do Sul,SC,Praça intermediária conectada
+4216206,São Francisco do Sul,SC,Praça madura de locação
+4216602,São José,SC,Praça madura de locação
+4218004,Tijucas,SC,Praça intermediária conectada
+4218202,Timbó,SC,Praça intermediária conectada
+4218707,Tubarão,SC,Praça madura de locação
+4219309,Videira,SC,Praça intermediária conectada
+4219507,Xanxerê,SC,Praça intermediária conectada
+4300406,Alegrete,RS,Praça intermediária conectada
+4300604,Alvorada,RS,Praça intermediária conectada
+4301602,Bagé,RS,Praça popular de grande porte
+4302105,Bento Gonçalves,RS,Praça intermediária conectada
+4303004,Cachoeira do Sul,RS,Praça intermediária conectada
+4303103,Cachoeirinha,RS,Praça intermediária conectada
+4303509,Camaquã,RS,Praça intermediária conectada
+4303905,Campo Bom,RS,Praça intermediária conectada
+4304408,Canela,RS,Praça madura de locação
+4304507,Canguçu,RS,Praça sem mercado formal
+4304606,Canoas,RS,Praça intermediária conectada
+4304630,Capão da Canoa,RS,Praça madura de locação
+4304705,Carazinho,RS,Praça intermediária conectada
+4305108,Caxias do Sul,RS,Praça intermediária conectada
+4306106,Cruz Alta,RS,Praça intermediária conectada
+4307005,Erechim,RS,Praça madura de locação
+4307708,Esteio,RS,Praça intermediária conectada
+4307906,Farroupilha,RS,Praça intermediária conectada
+4309209,Gravataí,RS,Praça intermediária conectada
+4309308,Guaíba,RS,Praça popular de grande porte
+4310207,Ijuí,RS,Praça intermediária conectada
+4311403,Lajeado,RS,Praça intermediária conectada
+4312401,Montenegro,RS,Praça intermediária conectada
+4313409,Novo Hamburgo,RS,Praça madura de locação
+4314050,Parobé,RS,Praça intermediária conectada
+4314100,Passo Fundo,RS,Praça madura de locação
+4314407,Pelotas,RS,Praça intermediária conectada
+4314902,Porto Alegre,RS,Praça madura de locação
+4315602,Rio Grande,RS,Praça intermediária conectada
+4316808,Santa Cruz do Sul,RS,Praça intermediária conectada
+4316907,Santa Maria,RS,Praça intermediária conectada
+4317103,Sant'Ana do Livramento,RS,Praça intermediária conectada
+4317202,Santa Rosa,RS,Praça intermediária conectada
+4317400,Santiago,RS,Praça intermediária conectada
+4317509,Santo Ângelo,RS,Praça intermediária conectada
+4318002,São Borja,RS,Praça intermediária conectada
+4318309,São Gabriel,RS,Praça intermediária conectada
+4318705,São Leopoldo,RS,Praça intermediária conectada
+4319901,Sapiranga,RS,Praça intermediária conectada
+4320008,Sapucaia do Sul,RS,Praça intermediária conectada
+4321204,Taquara,RS,Praça intermediária conectada
+4321600,Tramandaí,RS,Praça madura de locação
+4322400,Uruguaiana,RS,Praça intermediária conectada
+4322509,Vacaria,RS,Praça intermediária conectada
+4322608,Venâncio Aires,RS,Praça intermediária conectada
+4323002,Viamão,RS,Praça intermediária conectada
+5002704,Campo Grande,MS,Praça madura de locação
+5003207,Corumbá,MS,Praça popular de grande porte
+5003702,Dourados,MS,Praça intermediária conectada
+5005707,Naviraí,MS,Praça popular de grande porte
+5006200,Nova Andradina,MS,Praça popular de grande porte
+5006606,Ponta Porã,MS,Praça popular de grande porte
+5007901,Sidrolândia,MS,Praça sem mercado formal
+5008305,Três Lagoas,MS,Praça madura de locação
+5100250,Alta Floresta,MT,Praça popular de grande porte
+5101803,Barra do Garças,MT,Praça popular de grande porte
+5102504,Cáceres,MT,Praça popular de grande porte
+5102637,Campo Novo do Parecis,MT,Praça madura de locação
+5102678,Campo Verde,MT,Praça intermediária conectada
+5103403,Cuiabá,MT,Praça madura de locação
+5105259,Lucas do Rio Verde,MT,Praça madura de locação
+5106224,Nova Mutum,MT,Praça intermediária conectada
+5106752,Pontes e Lacerda,MT,Praça popular de grande porte
+5107040,Primavera do Leste,MT,Praça madura de locação
+5107602,Rondonópolis,MT,Praça madura de locação
+5107909,Sinop,MT,Praça madura de locação
+5107925,Sorriso,MT,Praça madura de locação
+5107958,Tangará da Serra,MT,Praça intermediária conectada
+5108402,Várzea Grande,MT,Praça popular de grande porte
+5200258,Águas Lindas de Goiás,GO,Praça em formação
+5201108,Anápolis,GO,Praça madura de locação
+5201405,Aparecida de Goiânia,GO,Praça intermediária conectada
+5204508,Caldas Novas,GO,Praça madura de locação
+5205109,Catalão,GO,Praça intermediária conectada
+5205497,Cidade Ocidental,GO,Praça em formação
+5206206,Cristalina,GO,Praça popular de grande porte
+5208004,Formosa,GO,Praça popular de grande porte
+5208608,Goianésia,GO,Praça popular de grande porte
+5208707,Goiânia,GO,Praça madura de locação
+5208806,Goianira,GO,Praça em formação
+5210000,Inhumas,GO,Praça popular de grande porte
+5211503,Itumbiara,GO,Praça intermediária conectada
+5211909,Jataí,GO,Praça madura de locação
+5212501,Luziânia,GO,Praça popular de grande porte
+5213103,Mineiros,GO,Praça popular de grande porte
+5213806,Morrinhos,GO,Praça popular de grande porte
+5215231,Novo Gama,GO,Praça popular de grande porte
+5217609,Planaltina,GO,Praça popular de grande porte
+5218508,Quirinópolis,GO,Praça popular de grande porte
+5218805,Rio Verde,GO,Praça madura de locação
+5219753,Santo Antônio do Descoberto,GO,Praça sem mercado formal
+5220454,Senador Canedo,GO,Praça popular de grande porte
+5221403,Trindade,GO,Praça popular de grande porte
+5221858,Valparaíso de Goiás,GO,Praça intermediária conectada
+5300108,Brasília,DF,Praça madura de locação

@@ -20,13 +20,17 @@ for _d in (DIR_RAW, DIR_INTERIM, DIR_PROCESSED, DIR_TABELAS, DIR_FIGURAS):
 POPULACAO_MINIMA = 50_000
 ANO_POPULACAO = 2026
 
-CNAE_ADMINISTRADORAS = "6822600"
-CNAE_IMOBILIARIAS = "6821801"
+# Regra da Loft para imobiliária potencial: CNAE principal em um destes três, empresa ativa.
+CNAES_LOFT = {
+    "compra_venda": "6821801",
+    "aluguel": "6821802",
+    "gestao": "6822600",
+}
 
 # Nome da variável -> rótulo em português para gráficos e tabelas.
 VARIAVEIS = {
-    "administradoras_10k": "Administradoras de imóveis / 10 mil hab.",
-    "imobiliarias_10k": "Imobiliárias e corretoras / 10 mil hab.",
+    "imobiliarias_loft_10k": "Imobiliárias potenciais (CNAE Loft) / 10 mil hab.",
+    "locacao_pct": "Imobiliárias de aluguel ou gestão (%)",
     "imobiliarias_novas_pct": "Imobiliárias novas em 12 meses (%)",
     "pix_pf_por_hab": "Pix de pessoa física por habitante",
     "salario_admissao": "Salário mediano de admissão (R$)",
@@ -46,8 +50,8 @@ VARIAVEIS = {
 # Grupos de variáveis comparados na POC.
 GRUPOS = {
     "A": [
-        "administradoras_10k",
-        "imobiliarias_10k",
+        "imobiliarias_loft_10k",
+        "locacao_pct",
         "imobiliarias_novas_pct",
         "saldo_emprego_pct",
     ],
@@ -59,7 +63,7 @@ GRUPOS = {
         "veiculos_por_hab",
     ],
     "C": [
-        "administradoras_10k",
+        "imobiliarias_loft_10k",
         "imobiliarias_novas_pct",
         "pix_pf_por_hab",
         "salario_admissao",
@@ -67,7 +71,7 @@ GRUPOS = {
         "credito_per_capita",
     ],
     "D": [
-        "administradoras_10k",
+        "imobiliarias_loft_10k",
         "imobiliarias_novas_pct",
         "pix_pf_por_hab",
         "cadunico_pct",
@@ -79,7 +83,7 @@ GRUPOS = {
     # que no Brasil é quase geografia, e por isso perdiam de "região" ao explicar
     # variáveis municipais retidas.
     "E": [
-        "administradoras_10k",
+        "imobiliarias_loft_10k",
         "imobiliarias_novas_pct",
         "alavancagem",
         "reserva_per_capita",
@@ -99,6 +103,7 @@ NOMES_GRUPOS = {
 
 # Variáveis que só descrevem os clusters depois de formados.
 DESCRITORAS = [
+    "faz_aluguel_pct",
     "domicilios_alugados_pct_uf",
     "inadimplencia_pf_uf",
     "fipezap_aluguel",
@@ -108,6 +113,7 @@ DESCRITORAS = [
 ]
 
 ROTULOS_DESCRITORAS = {
+    "faz_aluguel_pct": "Imobiliárias com aluguel no CNAE principal ou secundário (%)",
     "domicilios_alugados_pct_uf": "Domicílios alugados na UF (%)",
     "inadimplencia_pf_uf": "Inadimplência de pessoa física na UF (%)",
     "fipezap_aluguel": "Aluguel médio FipeZap (R$/m²)",

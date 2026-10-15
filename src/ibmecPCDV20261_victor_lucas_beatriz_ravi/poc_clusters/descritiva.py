@@ -113,8 +113,7 @@ def decidir_cortes(
     """Em cada par acima do limiar descarta uma das duas variáveis.
 
     Critério de desempate: fica a que o desenho da POC usa em mais grupos, porque é a que
-    carrega o sentido de negócio (administradoras de imóveis é proxy de locação, que é o
-    mercado da fiança; imobiliárias inclui venda). Empatado nisso, fica a de menor VIF.
+    carrega o sentido de negócio para a fiança. Empatado nisso, fica a de menor VIF.
     """
     correlacao = matriz_correlacao(base, variaveis).abs()
     vif = tabela_vif(base, variaveis).set_index("variavel")["vif"].to_dict()

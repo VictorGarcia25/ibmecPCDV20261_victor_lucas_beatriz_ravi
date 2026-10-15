@@ -154,7 +154,7 @@ def tabela_volumes(base: pd.DataFrame) -> pd.DataFrame:
             "acessos móveis do país: algumas centenas de milhões",
         ),
         (
-            "CNPJ, imobiliárias e administradoras ativas",
+            "CNPJ, imobiliárias potenciais ativas (filtro de CNAE da Loft)",
             lambda: cnpj.carregar()["setor_total"].sum(),
             base["setor_total"].sum(),
             lambda v: f"{int(v):,} estabelecimentos".replace(",", "."),

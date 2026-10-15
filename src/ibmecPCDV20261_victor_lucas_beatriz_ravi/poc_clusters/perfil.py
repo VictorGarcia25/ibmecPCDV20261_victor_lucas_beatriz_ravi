@@ -38,7 +38,7 @@ def tamanho_clusters(base: pd.DataFrame) -> pd.DataFrame:
     return tabela
 
 
-VARIAVEIS_MERCADO = ("administradoras_10k", "imobiliarias_10k")
+VARIAVEIS_MERCADO = ("imobiliarias_loft_10k", "locacao_pct")
 VARIAVEIS_RENDA = ("pix_pf_por_hab", "salario_admissao", "credito_per_capita", "veiculos_por_hab")
 VARIAVEIS_DIGITAL = ("internet_movel_100", "banda_larga_100")
 
@@ -88,7 +88,7 @@ def top_municipios(base: pd.DataFrame, n: int = 10) -> pd.DataFrame:
     partes = []
     for cluster, recorte in base.groupby("cluster"):
         maiores = recorte.nlargest(n, "populacao")[
-            ["cluster", "municipio", "sigla_uf", "populacao", "administradoras_10k", "pix_pf_por_hab"]
+            ["cluster", "municipio", "sigla_uf", "populacao", "imobiliarias_loft_10k", "pix_pf_por_hab"]
         ].copy()
         maiores["posicao"] = range(1, len(maiores) + 1)
         partes.append(maiores)
@@ -118,7 +118,7 @@ def tabela_valor_loft(
     """Traduz cada cluster em leitura de fiança e ação de mídia paga."""
     leituras = {
         "Praça madura de locação": (
-            "Muitas administradoras e inquilino com capacidade de pagar: o risco da fiança é "
+            "Muitas imobiliárias e inquilino com capacidade de pagar: o risco da fiança é "
             "baixo e o cliente B2B já existe e já vende locação.",
             "Mídia de conversão para imobiliária (Meta e Google Search em segmentação B2B), "
             "com verba concentrada e meta de custo por lead.",
@@ -130,12 +130,12 @@ def tabela_valor_loft(
             "não a fiança.",
         ),
         "Praça sem mercado formal": (
-            "Praticamente não existe administradora formal e a vulnerabilidade é alta: não há "
+            "Praticamente não existe imobiliária formal e a vulnerabilidade é alta: não há "
             "cliente B2B para vender e o risco de inadimplência é o maior.",
             "Zero verba de mídia paga. Praça de exclusão no planejamento.",
         ),
         "Praça de renda sem oferta": (
-            "O inquilino tem capacidade de pagar, mas a oferta de administradoras é fraca: "
+            "O inquilino tem capacidade de pagar, mas a oferta de imobiliárias é fraca: "
             "demanda reprimida por locação organizada.",
             "Praça de expansão. Mídia de geração de demanda e prospecção de novas "
             "imobiliárias, com verba de teste antes de escalar.",

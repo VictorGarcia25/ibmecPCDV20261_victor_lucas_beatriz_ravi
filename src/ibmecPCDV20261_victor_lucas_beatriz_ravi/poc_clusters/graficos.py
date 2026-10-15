@@ -222,7 +222,7 @@ def dispersao_decisao(base: pd.DataFrame, nomes: dict[int, str] | None = None) -
         recorte = base[base["cluster"] == cluster]
         etiqueta = f"{cluster} - {nomes[cluster]}" if nomes else f"Cluster {cluster}"
         eixo.scatter(
-            recorte["administradoras_10k"],
+            recorte["imobiliarias_loft_10k"],
             recorte["pix_pf_por_hab"],
             s=recorte["populacao"] / 12_000,
             alpha=0.65,
@@ -232,10 +232,10 @@ def dispersao_decisao(base: pd.DataFrame, nomes: dict[int, str] | None = None) -
             linewidth=0.4,
         )
     eixo.set_xscale("log")
-    eixo.set_xlabel(rotulo("administradoras_10k") + " (escala log)")
+    eixo.set_xlabel(rotulo("imobiliarias_loft_10k") + " (escala log)")
     eixo.set_ylabel(rotulo("pix_pf_por_hab"))
     eixo.set_title(
-        "Onde colocar o próximo real: densidade de administradoras x capacidade de pagamento\n"
+        "Onde colocar o próximo real: densidade de imobiliárias x capacidade de pagamento\n"
         "tamanho do círculo é a população do município"
     )
     eixo.legend(fontsize=8)

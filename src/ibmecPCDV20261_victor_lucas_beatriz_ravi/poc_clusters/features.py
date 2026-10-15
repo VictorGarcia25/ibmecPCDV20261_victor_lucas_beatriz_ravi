@@ -30,24 +30,34 @@ def montar(forcar_download: bool = False) -> pd.DataFrame:
 
     # Municípios sem nenhuma empresa do setor têm zero de verdade, não dado faltante.
     for coluna in [
-        "administradoras",
         "imobiliarias",
+        "corretoras_aluguel",
+        "administradoras",
         "corretores_seguros",
         "setor_total",
         "setor_novas_12m",
+        "setor_faz_aluguel",
     ]:
         base[coluna] = base[coluna].fillna(0)
     # Sem agência bancária no município o saldo de crédito local é zero.
     for coluna in ["credito_total", "financiamento_imobiliario", "poupanca", "deposito_prazo"]:
         base[coluna] = base[coluna].fillna(0)
 
+    # Universo de imobiliárias potenciais no filtro da Loft (CNAEs 6821801, 6821802, 6822600).
+    base["imobiliarias_loft_10k"] = base["setor_total"] / base["populacao"] * 10_000
+    setor = base["setor_total"].replace(0, float("nan"))
+    base["locacao_pct"] = (
+        (base["corretoras_aluguel"] + base["administradoras"]) / setor * 100
+    ).astype(float)
+    base["imobiliarias_novas_pct"] = (base["setor_novas_12m"] / setor * 100).astype(float)
+    base["faz_aluguel_pct"] = (base["setor_faz_aluguel"] / setor * 100).astype(float)
+    # Quebra por CNAE principal, só para descrever o perfil da praça.
     base["administradoras_10k"] = base["administradoras"] / base["populacao"] * 10_000
     base["imobiliarias_10k"] = base["imobiliarias"] / base["populacao"] * 10_000
-    base["imobiliarias_novas_pct"] = (
-        base["setor_novas_12m"] / base["setor_total"].replace(0, float("nan")) * 100
-    ).astype(float)
     base["sem_mercado_formal"] = base["setor_total"] == 0
-    base.loc[base["sem_mercado_formal"], "imobiliarias_novas_pct"] = 0.0
+    # Sem nenhuma imobiliária as parcelas não existem; zero é a leitura correta de negócio.
+    for coluna in ["imobiliarias_novas_pct", "locacao_pct", "faz_aluguel_pct"]:
+        base.loc[base["sem_mercado_formal"], coluna] = 0.0
 
     base["pix_pf_por_hab"] = base["pix_pf_valor_12m"] / base["populacao"]
     base["salario_admissao"] = base["salario_admissao_mediano"]

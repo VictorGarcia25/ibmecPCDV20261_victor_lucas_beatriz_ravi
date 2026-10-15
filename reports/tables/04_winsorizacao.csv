@@ -1,7 +1,7 @@
 variavel,rotulo,limite_inferior,limite_superior,municipios_cortados_abaixo,municipios_cortados_acima,assimetria_antes,assimetria_depois
-administradoras_10k,Administradoras de imóveis / 10 mil hab.,0.0,7.705,0,7,3.86,1.62
-imobiliarias_10k,Imobiliárias e corretoras / 10 mil hab.,0.0,25.016,0,7,11.29,2.33
-imobiliarias_novas_pct,Imobiliárias novas em 12 meses (%),0.0,50.0,0,5,2.42,0.95
+imobiliarias_loft_10k,Imobiliárias potenciais (CNAE Loft) / 10 mil hab.,0.0,31.949,0,7,9.25,1.86
+locacao_pct,Imobiliárias de aluguel ou gestão (%),0.0,100.0,0,0,0.37,0.37
+imobiliarias_novas_pct,Imobiliárias novas em 12 meses (%),0.0,50.0,0,5,2.82,1.13
 pix_pf_por_hab,Pix de pessoa física por habitante,24088.872,106999.731,7,7,0.93,0.64
 salario_admissao,Salário mediano de admissão (R$),1518.0,2204.064,0,7,0.45,0.35
 cadunico_pct,Famílias no CadÚnico / 100 domicílios,15.684,102.413,7,7,0.26,0.24

@@ -351,3 +351,18 @@ def test_validacao_metades_reconhece_grupos_reais_e_rejeita_ruido():
     falso = avaliacao.validacao_metades(ruido, variaveis, "kmeans", 3, n_repeticoes=5)
     assert real.iloc[0]["rand_ajustado_medio"] > 0.9
     assert real.iloc[0]["rand_ajustado_medio"] > falso.iloc[0]["rand_ajustado_medio"]
+
+
+def test_janela_de_anuncios_pula_meses_com_buraco_na_coleta():
+    """A janela é a sequência mais recente de meses estáveis; mês com buraco interrompe."""
+    from ibmecPCDV20261_victor_lucas_beatriz_ravi.poc_clusters import anuncios
+
+    meses = pd.date_range("2025-01-01", "2026-08-01", freq="MS").strftime("%Y-%m-%d")
+    linhas = []
+    for mes in meses:
+        volume = 30 if mes in ("2026-02-01", "2026-03-01") else 100
+        for cidade in range(20):
+            linhas.append({"snapshot_month": mes, "operation_type": "rent", "chave": f"SP|C{cidade}", "n_listings": volume})
+    janela, diagnostico = anuncios.escolher_janela(pd.DataFrame(linhas))
+    assert janela == ["2026-04-01", "2026-05-01", "2026-06-01", "2026-07-01", "2026-08-01"]
+    assert not diagnostico.set_index("snapshot_month").loc["2026-02-01", "estavel"]

@@ -486,7 +486,18 @@ def _leitura_anuncios(validacao: dict | None) -> str:
         f"{r['r2_regiao_e_porte']:.3f} para {r['r2_com_o_cluster']:.3f}): ele ordena o mercado, "
         "mas o tamanho do mercado anunciado é explicado sobretudo por porte e região. Os anúncios "
         "ficaram fora do modelo de propósito, só como prova. Os volumes ficam em reports/interno, "
-        "fora do repositório."
+        "fora do repositório. A base foi tratada antes: só a categoria residencial (a soma das "
+        "categorias contava apartamento e casa em dobro), janela escolhida por regra de "
+        f"estabilidade da coleta ({r['meses_na_janela']} meses) e cidade só conta se aparece em quase "
+        "todos os meses.\n"
+        f"- **Rendimento do aluguel** (aluguel de 12 meses sobre o preço de venda, em "
+        f"{r['municipios_com_rendimento']} municípios com amostra suficiente): "
+        + ", ".join(
+            f"{linha['nome_cluster']} {linha['rendimento_aluguel_pct_mediana']:.1f}%"
+            for _, linha in validacao["rendimento"].iterrows()
+        )
+        + f" (Kruskal-Wallis p = {r['rendimento_kruskal_p']:.3f}). Onde o rendimento é baixo, vender "
+        "compete com alugar e sobra menos espaço para a fiança."
     )
 
 

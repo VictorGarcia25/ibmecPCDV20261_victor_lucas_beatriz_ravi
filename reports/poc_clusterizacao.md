@@ -1,6 +1,6 @@
 # POC não supervisionada: tipos de praça para o produto de fiança da Loft
 
-Autoria: Beatriz Babinski · Projeto em Ciência de Dados V, IBMEC · gerado em 15/10/2026
+Autoria: Beatriz Babinski · Projeto em Ciência de Dados V, IBMEC · gerado em 29/10/2026
 
 ## 1. Problema
 
@@ -31,29 +31,29 @@ domicílios), justamente para o agrupamento **não separar apenas por tamanho de
 
 | rotulo                                                       | fonte                                                                                   | data_referencia   | data_coleta   | entra_no_cluster   |
 |:-------------------------------------------------------------|:----------------------------------------------------------------------------------------|:------------------|:--------------|:-------------------|
-| Crédito sobre poupança (alavancagem)                         | Banco Central - ESTBAN, crédito sobre poupança e depósito a prazo (Base dos Dados)      | 2025-09           | 2026-10-15    | True               |
-| Banda larga fixa / 100 hab.                                  | Anatel - densidade de banda larga fixa por município (Base dos Dados)                   | 2025-09           | 2026-10-15    | True               |
-| Famílias no CadÚnico / 100 domicílios                        | Ministério do Desenvolvimento e Assistência Social - Cadastro Único (API MISocial/SAGI) | 2026-09           | 2026-10-15    | True               |
-| Corretores de seguros / 10 mil hab.                          | Receita Federal - CNPJ, CNAE 6622300 (Base dos Dados)                                   | 2026-01-11        | 2026-10-15    | True               |
-| Crédito per capita (R$)                                      | Banco Central - ESTBAN, verbete 160 operações de crédito (Base dos Dados)               | 2025-09           | 2026-10-15    | True               |
-| Crescimento da população em 1 ano (%)                        | IBGE - Estimativas da população, dois anos consecutivos (tabela SIDRA 6579)             | 2026-07-01        | 2026-10-15    | True               |
-| Imobiliárias potenciais (CNAE Loft) / 10 mil hab.            | Receita Federal - CNPJ, CNAE principal 6821801, 6821802, 6822600 (Base dos Dados)       | 2026-01-11        | 2026-10-15    | True               |
-| Imobiliárias novas em 12 meses (%)                           | Receita Federal - CNPJ, CNAE principal 6821801, 6821802, 6822600 (Base dos Dados)       | 2026-01-11        | 2026-10-15    | True               |
-| Internet móvel 4G/5G de pessoa física / 100 hab.             | Anatel - acessos de telefonia móvel por município e tecnologia (dados abertos)          | 2026-07           | 2026-10-15    | True               |
-| Admissões de 18 a 30 anos (%)                                | Novo CAGED - microdados de movimentação (Base dos Dados)                                | 2026-01           | 2026-10-15    | True               |
-| Imobiliárias de aluguel ou gestão (%)                        | Receita Federal - CNPJ, CNAE principal 6821801, 6821802, 6822600 (Base dos Dados)       | 2026-01-11        | 2026-10-15    | True               |
-| Pix de pessoa física por habitante                           | Banco Central - Transações Pix por Município (API OData)                                | 2026-08           | 2026-10-15    | True               |
-| Poupança e depósito a prazo per capita (R$)                  | Banco Central - ESTBAN, verbetes 420 e 432 poupança e depósito a prazo (Base dos Dados) | 2025-09           | 2026-10-15    | True               |
-| Salário mediano de admissão (R$)                             | Novo CAGED - microdados de movimentação (Base dos Dados)                                | 2026-01           | 2026-10-15    | True               |
-| Saldo de emprego / admissões em 12 meses (%)                 | Novo CAGED - microdados de movimentação (Base dos Dados)                                | 2026-01           | 2026-10-15    | True               |
-| Veículos por habitante                                       | Senatran - frota de veículos por município e tipo (Base dos Dados)                      | 2026-07           | 2026-10-15    | True               |
-| Domicílios alugados na UF (%)                                | IBGE - PNAD Contínua anual, condição de ocupação do domicílio (tabela SIDRA 6821)       | 2025              | 2026-10-15    | False              |
-| Imobiliárias com aluguel no CNAE principal ou secundário (%) | Receita Federal - CNPJ, CNAE principal 6821801, 6821802, 6822600 (Base dos Dados)       | 2026-01-11        | 2026-10-15    | False              |
-| Aluguel médio FipeZap (R$/m²)                                | FIPE/ZAP - índice FipeZap, séries históricas de locação residencial                     | 2026-08           | 2026-10-15    | False              |
-| Inadimplência de pessoa física na UF (%)                     | Banco Central - SCR por sub-região, cliente pessoa física (API OData)                   | 2026-08           | 2026-10-15    | False              |
-| População estimada (universo da análise)                     | IBGE - Estimativas da população (tabela SIDRA 6579)                                     | 2026-07-01        | 2026-10-15    | False              |
+| Crédito sobre poupança (alavancagem)                         | Banco Central - ESTBAN, crédito sobre poupança e depósito a prazo (Base dos Dados)      | 2025-09           | 2026-10-29    | True               |
+| Banda larga fixa / 100 hab.                                  | Anatel - densidade de banda larga fixa por município (Base dos Dados)                   | 2025-09           | 2026-10-29    | True               |
+| Famílias no CadÚnico / 100 domicílios                        | Ministério do Desenvolvimento e Assistência Social - Cadastro Único (API MISocial/SAGI) | 2026-09           | 2026-10-29    | True               |
+| Corretores de seguros / 10 mil hab.                          | Receita Federal - CNPJ, CNAE 6622300 (Base dos Dados)                                   | 2026-01-11        | 2026-10-29    | True               |
+| Crédito per capita (R$)                                      | Banco Central - ESTBAN, verbete 160 operações de crédito (Base dos Dados)               | 2025-09           | 2026-10-29    | True               |
+| Crescimento da população em 1 ano (%)                        | IBGE - Estimativas da população, dois anos consecutivos (tabela SIDRA 6579)             | 2026-07-01        | 2026-10-29    | True               |
+| Imobiliárias potenciais (CNAE Loft) / 10 mil hab.            | Receita Federal - CNPJ, CNAE principal 6821801, 6821802, 6822600 (Base dos Dados)       | 2026-01-11        | 2026-10-29    | True               |
+| Imobiliárias novas em 12 meses (%)                           | Receita Federal - CNPJ, CNAE principal 6821801, 6821802, 6822600 (Base dos Dados)       | 2026-01-11        | 2026-10-29    | True               |
+| Internet móvel 4G/5G de pessoa física / 100 hab.             | Anatel - acessos de telefonia móvel por município e tecnologia (dados abertos)          | 2026-07           | 2026-10-29    | True               |
+| Admissões de 18 a 30 anos (%)                                | Novo CAGED - microdados de movimentação (Base dos Dados)                                | 2026-01           | 2026-10-29    | True               |
+| Imobiliárias de aluguel ou gestão (%)                        | Receita Federal - CNPJ, CNAE principal 6821801, 6821802, 6822600 (Base dos Dados)       | 2026-01-11        | 2026-10-29    | True               |
+| Pix de pessoa física por habitante                           | Banco Central - Transações Pix por Município (API OData)                                | 2026-08           | 2026-10-29    | True               |
+| Poupança e depósito a prazo per capita (R$)                  | Banco Central - ESTBAN, verbetes 420 e 432 poupança e depósito a prazo (Base dos Dados) | 2025-09           | 2026-10-29    | True               |
+| Salário mediano de admissão (R$)                             | Novo CAGED - microdados de movimentação (Base dos Dados)                                | 2026-01           | 2026-10-29    | True               |
+| Saldo de emprego / admissões em 12 meses (%)                 | Novo CAGED - microdados de movimentação (Base dos Dados)                                | 2026-01           | 2026-10-29    | True               |
+| Veículos por habitante                                       | Senatran - frota de veículos por município e tipo (Base dos Dados)                      | 2026-07           | 2026-10-29    | True               |
+| Domicílios alugados na UF (%)                                | IBGE - PNAD Contínua anual, condição de ocupação do domicílio (tabela SIDRA 6821)       | 2025              | 2026-10-29    | False              |
+| Imobiliárias com aluguel no CNAE principal ou secundário (%) | Receita Federal - CNPJ, CNAE principal 6821801, 6821802, 6822600 (Base dos Dados)       | 2026-01-11        | 2026-10-29    | False              |
+| Aluguel médio FipeZap (R$/m²)                                | FIPE/ZAP - índice FipeZap, séries históricas de locação residencial                     | 2026-08           | 2026-10-29    | False              |
+| Inadimplência de pessoa física na UF (%)                     | Banco Central - SCR por sub-região, cliente pessoa física (API OData)                   | 2026-08           | 2026-10-29    | False              |
+| População estimada (universo da análise)                     | IBGE - Estimativas da população (tabela SIDRA 6579)                                     | 2026-07-01        | 2026-10-29    | False              |
 | poupanca_per_capita                                          | Banco Central - ESTBAN, verbete 420 depósitos de poupança (Base dos Dados)              | 2025-09           | 2026-09-21    | False              |
-| Busca por fiança no Google, por UF (índice)                  | Google Trends - termos ['aluguel sem fiador', 'fiança aluguel'] (pytrends)              | 2026-10           | 2026-10-15    | False              |
+| Busca por fiança no Google, por UF (índice)                  | Google Trends - termos ['aluguel sem fiador', 'fiança aluguel'] (pytrends)              | 2026-10           | 2026-10-29    | False              |
 
 Regra do projeto **conferida em código** nas 16 variáveis do modelo: a mais antiga é Crédito sobre poupança (alavancagem), com referência de 2025-09. A execução aborta se alguma fonte regredir para antes de 2025, e a conferência completa está em `02b_checagem_regra_de_datas.csv`. Não há uso do Censo 2022. O Índice Brasileiro de Conectividade da Anatel
 foi **descartado** por ter 2024 como ano mais recente; no lugar dele entraram os acessos de
@@ -238,7 +238,8 @@ Comparação dos quatro grupos contra os baselines: tabela `10_baselines_por_gru
 
 A variável mais crítica é **Imobiliárias novas em 12 meses (%)**: sem ela a silhueta varia -0.018. A menos crítica é **Internet móvel 4G/5G de pessoa física / 100 hab.** (+0.029). O Rand ajustado contra a solução completa mostra quanto a composição dos grupos muda ao remover cada variável.
 
-- **Validação externa com os anúncios dos portais (base da Loft, 2026-04 a 2026-08)**: o volume de anúncios de aluguel por habitante segue a ordem Praça madura de locação > Praça intermediária conectada > Praça popular de grande porte > Praça em formação > Praça sem mercado formal (Kruskal-Wallis H = 145.1, p < 0,001). A base cobre 361 dos 687 municípios. Controlando por região e porte, o cluster acrescenta pouco ao volume de anúncios (R² ajustado de 0.500 para 0.501): ele ordena o mercado, mas o tamanho do mercado anunciado é explicado sobretudo por porte e região. Os anúncios ficaram fora do modelo de propósito, só como prova. Os volumes ficam em reports/interno, fora do repositório.
+- **Validação externa com os anúncios dos portais (base da Loft, 2026-04 a 2026-08)**: o volume de anúncios de aluguel por habitante segue a ordem Praça madura de locação > Praça intermediária conectada > Praça popular de grande porte > Praça em formação > Praça sem mercado formal (Kruskal-Wallis H = 150.3, p < 0,001). A base cobre 305 dos 687 municípios. Controlando por região e porte, o cluster acrescenta pouco ao volume de anúncios (R² ajustado de 0.521 para 0.524): ele ordena o mercado, mas o tamanho do mercado anunciado é explicado sobretudo por porte e região. Os anúncios ficaram fora do modelo de propósito, só como prova. Os volumes ficam em reports/interno, fora do repositório. A base foi tratada antes: só a categoria residencial (a soma das categorias contava apartamento e casa em dobro), janela escolhida por regra de estabilidade da coleta (5 meses) e cidade só conta se aparece em quase todos os meses.
+- **Rendimento do aluguel** (aluguel de 12 meses sobre o preço de venda, em 225 municípios com amostra suficiente): Praça madura de locação 5.1%, Praça intermediária conectada 4.9%, Praça popular de grande porte 5.8%, Praça em formação 5.0%, Praça sem mercado formal 5.1% (Kruskal-Wallis p = 0.046). Onde o rendimento é baixo, vender compete com alugar e sobra menos espaço para a fiança.
 
 ### 6.1 A taxa de empresas novas não é artefato de base pequena
 
@@ -386,6 +387,6 @@ Os dez maiores municípios de cada cluster estão em `18_top_municipios.csv`.
 make poc
 ```
 
-Roda tudo do zero: cria o ambiente, coleta as fontes, gera as 34 tabelas em
+Roda tudo do zero: cria o ambiente, coleta as fontes, gera as 35 tabelas em
 `reports/tables`, as figuras em `reports/figures` e este relatório. Exige um projeto do Google
 Cloud configurado em `.env` para as consultas ao BigQuery da Base dos Dados.

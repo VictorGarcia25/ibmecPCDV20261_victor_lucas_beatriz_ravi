@@ -335,6 +335,64 @@ Os dez maiores municípios de cada cluster estão em `18_top_municipios.csv`.
 |         3 | Praça intermediária conectada |          214 |            18.7 | Mercado e renda medianos, mas alcance digital alto: dá para testar barato com boa cobertura de audiência.                                                                                                                                                   | Praça de teste A/B de criativo. Verba pequena e recorrente em Meta e TikTok para aprender antes de levar o aprendizado às praças maduras.                                                                                  |
 |         4 | Praça em formação             |          113 |             8.1 | Muita imobiliária abrindo agora: o mercado está se organizando e as empresas novas ainda não têm processo de garantia definido.                                                                                                                             | Momento de entrada. Mídia de educação de produto para imobiliária nova, custo por lead ainda baixo.                                                                                                                        |
 
+## Etapa 2. Aprofundamento das praças
+
+Depois de escolhido o modelo, quatro leituras complementares sobre as praças já formadas.
+
+### Densidade: existem grupos naturais?
+
+DBSCAN (raio escolhido no joelho da curva de k-distância) e HDBSCAN não obrigam toda cidade a
+entrar num grupo: procuram regiões densas e chamam o resto de ruído.
+
+| metodo   | parametro                               |   grupos_encontrados |   ruido_municipios |   ruido_pct |   maior_grupo_pct |   silhueta_sem_ruido |   rand_ajustado_vs_kmeans |
+|:---------|:----------------------------------------|---------------------:|-------------------:|------------:|------------------:|---------------------:|--------------------------:|
+| DBSCAN   | eps = 1.31 (joelho), min_samples = 12   |                    2 |                 23 |         3.3 |              88.3 |                0.451 |                     0.14  |
+| HDBSCAN  | min_cluster_size = 20, min_samples = 10 |                    2 |                 14 |         2   |              88.3 |                0.444 |                     0.139 |
+
+Os dois encontram só **2 grupos naturais**, e o menor deles é
+essencialmente a **praça sem mercado formal**. O resto do Brasil forma um bloco contínuo. Isso
+confirma o achado da seção 4: as outras quatro praças são cortes úteis de um contínuo, não
+grupos que existem sozinhos, e por isso a defesa delas é a comparação com os baselines. Variando
+o raio entre 0,6 e 2 vezes o joelho, o número de grupos vai de 3 a 1, nunca chega a 5.
+
+### Cidades atípicas (Isolation Forest)
+
+Rodado nas 16 variáveis candidatas **antes** da winsorização, aponta os 5% de municípios mais
+fáceis de isolar. Os primeiros: Acará (PA), Muaná (PA), Viseu (PA), Extremoz (RN), Itapema (SC), Portel (PA). **91%** deles já tinham sido aparados
+pela winsorização, ou seja, o tratamento de extremos pegou o problema que a floresta encontra
+por outro caminho.
+
+### Retrato no plano (PCA) e parentesco entre variáveis
+
+Os dois primeiros componentes principais carregam 61% e 14% da
+variação (figura 15). O primeiro eixo é praticamente "mercado e renda contra vulnerabilidade"; o
+segundo é a abertura de imobiliárias, que é o que separa a praça em formação.
+
+O dendrograma das 16 variáveis por 1 - |Spearman| (figura 16) mostra os pares redundantes abaixo
+do corte de 0,80: Famílias no CadÚnico / 100 domicílios e Veículos por habitante; Corretores de seguros / 10 mil hab. e Imobiliárias potenciais (CNAE Loft) / 10 mil hab.. São exatamente os cortes da seção 3.1.
+
+### As praças em regras
+
+Uma árvore de decisão de profundidade 3 e um Random Forest foram
+treinados para reproduzir o rótulo da praça, com validação cruzada estratificada de
+5 folds:
+
+| modelo                              |   acuracia |   acuracia_balanceada |   acuracia_desvio_entre_folds |
+|:------------------------------------|-----------:|----------------------:|------------------------------:|
+| Baseline: sempre a praça mais comum |      0.311 |                 0.2   |                         0.004 |
+| Árvore de decisão (profundidade 3)  |      0.801 |                 0.8   |                         0.023 |
+| Random Forest (300 árvores)         |      0.934 |                 0.933 |                         0.015 |
+
+A árvore rasa acerta **80%** (balanceado) contra
+**20%** do baseline: as praças cabem em três perguntas
+simples, que estão em `reports/tables/39_regras_da_arvore.txt` e na figura 18. A variável que
+mais pesa, medida por permutação fora da amostra, é **Imobiliárias novas em 12 meses (%)**, seguida de
+Famílias no CadÚnico / 100 domicílios.
+
+Atenção: isto **não** é previsão de desempenho. O modelo aprende a reproduzir o agrupamento;
+acerto alto quer dizer que as praças têm regra simples, não que elas preveem venda.
+
+
 ## 9. Limitações
 
 1. **Ainda sem dado de mídia da Loft.** Já usamos a regra de CNAE e a base de anúncios da Loft,
@@ -387,6 +445,6 @@ Os dez maiores municípios de cada cluster estão em `18_top_municipios.csv`.
 make poc
 ```
 
-Roda tudo do zero: cria o ambiente, coleta as fontes, gera as 35 tabelas em
+Roda tudo do zero: cria o ambiente, coleta as fontes, gera as 44 tabelas em
 `reports/tables`, as figuras em `reports/figures` e este relatório. Exige um projeto do Google
 Cloud configurado em `.env` para as consultas ao BigQuery da Base dos Dados.

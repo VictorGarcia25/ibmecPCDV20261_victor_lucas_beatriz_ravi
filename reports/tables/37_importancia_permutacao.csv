@@ -1,0 +1,7 @@
+variavel,rotulo,queda_media_acuracia,desvio_entre_folds
+imobiliarias_novas_pct,Imobiliárias novas em 12 meses (%),0.2209,0.0073
+cadunico_pct,Famílias no CadÚnico / 100 domicílios,0.1373,0.0102
+internet_movel_100,Internet móvel 4G/5G de pessoa física / 100 hab.,0.1278,0.0194
+imobiliarias_loft_10k,Imobiliárias potenciais (CNAE Loft) / 10 mil hab.,0.1194,0.0226
+banda_larga_100,Banda larga fixa / 100 hab.,0.0911,0.0067
+pix_pf_por_hab,Pix de pessoa física por habitante,0.0867,0.0188

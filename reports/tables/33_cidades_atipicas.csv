@@ -1,0 +1,688 @@
+municipio,sigla_uf,populacao,tipo_de_praca,escore_anomalia,atipica,variavel_mais_extrema,aparada_na_winsorizacao
+Acará,PA,63503,Praça sem mercado formal,0.591,True,Saldo de emprego / admissões em 12 meses (%),True
+Muaná,PA,50314,Praça sem mercado formal,0.582,True,Poupança e depósito a prazo per capita (R$),True
+Viseu,PA,62398,Praça sem mercado formal,0.575,True,Poupança e depósito a prazo per capita (R$),True
+Extremoz,RN,70452,Praça em formação,0.572,True,Crédito sobre poupança (alavancagem),True
+Itapema,SC,88842,Praça madura de locação,0.572,True,Imobiliárias potenciais (CNAE Loft) / 10 mil hab.,True
+Portel,PA,68236,Praça sem mercado formal,0.566,True,Admissões de 18 a 30 anos (%),True
+Baião,PA,57717,Praça sem mercado formal,0.563,True,Internet móvel 4G/5G de pessoa física / 100 hab.,True
+Alenquer,PA,76889,Praça sem mercado formal,0.556,True,Admissões de 18 a 30 anos (%),True
+Tabatinga,AM,74384,Praça em formação,0.555,True,Imobiliárias de aluguel ou gestão (%),True
+Lábrea,AM,50040,Praça sem mercado formal,0.553,True,Admissões de 18 a 30 anos (%),True
+Japeri,RJ,102182,Praça em formação,0.55,True,Crédito per capita (R$),True
+Manicoré,AM,58557,Praça sem mercado formal,0.55,True,Internet móvel 4G/5G de pessoa física / 100 hab.,True
+São Gabriel da Cachoeira,AM,58359,Praça sem mercado formal,0.55,True,Crédito per capita (R$),True
+Osasco,SP,761441,Praça madura de locação,0.549,True,Crédito per capita (R$),True
+Maués,AM,67021,Praça sem mercado formal,0.549,True,Poupança e depósito a prazo per capita (R$),True
+Iranduba,AM,70248,Praça em formação,0.546,True,Saldo de emprego / admissões em 12 meses (%),True
+Itupiranga,PA,52213,Praça sem mercado formal,0.544,True,Crédito sobre poupança (alavancagem),True
+São Caetano do Sul,SP,173216,Praça madura de locação,0.539,True,Corretores de seguros / 10 mil hab.,True
+Santa Luzia,MA,58667,Praça sem mercado formal,0.538,True,Admissões de 18 a 30 anos (%),True
+Moju,PA,92688,Praça sem mercado formal,0.536,True,Internet móvel 4G/5G de pessoa física / 100 hab.,True
+Cametá,PA,145843,Praça sem mercado formal,0.536,True,Imobiliárias de aluguel ou gestão (%),True
+Santo Amaro,BA,58384,Praça em formação,0.536,True,Imobiliárias de aluguel ou gestão (%),True
+Belo Horizonte,MG,2415451,Praça madura de locação,0.535,True,Veículos por habitante,True
+Tefé,AM,81046,Praça sem mercado formal,0.533,True,Imobiliárias de aluguel ou gestão (%),False
+Balneário Camboriú,SC,154525,Praça madura de locação,0.532,True,Imobiliárias potenciais (CNAE Loft) / 10 mil hab.,True
+Buíque,PE,53545,Praça sem mercado formal,0.532,True,Saldo de emprego / admissões em 12 meses (%),True
+Sorriso,MT,128727,Praça madura de locação,0.529,True,Pix de pessoa física por habitante,True
+Tremembé,SP,53734,Praça intermediária conectada,0.529,True,Saldo de emprego / admissões em 12 meses (%),True
+Coari,AM,73403,Praça sem mercado formal,0.529,True,Imobiliárias de aluguel ou gestão (%),False
+Viçosa do Ceará,CE,63316,Praça em formação,0.529,True,Admissões de 18 a 30 anos (%),False
+São Paulo,SP,11911337,Praça madura de locação,0.527,True,Crédito per capita (R$),True
+São Félix do Xingu,PA,63393,Praça sem mercado formal,0.524,True,Crescimento da população em 1 ano (%),True
+Nova Lima,MG,122683,Praça madura de locação,0.524,True,Pix de pessoa física por habitante,True
+Brejo da Madre de Deus,PE,51492,Praça em formação,0.524,True,Crédito per capita (R$),True
+Seropédica,RJ,84821,Praça sem mercado formal,0.523,False,Saldo de emprego / admissões em 12 meses (%),True
+Brasília,DF,3009996,Praça madura de locação,0.523,True,Poupança e depósito a prazo per capita (R$),True
+Lucas do Rio Verde,MT,99291,Praça madura de locação,0.522,False,Crescimento da população em 1 ano (%),True
+Araci,BA,50282,Praça sem mercado formal,0.52,False,Imobiliárias novas em 12 meses (%),True
+Itaitinga,CE,74250,Praça em formação,0.52,False,Crédito sobre poupança (alavancagem),True
+Buriticupu,MA,56590,Praça sem mercado formal,0.52,False,Admissões de 18 a 30 anos (%),True
+Juruti,PA,54546,Praça sem mercado formal,0.518,False,Imobiliárias novas em 12 meses (%),True
+Curitiba,PR,1832183,Praça madura de locação,0.518,False,Corretores de seguros / 10 mil hab.,True
+Valinhos,SP,132862,Praça madura de locação,0.516,False,Corretores de seguros / 10 mil hab.,True
+Ipirá,BA,59183,Praça sem mercado formal,0.515,False,Imobiliárias de aluguel ou gestão (%),False
+Candeias,BA,74645,Praça popular de grande porte,0.515,False,Imobiliárias novas em 12 meses (%),False
+Sidrolândia,MS,50079,Praça sem mercado formal,0.514,False,Crédito sobre poupança (alavancagem),True
+Bertioga,SP,67941,Praça madura de locação,0.513,False,Banda larga fixa / 100 hab.,True
+Eusébio,CE,83641,Praça madura de locação,0.513,False,Crédito sobre poupança (alavancagem),True
+Florianópolis,SC,598370,Praça madura de locação,0.511,False,Imobiliárias potenciais (CNAE Loft) / 10 mil hab.,True
+Tucano,BA,51067,Praça sem mercado formal,0.511,False,Famílias no CadÚnico / 100 domicílios,True
+Manacapuru,AM,113042,Praça sem mercado formal,0.511,False,Imobiliárias de aluguel ou gestão (%),False
+Barueri,SP,336015,Praça madura de locação,0.511,False,Banda larga fixa / 100 hab.,True
+Poções,BA,50893,Praça sem mercado formal,0.51,False,Imobiliárias de aluguel ou gestão (%),False
+Granja,CE,55975,Praça sem mercado formal,0.509,False,Internet móvel 4G/5G de pessoa física / 100 hab.,True
+Tomé-Açu,PA,73762,Praça sem mercado formal,0.509,False,Imobiliárias novas em 12 meses (%),False
+São Benedito,CE,50274,Praça sem mercado formal,0.508,False,Imobiliárias de aluguel ou gestão (%),False
+Barra Velha,SC,54854,Praça madura de locação,0.507,False,Crescimento da população em 1 ano (%),True
+Itacoatiara,AM,115218,Praça em formação,0.507,False,Imobiliárias de aluguel ou gestão (%),True
+Tutóia,MA,55107,Praça sem mercado formal,0.506,False,Admissões de 18 a 30 anos (%),True
+Queimadas,PB,51156,Praça sem mercado formal,0.506,False,Imobiliárias novas em 12 meses (%),False
+Casa Nova,BA,76416,Praça sem mercado formal,0.506,False,Imobiliárias de aluguel ou gestão (%),False
+Igarapé-Miri,PA,69918,Praça sem mercado formal,0.506,False,Imobiliárias novas em 12 meses (%),True
+Santos,SP,429528,Praça madura de locação,0.505,False,Corretores de seguros / 10 mil hab.,False
+Breves,PA,117028,Praça em formação,0.505,False,Admissões de 18 a 30 anos (%),False
+Paulínia,SP,117554,Praça madura de locação,0.505,False,Salário mediano de admissão (R$),True
+Rondon do Pará,PA,57452,Praça em formação,0.505,False,Internet móvel 4G/5G de pessoa física / 100 hab.,True
+Escada,PE,62102,Praça sem mercado formal,0.504,False,Imobiliárias de aluguel ou gestão (%),False
+Dom Eliseu,PA,63306,Praça em formação,0.504,False,Internet móvel 4G/5G de pessoa física / 100 hab.,False
+Catu,BA,50068,Praça sem mercado formal,0.503,False,Admissões de 18 a 30 anos (%),True
+Tobias Barreto,SE,52943,Praça sem mercado formal,0.503,False,Imobiliárias de aluguel ou gestão (%),True
+Vitória,ES,343935,Praça madura de locação,0.503,False,Poupança e depósito a prazo per capita (R$),True
+Vinhedo,SP,79477,Praça madura de locação,0.501,False,Pix de pessoa física por habitante,True
+Óbidos,PA,55774,Praça em formação,0.5,False,Internet móvel 4G/5G de pessoa física / 100 hab.,False
+Santana de Parnaíba,SP,165193,Praça madura de locação,0.499,False,Pix de pessoa física por habitante,True
+Boa Viagem,CE,52100,Praça sem mercado formal,0.498,False,Imobiliárias de aluguel ou gestão (%),False
+Coruripe,AL,51783,Praça em formação,0.497,False,Imobiliárias de aluguel ou gestão (%),True
+Monte Alegre,PA,64350,Praça sem mercado formal,0.497,False,Imobiliárias novas em 12 meses (%),False
+Tauá,CE,65035,Praça em formação,0.497,False,Admissões de 18 a 30 anos (%),True
+Delmiro Gouveia,AL,52858,Praça sem mercado formal,0.496,False,Saldo de emprego / admissões em 12 meses (%),True
+Cidade Ocidental,GO,104114,Praça em formação,0.495,False,Crescimento da população em 1 ano (%),False
+Pinheiro,MA,88241,Praça sem mercado formal,0.495,False,Imobiliárias de aluguel ou gestão (%),False
+Canguçu,RS,50968,Praça sem mercado formal,0.495,False,Imobiliárias novas em 12 meses (%),False
+Indaiatuba,SP,271322,Praça madura de locação,0.494,False,Crédito per capita (R$),True
+São Bento do Una,PE,51075,Praça sem mercado formal,0.494,False,Imobiliárias novas em 12 meses (%),False
+Navegantes,SC,98421,Praça madura de locação,0.493,False,Crescimento da população em 1 ano (%),True
+Porto Alegre,RS,1388791,Praça madura de locação,0.492,False,Crédito per capita (R$),True
+Novo Repartimento,PA,63836,Praça em formação,0.492,False,Admissões de 18 a 30 anos (%),False
+Camboriú,SC,121040,Praça intermediária conectada,0.492,False,Crescimento da população em 1 ano (%),False
+Humaitá,AM,64390,Praça em formação,0.492,False,Admissões de 18 a 30 anos (%),False
+Vigia,PA,54309,Praça sem mercado formal,0.492,False,Imobiliárias novas em 12 meses (%),False
+Viana,MA,53229,Praça sem mercado formal,0.491,False,Imobiliárias novas em 12 meses (%),False
+Moreno,PE,57661,Praça em formação,0.49,False,Crédito per capita (R$),False
+Capitão Poço,PA,60663,Praça sem mercado formal,0.49,False,Imobiliárias novas em 12 meses (%),False
+Cristalina,GO,67922,Praça sem mercado formal,0.488,False,Imobiliárias novas em 12 meses (%),False
+Paraíso do Tocantins,TO,56223,Praça popular de grande porte,0.488,False,Pix de pessoa física por habitante,False
+Primavera do Leste,MT,99053,Praça madura de locação,0.487,False,Pix de pessoa física por habitante,True
+Icó,CE,64691,Praça sem mercado formal,0.487,False,Imobiliárias novas em 12 meses (%),False
+Grajaú,MA,75281,Praça em formação,0.487,False,Crescimento da população em 1 ano (%),True
+Xinguara,PA,58508,Praça sem mercado formal,0.487,False,Imobiliárias novas em 12 meses (%),False
+Itapipoca,CE,137795,Praça em formação,0.486,False,Admissões de 18 a 30 anos (%),True
+Ipojuca,PE,107370,Praça popular de grande porte,0.486,False,Famílias no CadÚnico / 100 domicílios,False
+Campo Novo do Parecis,MT,53393,Praça madura de locação,0.486,False,Crescimento da população em 1 ano (%),False
+Canaã dos Carajás,PA,92311,Praça popular de grande porte,0.486,False,Crescimento da população em 1 ano (%),True
+Sapé,PB,53598,Praça sem mercado formal,0.486,False,Imobiliárias novas em 12 meses (%),True
+Paudalho,PE,60187,Praça sem mercado formal,0.486,False,Imobiliárias novas em 12 meses (%),False
+Brejo Santo,CE,54585,Praça em formação,0.485,False,Admissões de 18 a 30 anos (%),True
+Abaetetuba,PA,173638,Praça em formação,0.485,False,Saldo de emprego / admissões em 12 meses (%),True
+Marituba,PA,119859,Praça sem mercado formal,0.485,False,Imobiliárias novas em 12 meses (%),False
+Guapimirim,RJ,54316,Praça sem mercado formal,0.485,False,Crédito per capita (R$),True
+Nova Mutum,MT,65663,Praça madura de locação,0.485,False,Crescimento da população em 1 ano (%),True
+Luís Eduardo Magalhães,BA,119947,Praça madura de locação,0.484,False,Pix de pessoa física por habitante,True
+Araquari,SC,53939,Praça intermediária conectada,0.484,False,Crescimento da população em 1 ano (%),True
+Niterói,RJ,516820,Praça madura de locação,0.483,False,Corretores de seguros / 10 mil hab.,True
+Goiânia,GO,1511709,Praça madura de locação,0.482,False,Pix de pessoa física por habitante,True
+Oriximiná,PA,73301,Praça em formação,0.481,False,Veículos por habitante,False
+Lençóis Paulista,SP,68724,Praça intermediária conectada,0.48,False,Salário mediano de admissão (R$),False
+Corumbá,MS,96334,Praça popular de grande porte,0.48,False,Crescimento da população em 1 ano (%),True
+Chapadinha,MA,84564,Praça em formação,0.479,False,Famílias no CadÚnico / 100 domicílios,True
+Coroatá,MA,61324,Praça em formação,0.479,False,Internet móvel 4G/5G de pessoa física / 100 hab.,False
+Jataí,GO,112835,Praça madura de locação,0.479,False,Pix de pessoa física por habitante,True
+Palmas,TO,333154,Praça madura de locação,0.477,False,Pix de pessoa física por habitante,False
+São Francisco,MG,54208,Praça sem mercado formal,0.477,False,Imobiliárias novas em 12 meses (%),False
+São José de Ribamar,MA,260695,Praça em formação,0.476,False,Poupança e depósito a prazo per capita (R$),False
+Cubatão,SP,114681,Praça popular de grande porte,0.476,False,Admissões de 18 a 30 anos (%),True
+Campinas,SP,1189761,Praça madura de locação,0.476,False,Poupança e depósito a prazo per capita (R$),True
+Sinop,MT,231452,Praça madura de locação,0.475,False,Crescimento da população em 1 ano (%),True
+Nova Venécia,ES,52531,Praça sem mercado formal,0.475,False,Imobiliárias novas em 12 meses (%),False
+Morada Nova,CE,65453,Praça sem mercado formal,0.475,False,Imobiliárias novas em 12 meses (%),False
+Acaraú,CE,69848,Praça sem mercado formal,0.475,False,Internet móvel 4G/5G de pessoa física / 100 hab.,False
+Pesqueira,PE,65549,Praça em formação,0.474,False,Famílias no CadÚnico / 100 domicílios,False
+Tailândia,PA,75062,Praça popular de grande porte,0.474,False,Crédito sobre poupança (alavancagem),False
+Capão da Canoa,RS,66237,Praça madura de locação,0.474,False,Banda larga fixa / 100 hab.,True
+Itapetinga,BA,68714,Praça sem mercado formal,0.473,False,Imobiliárias novas em 12 meses (%),False
+Rio Bonito,RJ,59147,Praça popular de grande porte,0.473,False,Corretores de seguros / 10 mil hab.,False
+Campo Verde,MT,51969,Praça intermediária conectada,0.472,False,Crescimento da população em 1 ano (%),True
+Fernandópolis,SP,73706,Praça intermediária conectada,0.472,False,Imobiliárias de aluguel ou gestão (%),False
+Goianira,GO,84170,Praça em formação,0.472,False,Crescimento da população em 1 ano (%),True
+Barra do Corda,MA,87830,Praça em formação,0.472,False,Admissões de 18 a 30 anos (%),False
+Pontes e Lacerda,MT,56720,Praça popular de grande porte,0.471,False,Crédito sobre poupança (alavancagem),False
+Rio Verde,GO,244881,Praça madura de locação,0.471,False,Pix de pessoa física por habitante,False
+Cáceres,MT,91908,Praça sem mercado formal,0.471,False,Imobiliárias novas em 12 meses (%),False
+São Miguel do Guamá,PA,56135,Praça sem mercado formal,0.471,False,Imobiliárias novas em 12 meses (%),False
+Lauro de Freitas,BA,221023,Praça popular de grande porte,0.47,False,Admissões de 18 a 30 anos (%),True
+Ribeirão Preto,SP,734538,Praça madura de locação,0.47,False,Corretores de seguros / 10 mil hab.,False
+Mariana,MG,64929,Praça popular de grande porte,0.469,False,Saldo de emprego / admissões em 12 meses (%),True
+Ubatuba,SP,97541,Praça madura de locação,0.469,False,Banda larga fixa / 100 hab.,True
+Itapecuru Mirim,MA,62260,Praça sem mercado formal,0.469,False,Imobiliárias novas em 12 meses (%),False
+Barreirinhas,MA,68439,Praça em formação,0.469,False,Admissões de 18 a 30 anos (%),False
+Tijucas,SC,60560,Praça intermediária conectada,0.468,False,Crescimento da população em 1 ano (%),False
+Beberibe,CE,56272,Praça em formação,0.468,False,Admissões de 18 a 30 anos (%),False
+Santo Estêvão,BA,55333,Praça em formação,0.467,False,Imobiliárias de aluguel ou gestão (%),False
+São Bernardo do Campo,SP,842558,Praça madura de locação,0.466,False,Crédito per capita (R$),True
+Quixeramobim,CE,87030,Praça em formação,0.466,False,Admissões de 18 a 30 anos (%),True
+Ouro Preto,MG,78210,Praça intermediária conectada,0.466,False,Salário mediano de admissão (R$),False
+Codó,MA,118272,Praça sem mercado formal,0.465,False,Imobiliárias novas em 12 meses (%),False
+Aracruz,ES,104304,Praça popular de grande porte,0.465,False,Salário mediano de admissão (R$),True
+Parintins,AM,101754,Praça em formação,0.465,False,Veículos por habitante,False
+Olímpia,SP,57028,Praça madura de locação,0.464,False,Salário mediano de admissão (R$),False
+Congonhas,MG,55542,Praça intermediária conectada,0.462,False,Admissões de 18 a 30 anos (%),True
+Bragança,PA,133268,Praça sem mercado formal,0.462,False,Imobiliárias novas em 12 meses (%),False
+Aquiraz,CE,85865,Praça popular de grande porte,0.462,False,Crédito per capita (R$),False
+Tianguá,CE,87757,Praça sem mercado formal,0.462,False,Imobiliárias novas em 12 meses (%),False
+Ouricuri,PE,68637,Praça sem mercado formal,0.461,False,Saldo de emprego / admissões em 12 meses (%),False
+Rio de Janeiro,RJ,6731133,Praça madura de locação,0.461,False,Poupança e depósito a prazo per capita (R$),True
+Cosmópolis,SP,61196,Praça intermediária conectada,0.461,False,Salário mediano de admissão (R$),False
+Cuiabá,MT,698917,Praça madura de locação,0.461,False,Pix de pessoa física por habitante,False
+Parobé,RS,53569,Praça intermediária conectada,0.46,False,Imobiliárias novas em 12 meses (%),False
+Recife,PE,1588983,Praça popular de grande porte,0.46,False,Poupança e depósito a prazo per capita (R$),False
+Santa Cruz do Capibaribe,PE,105386,Praça popular de grande porte,0.459,False,Admissões de 18 a 30 anos (%),False
+Itajaí,SC,302247,Praça madura de locação,0.459,False,Crescimento da população em 1 ano (%),True
+Palmeira dos Índios,AL,73631,Praça sem mercado formal,0.459,False,Saldo de emprego / admissões em 12 meses (%),True
+Rio Largo,AL,97742,Praça em formação,0.458,False,Saldo de emprego / admissões em 12 meses (%),True
+Itupeva,SP,75776,Praça madura de locação,0.458,False,Banda larga fixa / 100 hab.,True
+Mineiros,GO,76188,Praça popular de grande porte,0.458,False,Pix de pessoa física por habitante,False
+Saquarema,RJ,95355,Praça popular de grande porte,0.458,False,Corretores de seguros / 10 mil hab.,False
+São Borja,RS,61311,Praça sem mercado formal,0.457,False,Imobiliárias novas em 12 meses (%),False
+Simões Filho,BA,120429,Praça popular de grande porte,0.457,False,Imobiliárias de aluguel ou gestão (%),False
+Caxias,MA,163650,Praça sem mercado formal,0.457,False,Imobiliárias novas em 12 meses (%),False
+Fazenda Rio Grande,PR,170123,Praça intermediária conectada,0.457,False,Crescimento da população em 1 ano (%),False
+Itaperuna,RJ,107322,Praça sem mercado formal,0.457,False,Imobiliárias novas em 12 meses (%),False
+Itapira,SP,74145,Praça intermediária conectada,0.457,False,Poupança e depósito a prazo per capita (R$),True
+Santa Izabel do Pará,PA,80039,Praça sem mercado formal,0.456,False,Imobiliárias novas em 12 meses (%),False
+Tangará da Serra,MT,116637,Praça madura de locação,0.456,False,Crédito sobre poupança (alavancagem),False
+Brusque,SC,158593,Praça intermediária conectada,0.456,False,Crescimento da população em 1 ano (%),True
+Jundiaí,SP,465277,Praça madura de locação,0.456,False,Famílias no CadÚnico / 100 domicílios,True
+Barcarena,PA,140756,Praça popular de grande porte,0.456,False,Salário mediano de admissão (R$),False
+Trairi,CE,62466,Praça em formação,0.456,False,Internet móvel 4G/5G de pessoa física / 100 hab.,False
+Indaial,SC,79523,Praça intermediária conectada,0.455,False,Crescimento da população em 1 ano (%),True
+União dos Palmares,AL,60855,Praça sem mercado formal,0.455,False,Imobiliárias novas em 12 meses (%),False
+Valparaíso de Goiás,GO,223210,Praça intermediária conectada,0.455,False,Crescimento da população em 1 ano (%),False
+São Cristóvão,SE,111567,Praça em formação,0.454,False,Admissões de 18 a 30 anos (%),False
+Maranguape,CE,108323,Praça sem mercado formal,0.453,False,Imobiliárias novas em 12 meses (%),False
+Dias d'Ávila,BA,75516,Praça sem mercado formal,0.453,False,Imobiliárias novas em 12 meses (%),False
+Alta Floresta,MT,63017,Praça popular de grande porte,0.453,False,Pix de pessoa física por habitante,False
+Águas Lindas de Goiás,GO,249978,Praça em formação,0.453,False,Poupança e depósito a prazo per capita (R$),False
+Salvador,BA,2559945,Praça popular de grande porte,0.452,False,Admissões de 18 a 30 anos (%),False
+Campina Grande do Sul,PR,51154,Praça intermediária conectada,0.452,False,Crédito sobre poupança (alavancagem),False
+Ceará-Mirim,RN,83662,Praça sem mercado formal,0.451,False,Imobiliárias novas em 12 meses (%),False
+Limoeiro,PE,59194,Praça sem mercado formal,0.451,False,Imobiliárias novas em 12 meses (%),False
+Chapecó,SC,289170,Praça intermediária conectada,0.451,False,Crescimento da população em 1 ano (%),False
+São Miguel dos Campos,AL,53376,Praça em formação,0.451,False,Imobiliárias de aluguel ou gestão (%),False
+Belford Roxo,RJ,518442,Praça em formação,0.451,False,Crédito per capita (R$),False
+Atibaia,SP,168162,Praça madura de locação,0.45,False,Corretores de seguros / 10 mil hab.,False
+Almirante Tamandaré,PR,127031,Praça em formação,0.45,False,Internet móvel 4G/5G de pessoa física / 100 hab.,False
+Nossa Senhora do Socorro,SE,205611,Praça em formação,0.45,False,Admissões de 18 a 30 anos (%),False
+Queimados,RJ,149155,Praça sem mercado formal,0.45,False,Imobiliárias novas em 12 meses (%),False
+Viana,ES,79611,Praça em formação,0.449,False,Corretores de seguros / 10 mil hab.,False
+Cachoeiras de Macacu,RJ,59873,Praça em formação,0.449,False,Saldo de emprego / admissões em 12 meses (%),False
+Barra,BA,53745,Praça em formação,0.449,False,Internet móvel 4G/5G de pessoa física / 100 hab.,False
+Boa Vista,RR,500965,Praça popular de grande porte,0.449,False,Crescimento da população em 1 ano (%),False
+Palhoça,SC,261287,Praça madura de locação,0.448,False,Crescimento da população em 1 ano (%),False
+Arujá,SP,90644,Praça madura de locação,0.448,False,Salário mediano de admissão (R$),False
+Maringá,PR,432635,Praça madura de locação,0.448,False,Imobiliárias potenciais (CNAE Loft) / 10 mil hab.,False
+Biguaçu,SC,85472,Praça madura de locação,0.448,False,Crescimento da população em 1 ano (%),False
+Três Corações,MG,78492,Praça sem mercado formal,0.447,False,Imobiliárias novas em 12 meses (%),False
+São Sebastião,SP,84514,Praça madura de locação,0.447,False,Banda larga fixa / 100 hab.,False
+Imbituba,SC,58381,Praça madura de locação,0.447,False,Banda larga fixa / 100 hab.,False
+Valença,RJ,71442,Praça em formação,0.447,False,Imobiliárias de aluguel ou gestão (%),False
+Ariquemes,RO,109731,Praça popular de grande porte,0.446,False,Crédito sobre poupança (alavancagem),False
+Assú,RN,59278,Praça em formação,0.446,False,Saldo de emprego / admissões em 12 meses (%),True
+Balsas,MA,106332,Praça popular de grande porte,0.446,False,Pix de pessoa física por habitante,False
+Penedo,AL,60183,Praça em formação,0.446,False,Famílias no CadÚnico / 100 domicílios,True
+Caldas Novas,GO,108805,Praça madura de locação,0.445,False,Imobiliárias potenciais (CNAE Loft) / 10 mil hab.,False
+Prudentópolis,PR,50988,Praça em formação,0.445,False,Imobiliárias de aluguel ou gestão (%),False
+Aracaju,SE,623328,Praça madura de locação,0.445,False,Pix de pessoa física por habitante,False
+Camocim,CE,65459,Praça em formação,0.445,False,Saldo de emprego / admissões em 12 meses (%),False
+Paço do Lumiar,MA,153903,Praça em formação,0.444,False,Poupança e depósito a prazo per capita (R$),False
+Ribeira do Pombal,BA,56449,Praça sem mercado formal,0.444,False,Imobiliárias novas em 12 meses (%),False
+Conceição do Coité,BA,71860,Praça em formação,0.444,False,Banda larga fixa / 100 hab.,True
+São José do Rio Preto,SP,506466,Praça madura de locação,0.444,False,Corretores de seguros / 10 mil hab.,False
+Sertãozinho,SP,132692,Praça intermediária conectada,0.444,False,Salário mediano de admissão (R$),True
+Altos,PI,50509,Praça em formação,0.443,False,Saldo de emprego / admissões em 12 meses (%),False
+Quixadá,CE,89190,Praça em formação,0.443,False,Famílias no CadÚnico / 100 domicílios,True
+Jaru,RO,55774,Praça popular de grande porte,0.443,False,Admissões de 18 a 30 anos (%),False
+Guaramirim,SC,52093,Praça intermediária conectada,0.443,False,Crescimento da população em 1 ano (%),False
+Barra do Garças,MT,75524,Praça popular de grande porte,0.443,False,Crescimento da população em 1 ano (%),False
+Palmares,PE,56346,Praça em formação,0.442,False,Saldo de emprego / admissões em 12 meses (%),False
+Marechal Deodoro,AL,62528,Praça popular de grande porte,0.442,False,Poupança e depósito a prazo per capita (R$),False
+Macaé,RJ,264583,Praça popular de grande porte,0.442,False,Admissões de 18 a 30 anos (%),False
+Belo Jardim,PE,84389,Praça sem mercado formal,0.442,False,Imobiliárias novas em 12 meses (%),False
+Mongaguá,SP,65321,Praça intermediária conectada,0.442,False,Banda larga fixa / 100 hab.,True
+Barra do Piraí,RJ,98508,Praça intermediária conectada,0.442,False,Imobiliárias de aluguel ou gestão (%),False
+São Gonçalo do Amarante,CE,58848,Praça popular de grande porte,0.441,False,Corretores de seguros / 10 mil hab.,False
+Jaguariúna,SP,62764,Praça madura de locação,0.441,False,Salário mediano de admissão (R$),True
+São José,SC,301218,Praça madura de locação,0.441,False,Crescimento da população em 1 ano (%),False
+Uberlândia,MG,768339,Praça madura de locação,0.441,False,Corretores de seguros / 10 mil hab.,False
+Serrinha,BA,84928,Praça em formação,0.441,False,Famílias no CadÚnico / 100 domicílios,False
+Olinda,PE,364087,Praça popular de grande porte,0.44,False,Admissões de 18 a 30 anos (%),False
+Sousa,PB,70247,Praça sem mercado formal,0.44,False,Imobiliárias novas em 12 meses (%),False
+Peruíbe,SP,70891,Praça madura de locação,0.44,False,Internet móvel 4G/5G de pessoa física / 100 hab.,False
+Tramandaí,RS,56432,Praça madura de locação,0.439,False,Banda larga fixa / 100 hab.,True
+Campo Formoso,BA,75311,Praça em formação,0.439,False,Internet móvel 4G/5G de pessoa física / 100 hab.,False
+Horizonte,CE,82325,Praça em formação,0.439,False,Saldo de emprego / admissões em 12 meses (%),False
+Sarandi,PR,130211,Praça intermediária conectada,0.439,False,Salário mediano de admissão (R$),False
+Catanduva,SP,119368,Praça intermediária conectada,0.438,False,Famílias no CadÚnico / 100 domicílios,False
+Blumenau,SC,390371,Praça madura de locação,0.438,False,Imobiliárias potenciais (CNAE Loft) / 10 mil hab.,False
+Novo Hamburgo,RS,235801,Praça madura de locação,0.438,False,Corretores de seguros / 10 mil hab.,False
+Extrema,MG,60681,Praça madura de locação,0.438,False,Crescimento da população em 1 ano (%),False
+Russas,CE,75073,Praça sem mercado formal,0.438,False,Imobiliárias novas em 12 meses (%),False
+Paragominas,PA,114128,Praça popular de grande porte,0.438,False,Crédito sobre poupança (alavancagem),False
+Capanema,PA,75791,Praça sem mercado formal,0.438,False,Imobiliárias novas em 12 meses (%),False
+Pacatuba,CE,87219,Praça em formação,0.438,False,Poupança e depósito a prazo per capita (R$),False
+Santa Cruz do Sul,RS,138273,Praça intermediária conectada,0.437,False,Imobiliárias potenciais (CNAE Loft) / 10 mil hab.,False
+Francisco Morato,SP,171806,Praça popular de grande porte,0.437,False,Poupança e depósito a prazo per capita (R$),False
+Canela,RS,50717,Praça madura de locação,0.437,False,Imobiliárias potenciais (CNAE Loft) / 10 mil hab.,True
+São Francisco do Sul,SC,57649,Praça madura de locação,0.437,False,Banda larga fixa / 100 hab.,False
+Itaúna,MG,104002,Praça intermediária conectada,0.437,False,Saldo de emprego / admissões em 12 meses (%),False
+Americana,SP,248392,Praça madura de locação,0.436,False,Famílias no CadÚnico / 100 domicílios,False
+Campo Limpo Paulista,SP,79890,Praça intermediária conectada,0.436,False,Salário mediano de admissão (R$),False
+Senador Canedo,GO,180111,Praça popular de grande porte,0.436,False,Crescimento da população em 1 ano (%),False
+Itapevi,SP,243967,Praça popular de grande porte,0.436,False,Salário mediano de admissão (R$),False
+Cascavel,PR,372026,Praça madura de locação,0.436,False,Imobiliárias potenciais (CNAE Loft) / 10 mil hab.,False
+Açailândia,MA,110703,Praça popular de grande porte,0.435,False,Saldo de emprego / admissões em 12 meses (%),False
+Itabirito,MG,56818,Praça intermediária conectada,0.435,False,Saldo de emprego / admissões em 12 meses (%),False
+Araçatuba,SP,208987,Praça madura de locação,0.435,False,Crédito per capita (R$),False
+Esmeraldas,MG,94543,Praça em formação,0.435,False,Poupança e depósito a prazo per capita (R$),False
+Vilhena,RO,110708,Praça popular de grande porte,0.434,False,Crédito sobre poupança (alavancagem),False
+Itaguaí,RJ,124040,Praça popular de grande porte,0.434,False,Admissões de 18 a 30 anos (%),False
+Marechal Cândido Rondon,PR,59291,Praça intermediária conectada,0.434,False,Crédito sobre poupança (alavancagem),False
+Cruzeiro,SP,76381,Praça intermediária conectada,0.434,False,Saldo de emprego / admissões em 12 meses (%),False
+Itanhaém,SP,119274,Praça madura de locação,0.434,False,Banda larga fixa / 100 hab.,False
+João Pessoa,PB,906093,Praça madura de locação,0.434,False,Imobiliárias potenciais (CNAE Loft) / 10 mil hab.,False
+Lajeado,RS,96883,Praça intermediária conectada,0.434,False,Corretores de seguros / 10 mil hab.,False
+Passo Fundo,RS,214815,Praça madura de locação,0.434,False,Crédito per capita (R$),False
+Estância,SE,67136,Praça sem mercado formal,0.433,False,Imobiliárias novas em 12 meses (%),False
+Timbó,SC,50613,Praça intermediária conectada,0.433,False,Famílias no CadÚnico / 100 domicílios,True
+Piraquara,PR,129035,Praça em formação,0.433,False,Internet móvel 4G/5G de pessoa física / 100 hab.,False
+Várzea Paulista,SP,119923,Praça intermediária conectada,0.433,False,Admissões de 18 a 30 anos (%),False
+Picos,PI,87129,Praça popular de grande porte,0.431,False,Saldo de emprego / admissões em 12 meses (%),False
+Santo André,SP,784290,Praça madura de locação,0.431,False,Corretores de seguros / 10 mil hab.,False
+Gaspar,SC,79645,Praça intermediária conectada,0.431,False,Famílias no CadÚnico / 100 domicílios,False
+Senhor do Bonfim,BA,78193,Praça em formação,0.431,False,Imobiliárias de aluguel ou gestão (%),False
+Conselheiro Lafaiete,MG,139858,Praça intermediária conectada,0.431,False,Famílias no CadÚnico / 100 domicílios,False
+Jacobina,BA,87121,Praça em formação,0.431,False,Imobiliárias de aluguel ou gestão (%),False
+Naviraí,MS,53307,Praça popular de grande porte,0.431,False,Crédito sobre poupança (alavancagem),False
+Macaíba,RN,87634,Praça em formação,0.431,False,Internet móvel 4G/5G de pessoa física / 100 hab.,False
+Cataguases,MG,67600,Praça intermediária conectada,0.431,False,Imobiliárias de aluguel ou gestão (%),False
+Araguaína,TO,184495,Praça popular de grande porte,0.43,False,Pix de pessoa física por habitante,False
+Palmas,PR,50564,Praça em formação,0.43,False,Saldo de emprego / admissões em 12 meses (%),False
+Canindé,CE,77536,Praça em formação,0.43,False,Famílias no CadÚnico / 100 domicílios,False
+Bauru,SP,394028,Praça madura de locação,0.43,False,Corretores de seguros / 10 mil hab.,False
+Itaituba,PA,136990,Praça popular de grande porte,0.43,False,Banda larga fixa / 100 hab.,False
+Bayeux,PB,83351,Praça em formação,0.429,False,Famílias no CadÚnico / 100 domicílios,True
+Santa Inês,MA,88320,Praça popular de grande porte,0.429,False,Admissões de 18 a 30 anos (%),False
+Timon,MA,183123,Praça em formação,0.429,False,Poupança e depósito a prazo per capita (R$),False
+Lagarto,SE,106330,Praça em formação,0.429,False,Saldo de emprego / admissões em 12 meses (%),False
+Içara,SC,64717,Praça intermediária conectada,0.429,False,Crescimento da população em 1 ano (%),False
+Nova Odessa,SP,64924,Praça madura de locação,0.428,False,Internet móvel 4G/5G de pessoa física / 100 hab.,True
+Rondonópolis,MT,268202,Praça madura de locação,0.428,False,Pix de pessoa física por habitante,False
+Itaboraí,RJ,240169,Praça popular de grande porte,0.428,False,Saldo de emprego / admissões em 12 meses (%),False
+Abreu e Lima,PE,104527,Praça em formação,0.428,False,Crédito per capita (R$),False
+Concórdia,SC,88402,Praça intermediária conectada,0.428,False,Famílias no CadÚnico / 100 domicílios,True
+Vargem Grande Paulista,SP,52574,Praça madura de locação,0.428,False,Corretores de seguros / 10 mil hab.,False
+Bacabal,MA,107874,Praça em formação,0.428,False,Saldo de emprego / admissões em 12 meses (%),False
+Dourados,MS,266950,Praça intermediária conectada,0.428,False,Crédito sobre poupança (alavancagem),False
+Poá,SP,106288,Praça popular de grande porte,0.427,False,Corretores de seguros / 10 mil hab.,False
+São João de Meriti,RJ,466487,Praça popular de grande porte,0.427,False,Imobiliárias de aluguel ou gestão (%),False
+Amparo,SP,69859,Praça intermediária conectada,0.427,False,Famílias no CadÚnico / 100 domicílios,False
+Cabo de Santo Agostinho,PE,219044,Praça popular de grande porte,0.427,False,Saldo de emprego / admissões em 12 meses (%),False
+Cruzeiro do Sul,AC,99404,Praça em formação,0.427,False,Admissões de 18 a 30 anos (%),False
+Ijuí,RS,87849,Praça intermediária conectada,0.427,False,Crédito sobre poupança (alavancagem),False
+Ponte Nova,MG,59703,Praça intermediária conectada,0.427,False,Poupança e depósito a prazo per capita (R$),False
+Salgueiro,PE,66233,Praça sem mercado formal,0.427,False,Imobiliárias novas em 12 meses (%),False
+Gurupi,TO,90818,Praça popular de grande porte,0.427,False,Pix de pessoa física por habitante,False
+Tucuruí,PA,96004,Praça em formação,0.426,False,Admissões de 18 a 30 anos (%),False
+Santa Rita,PB,162488,Praça em formação,0.426,False,Poupança e depósito a prazo per capita (R$),False
+Bebedouro,SP,78298,Praça madura de locação,0.426,False,Pix de pessoa física por habitante,False
+Santo Ângelo,RS,79146,Praça intermediária conectada,0.426,False,Crédito sobre poupança (alavancagem),False
+Porto Nacional,TO,70507,Praça popular de grande porte,0.426,False,Crédito sobre poupança (alavancagem),False
+Caetité,BA,54852,Praça em formação,0.426,False,Pix de pessoa física por habitante,False
+Euclides da Cunha,BA,64969,Praça em formação,0.426,False,Famílias no CadÚnico / 100 domicílios,False
+Ibirité,MG,180404,Praça popular de grande porte,0.425,False,Imobiliárias de aluguel ou gestão (%),False
+Jaraguá do Sul,SC,203204,Praça intermediária conectada,0.425,False,Famílias no CadÚnico / 100 domicílios,True
+São Gonçalo do Amarante,RN,125691,Praça em formação,0.425,False,Saldo de emprego / admissões em 12 meses (%),False
+Piripiri,PI,68076,Praça em formação,0.425,False,Saldo de emprego / admissões em 12 meses (%),True
+Unaí,MG,91884,Praça intermediária conectada,0.425,False,Crédito sobre poupança (alavancagem),False
+Novo Gama,GO,108219,Praça em formação,0.425,False,Poupança e depósito a prazo per capita (R$),False
+Cruz das Almas,BA,63437,Praça popular de grande porte,0.425,False,Internet móvel 4G/5G de pessoa física / 100 hab.,False
+Barreiras,BA,172521,Praça popular de grande porte,0.425,False,Crédito sobre poupança (alavancagem),False
+Santana,AP,119224,Praça popular de grande porte,0.425,False,Imobiliárias de aluguel ou gestão (%),False
+Patos de Minas,MG,170404,Praça intermediária conectada,0.425,False,Pix de pessoa física por habitante,False
+Piracicaba,SP,442635,Praça madura de locação,0.425,False,Poupança e depósito a prazo per capita (R$),False
+Redenção,PA,93414,Praça popular de grande porte,0.425,False,Pix de pessoa física por habitante,False
+Irecê,BA,79105,Praça popular de grande porte,0.424,False,Imobiliárias de aluguel ou gestão (%),False
+Catalão,GO,124683,Praça intermediária conectada,0.424,False,Crescimento da população em 1 ano (%),False
+Surubim,PE,68104,Praça em formação,0.424,False,Saldo de emprego / admissões em 12 meses (%),False
+Porto Seguro,BA,184087,Praça popular de grande porte,0.424,False,Imobiliárias potenciais (CNAE Loft) / 10 mil hab.,False
+Arapiraca,AL,243998,Praça popular de grande porte,0.424,False,Admissões de 18 a 30 anos (%),False
+Januária,MG,67157,Praça em formação,0.424,False,Imobiliárias de aluguel ou gestão (%),False
+Barbalha,CE,82602,Praça em formação,0.424,False,Corretores de seguros / 10 mil hab.,False
+Muriaé,MG,108716,Praça intermediária conectada,0.424,False,Banda larga fixa / 100 hab.,False
+Três Rios,RJ,82329,Praça popular de grande porte,0.423,False,Imobiliárias de aluguel ou gestão (%),False
+Xanxerê,SC,55573,Praça intermediária conectada,0.423,False,Famílias no CadÚnico / 100 domicílios,False
+Araripina,PE,90873,Praça em formação,0.423,False,Admissões de 18 a 30 anos (%),False
+Campo Mourão,PR,104881,Praça intermediária conectada,0.423,False,Crédito per capita (R$),False
+Nova Friburgo,RJ,203460,Praça intermediária conectada,0.423,False,Crédito sobre poupança (alavancagem),False
+Praia Grande,SP,371190,Praça madura de locação,0.423,False,Banda larga fixa / 100 hab.,False
+Angra dos Reis,RJ,179152,Praça popular de grande porte,0.423,False,Crédito sobre poupança (alavancagem),True
+Governador Valadares,MG,266478,Praça madura de locação,0.423,False,Pix de pessoa física por habitante,False
+Vitória de Santo Antão,PE,142419,Praça em formação,0.423,False,Crescimento da população em 1 ano (%),True
+Barretos,SP,127276,Praça madura de locação,0.422,False,Pix de pessoa física por habitante,False
+Goiana,PE,85806,Praça popular de grande porte,0.422,False,Saldo de emprego / admissões em 12 meses (%),False
+Natal,RN,783196,Praça madura de locação,0.422,False,Internet móvel 4G/5G de pessoa física / 100 hab.,False
+Taquara,RS,54353,Praça intermediária conectada,0.422,False,Veículos por habitante,False
+Rolim de Moura,RO,63336,Praça popular de grande porte,0.422,False,Crédito sobre poupança (alavancagem),False
+Venâncio Aires,RS,70842,Praça intermediária conectada,0.422,False,Admissões de 18 a 30 anos (%),False
+Cabedelo,PB,71364,Praça popular de grande porte,0.422,False,Crédito sobre poupança (alavancagem),False
+Joinville,SC,673980,Praça madura de locação,0.421,False,Famílias no CadÚnico / 100 domicílios,False
+Itaquaquecetuba,SP,384436,Praça popular de grande porte,0.421,False,Crédito per capita (R$),False
+Santiago,RS,50336,Praça intermediária conectada,0.421,False,Crédito sobre poupança (alavancagem),False
+Cotia,SP,291704,Praça madura de locação,0.421,False,Corretores de seguros / 10 mil hab.,False
+Sapiranga,RS,77935,Praça intermediária conectada,0.421,False,Veículos por habitante,False
+Bezerros,PE,65190,Praça em formação,0.421,False,Famílias no CadÚnico / 100 domicílios,False
+Mesquita,RJ,178780,Praça em formação,0.421,False,Crédito per capita (R$),False
+Porto Ferreira,SP,54005,Praça intermediária conectada,0.421,False,Famílias no CadÚnico / 100 domicílios,False
+Alegrete,RS,74285,Praça intermediária conectada,0.42,False,Crédito sobre poupança (alavancagem),False
+Matão,SP,81144,Praça intermediária conectada,0.42,False,Admissões de 18 a 30 anos (%),False
+Santarém,PA,364298,Praça popular de grande porte,0.42,False,Admissões de 18 a 30 anos (%),False
+Londrina,PR,584465,Praça madura de locação,0.42,False,Imobiliárias potenciais (CNAE Loft) / 10 mil hab.,False
+Serra Talhada,PE,99436,Praça em formação,0.42,False,Admissões de 18 a 30 anos (%),False
+Imperatriz,MA,286383,Praça popular de grande porte,0.42,False,Pix de pessoa física por habitante,False
+Caieiras,SP,98810,Praça intermediária conectada,0.42,False,Salário mediano de admissão (R$),False
+Pato Branco,PR,99041,Praça intermediária conectada,0.42,False,Salário mediano de admissão (R$),False
+Ribeirão das Neves,MG,348996,Praça popular de grande porte,0.42,False,Crédito per capita (R$),False
+Cajamar,SP,99249,Praça madura de locação,0.42,False,Internet móvel 4G/5G de pessoa física / 100 hab.,False
+Mafra,SC,57501,Praça intermediária conectada,0.42,False,Saldo de emprego / admissões em 12 meses (%),False
+Guarujá,SP,294780,Praça madura de locação,0.42,False,Banda larga fixa / 100 hab.,False
+Campo Bom,RS,64720,Praça intermediária conectada,0.42,False,Famílias no CadÚnico / 100 domicílios,False
+Presidente Prudente,SP,235264,Praça madura de locação,0.42,False,Pix de pessoa física por habitante,False
+João Monlevade,MG,84198,Praça intermediária conectada,0.42,False,Imobiliárias de aluguel ou gestão (%),False
+Formosa,GO,122613,Praça popular de grande porte,0.419,False,Pix de pessoa física por habitante,False
+Jandira,SP,121848,Praça popular de grande porte,0.419,False,Salário mediano de admissão (R$),False
+Maceió,AL,995134,Praça popular de grande porte,0.419,False,Imobiliárias potenciais (CNAE Loft) / 10 mil hab.,False
+Poços de Caldas,MG,173100,Praça madura de locação,0.419,False,Banda larga fixa / 100 hab.,False
+Ituiutaba,MG,107133,Praça intermediária conectada,0.419,False,Internet móvel 4G/5G de pessoa física / 100 hab.,False
+Sant'Ana do Livramento,RS,87330,Praça intermediária conectada,0.419,False,Veículos por habitante,True
+Vila Velha,ES,510512,Praça madura de locação,0.419,False,Corretores de seguros / 10 mil hab.,False
+Cabo Frio,RJ,236772,Praça madura de locação,0.419,False,Crescimento da população em 1 ano (%),True
+Mogi Mirim,SP,95929,Praça intermediária conectada,0.419,False,Salário mediano de admissão (R$),False
+Barra Mansa,RJ,181675,Praça intermediária conectada,0.419,False,Crédito sobre poupança (alavancagem),False
+Itaberaba,BA,68590,Praça popular de grande porte,0.419,False,Famílias no CadÚnico / 100 domicílios,False
+Benevides,PA,69703,Praça em formação,0.418,False,Famílias no CadÚnico / 100 domicílios,False
+Bento Gonçalves,RS,127980,Praça intermediária conectada,0.418,False,Famílias no CadÚnico / 100 domicílios,False
+Maricá,RJ,212703,Praça popular de grande porte,0.418,False,Internet móvel 4G/5G de pessoa física / 100 hab.,False
+São José de Mipibu,RN,50386,Praça em formação,0.418,False,Poupança e depósito a prazo per capita (R$),False
+Frutal,MG,61588,Praça intermediária conectada,0.418,False,Crédito per capita (R$),False
+Paulista,PE,367155,Praça em formação,0.418,False,Admissões de 18 a 30 anos (%),False
+Planaltina,GO,113950,Praça em formação,0.418,False,Corretores de seguros / 10 mil hab.,False
+Belém,PA,1396157,Praça popular de grande porte,0.418,False,Internet móvel 4G/5G de pessoa física / 100 hab.,False
+Nilópolis,RJ,155478,Praça intermediária conectada,0.417,False,Admissões de 18 a 30 anos (%),False
+Timóteo,MG,84253,Praça intermediária conectada,0.417,False,Admissões de 18 a 30 anos (%),False
+Cajazeiras,PB,66976,Praça em formação,0.416,False,Imobiliárias de aluguel ou gestão (%),False
+Ibiúna,SP,77936,Praça intermediária conectada,0.416,False,Banda larga fixa / 100 hab.,False
+Floriano,PI,64614,Praça popular de grande porte,0.416,False,Corretores de seguros / 10 mil hab.,False
+Santo Antônio do Descoberto,GO,75814,Praça em formação,0.416,False,Poupança e depósito a prazo per capita (R$),False
+São João da Boa Vista,SP,96365,Praça intermediária conectada,0.416,False,Famílias no CadÚnico / 100 domicílios,False
+Jaboticabal,SP,73479,Praça intermediária conectada,0.416,False,Saldo de emprego / admissões em 12 meses (%),False
+Gravatá,PE,92929,Praça popular de grande porte,0.416,False,Famílias no CadÚnico / 100 domicílios,False
+Inhumas,GO,54133,Praça popular de grande porte,0.416,False,Pix de pessoa física por habitante,False
+Louveira,SP,55314,Praça intermediária conectada,0.415,False,Salário mediano de admissão (R$),False
+Erechim,RS,109610,Praça intermediária conectada,0.415,False,Veículos por habitante,False
+Uruguaiana,RS,120818,Praça intermediária conectada,0.415,False,Imobiliárias de aluguel ou gestão (%),False
+Taquaritinga,SP,53212,Praça popular de grande porte,0.415,False,Veículos por habitante,False
+Camaçari,BA,323676,Praça popular de grande porte,0.415,False,Internet móvel 4G/5G de pessoa física / 100 hab.,False
+Caratinga,MG,91082,Praça intermediária conectada,0.415,False,Corretores de seguros / 10 mil hab.,False
+Magé,RJ,244166,Praça popular de grande porte,0.415,False,Crédito per capita (R$),False
+União da Vitória,PR,56701,Praça intermediária conectada,0.415,False,Internet móvel 4G/5G de pessoa física / 100 hab.,False
+Brumado,BA,74617,Praça em formação,0.415,False,Banda larga fixa / 100 hab.,False
+Bom Jesus da Lapa,BA,68869,Praça em formação,0.415,False,Banda larga fixa / 100 hab.,False
+São Gabriel,RS,60090,Praça intermediária conectada,0.414,False,Banda larga fixa / 100 hab.,False
+Goianésia,GO,78980,Praça popular de grande porte,0.414,False,Crédito sobre poupança (alavancagem),False
+Parnamirim,RN,273952,Praça intermediária conectada,0.414,False,Poupança e depósito a prazo per capita (R$),False
+Altamira,PA,140450,Praça popular de grande porte,0.414,False,Veículos por habitante,False
+Nova Andradina,MS,51081,Praça popular de grande porte,0.414,False,Crédito sobre poupança (alavancagem),False
+Capivari,SP,51415,Praça intermediária conectada,0.414,False,Poupança e depósito a prazo per capita (R$),False
+Assis,SP,105051,Praça intermediária conectada,0.414,False,Poupança e depósito a prazo per capita (R$),False
+Lagoa Santa,MG,82544,Praça madura de locação,0.414,False,Imobiliárias potenciais (CNAE Loft) / 10 mil hab.,False
+Santa Bárbara d'Oeste,SP,189562,Praça intermediária conectada,0.414,False,Famílias no CadÚnico / 100 domicílios,False
+Cacoal,RO,98884,Praça intermediária conectada,0.414,False,Crédito sobre poupança (alavancagem),False
+Crateús,CE,80435,Praça em formação,0.414,False,Imobiliárias potenciais (CNAE Loft) / 10 mil hab.,False
+Umuarama,PR,124077,Praça intermediária conectada,0.413,False,Imobiliárias de aluguel ou gestão (%),False
+Alfenas,MG,82637,Praça intermediária conectada,0.412,False,Banda larga fixa / 100 hab.,False
+Caicó,RN,63338,Praça popular de grande porte,0.412,False,Imobiliárias de aluguel ou gestão (%),False
+Medianeira,PR,58681,Praça intermediária conectada,0.412,False,Famílias no CadÚnico / 100 domicílios,False
+Caraguatatuba,SP,143291,Praça madura de locação,0.412,False,Banda larga fixa / 100 hab.,False
+Guarapari,ES,137659,Praça madura de locação,0.412,False,Imobiliárias potenciais (CNAE Loft) / 10 mil hab.,False
+Embu-Guaçu,SP,69041,Praça popular de grande porte,0.412,False,Salário mediano de admissão (R$),False
+Teresópolis,RJ,176772,Praça intermediária conectada,0.411,False,Crédito sobre poupança (alavancagem),False
+Jales,SP,50132,Praça intermediária conectada,0.411,False,Poupança e depósito a prazo per capita (R$),False
+Caucaia,CE,380944,Praça em formação,0.411,False,Poupança e depósito a prazo per capita (R$),False
+São Gonçalo,RJ,959977,Praça em formação,0.411,False,Banda larga fixa / 100 hab.,False
+Viamão,RS,231994,Praça intermediária conectada,0.411,False,Veículos por habitante,False
+Anápolis,GO,424647,Praça popular de grande porte,0.411,False,Pix de pessoa física por habitante,False
+Cachoeirinha,RS,141506,Praça intermediária conectada,0.411,False,Veículos por habitante,False
+Valença,BA,90075,Praça em formação,0.411,False,Salário mediano de admissão (R$),False
+São Luís,MA,1090229,Praça popular de grande porte,0.411,False,Internet móvel 4G/5G de pessoa física / 100 hab.,False
+Santa Maria,RS,282397,Praça intermediária conectada,0.41,False,Imobiliárias potenciais (CNAE Loft) / 10 mil hab.,False
+Trindade,GO,156197,Praça popular de grande porte,0.41,False,Crescimento da população em 1 ano (%),False
+Paracatu,MG,99578,Praça popular de grande porte,0.41,False,Saldo de emprego / admissões em 12 meses (%),False
+Itabuna,BA,196041,Praça popular de grande porte,0.41,False,Internet móvel 4G/5G de pessoa física / 100 hab.,False
+Ferraz de Vasconcelos,SP,186816,Praça popular de grande porte,0.41,False,Salário mediano de admissão (R$),False
+Boituva,SP,64240,Praça madura de locação,0.409,False,Banda larga fixa / 100 hab.,False
+Mogi Guaçu,SP,160841,Praça intermediária conectada,0.409,False,Admissões de 18 a 30 anos (%),False
+Parauapebas,PA,312427,Praça popular de grande porte,0.409,False,Crescimento da população em 1 ano (%),False
+Farroupilha,RS,72553,Praça intermediária conectada,0.409,False,Veículos por habitante,False
+Videira,SC,59839,Praça intermediária conectada,0.409,False,Famílias no CadÚnico / 100 domicílios,False
+Itabaiana,SE,110041,Praça popular de grande porte,0.409,False,Salário mediano de admissão (R$),False
+Itatiba,SP,127729,Praça madura de locação,0.409,False,Salário mediano de admissão (R$),False
+Pedro Leopoldo,MG,65424,Praça intermediária conectada,0.409,False,Admissões de 18 a 30 anos (%),True
+Fortaleza,CE,2582360,Praça popular de grande porte,0.409,False,Internet móvel 4G/5G de pessoa física / 100 hab.,False
+Itapecerica da Serra,SP,163187,Praça popular de grande porte,0.409,False,Crédito sobre poupança (alavancagem),False
+Nova Serrana,MG,116570,Praça intermediária conectada,0.408,False,Pix de pessoa física por habitante,False
+Pelotas,RS,336150,Praça intermediária conectada,0.408,False,Imobiliárias potenciais (CNAE Loft) / 10 mil hab.,False
+Cascavel,CE,77340,Praça em formação,0.408,False,Imobiliárias de aluguel ou gestão (%),False
+Caxias do Sul,RS,479604,Praça intermediária conectada,0.408,False,Famílias no CadÚnico / 100 domicílios,False
+Criciúma,SC,229333,Praça madura de locação,0.408,False,Famílias no CadÚnico / 100 domicílios,False
+São Lourenço da Mata,PE,118719,Praça em formação,0.408,False,Crédito per capita (R$),False
+Varginha,MG,144503,Praça intermediária conectada,0.408,False,Famílias no CadÚnico / 100 domicílios,False
+Igarassu,PE,123666,Praça em formação,0.408,False,Banda larga fixa / 100 hab.,False
+Viçosa,MG,79797,Praça intermediária conectada,0.408,False,Poupança e depósito a prazo per capita (R$),False
+Sobral,CE,217690,Praça popular de grande porte,0.408,False,Imobiliárias de aluguel ou gestão (%),False
+Itumbiara,GO,114331,Praça intermediária conectada,0.408,False,Corretores de seguros / 10 mil hab.,False
+Mirassol,SP,66102,Praça intermediária conectada,0.408,False,Salário mediano de admissão (R$),False
+Teixeira de Freitas,BA,154114,Praça popular de grande porte,0.407,False,Salário mediano de admissão (R$),False
+Campo Grande,MS,970843,Praça madura de locação,0.407,False,Pix de pessoa física por habitante,False
+Itu,SP,175483,Praça madura de locação,0.407,False,Salário mediano de admissão (R$),False
+Ibitinga,SP,62353,Praça intermediária conectada,0.407,False,Imobiliárias de aluguel ou gestão (%),False
+São Roque,SP,81387,Praça madura de locação,0.407,False,Internet móvel 4G/5G de pessoa física / 100 hab.,False
+Itamaraju,BA,61947,Praça em formação,0.407,False,Famílias no CadÚnico / 100 domicílios,False
+Monte Mor,SP,68311,Praça popular de grande porte,0.407,False,Admissões de 18 a 30 anos (%),False
+Bom Despacho,MG,54738,Praça intermediária conectada,0.406,False,Crédito per capita (R$),False
+Tubarão,SC,117924,Praça madura de locação,0.406,False,Banda larga fixa / 100 hab.,False
+Ribeirão Pires,SP,119023,Praça intermediária conectada,0.406,False,Salário mediano de admissão (R$),False
+São José do Rio Pardo,SP,53437,Praça intermediária conectada,0.406,False,Veículos por habitante,False
+Alvorada,RS,194061,Praça intermediária conectada,0.406,False,Poupança e depósito a prazo per capita (R$),False
+Bragança Paulista,SP,186631,Praça madura de locação,0.406,False,Corretores de seguros / 10 mil hab.,False
+Araranguá,SC,77625,Praça intermediária conectada,0.406,False,Banda larga fixa / 100 hab.,False
+Três Pontas,MG,57325,Praça popular de grande porte,0.406,False,Crédito per capita (R$),False
+Diadema,SP,403802,Praça intermediária conectada,0.406,False,Salário mediano de admissão (R$),False
+Arcoverde,PE,82933,Praça em formação,0.405,False,Saldo de emprego / admissões em 12 meses (%),False
+Juazeiro do Norte,CE,307928,Praça popular de grande porte,0.405,False,Admissões de 18 a 30 anos (%),False
+Aracati,CE,79636,Praça em formação,0.405,False,Imobiliárias de aluguel ou gestão (%),False
+Ponta Porã,MS,99572,Praça popular de grande porte,0.405,False,Famílias no CadÚnico / 100 domicílios,False
+Araraquara,SP,254508,Praça madura de locação,0.405,False,Banda larga fixa / 100 hab.,False
+Camaquã,RS,63961,Praça intermediária conectada,0.405,False,Veículos por habitante,False
+Santo Antônio de Jesus,BA,110268,Praça popular de grande porte,0.405,False,Internet móvel 4G/5G de pessoa física / 100 hab.,False
+Quirinópolis,GO,50665,Praça popular de grande porte,0.405,False,Pix de pessoa física por habitante,False
+São Pedro da Aldeia,RJ,110735,Praça popular de grande porte,0.405,False,Internet móvel 4G/5G de pessoa física / 100 hab.,False
+Toledo,PR,162658,Praça intermediária conectada,0.404,False,Banda larga fixa / 100 hab.,False
+São Bento do Sul,SC,88401,Praça intermediária conectada,0.404,False,Famílias no CadÚnico / 100 domicílios,False
+Mossoró,RN,279100,Praça popular de grande porte,0.404,False,Crédito per capita (R$),False
+Garanhuns,PE,152484,Praça popular de grande porte,0.404,False,Imobiliárias de aluguel ou gestão (%),False
+Carapicuíba,SP,398772,Praça popular de grande porte,0.404,False,Crédito per capita (R$),False
+Jaboatão dos Guararapes,PE,685222,Praça popular de grande porte,0.404,False,Banda larga fixa / 100 hab.,False
+Sabará,MG,134850,Praça intermediária conectada,0.404,False,Saldo de emprego / admissões em 12 meses (%),False
+Embu das Artes,SP,260113,Praça popular de grande porte,0.403,False,Crédito per capita (R$),False
+Araras,SP,136113,Praça intermediária conectada,0.403,False,Salário mediano de admissão (R$),False
+Guarabira,PB,60265,Praça em formação,0.403,False,Imobiliárias de aluguel ou gestão (%),False
+Morrinhos,GO,54995,Praça popular de grande porte,0.403,False,Crédito sobre poupança (alavancagem),False
+Araruama,RJ,137922,Praça popular de grande porte,0.403,False,Internet móvel 4G/5G de pessoa física / 100 hab.,False
+Ji-Paraná,RO,140800,Praça popular de grande porte,0.403,False,Crédito sobre poupança (alavancagem),False
+Franca,SP,366534,Praça madura de locação,0.403,False,Veículos por habitante,False
+Canoinhas,SC,57169,Praça intermediária conectada,0.403,False,Veículos por habitante,False
+Jaú,SP,137486,Praça intermediária conectada,0.403,False,Banda larga fixa / 100 hab.,False
+São José dos Campos,SP,729153,Praça madura de locação,0.403,False,Corretores de seguros / 10 mil hab.,False
+Araucária,PR,164291,Praça intermediária conectada,0.402,False,Admissões de 18 a 30 anos (%),False
+Lagoa da Prata,MG,54251,Praça intermediária conectada,0.402,False,Banda larga fixa / 100 hab.,False
+Penápolis,SP,63523,Praça intermediária conectada,0.402,False,Salário mediano de admissão (R$),False
+Duque de Caxias,RJ,866167,Praça popular de grande porte,0.402,False,Admissões de 18 a 30 anos (%),False
+Telêmaco Borba,PR,77798,Praça intermediária conectada,0.402,False,Salário mediano de admissão (R$),False
+Franco da Rocha,SP,150648,Praça popular de grande porte,0.402,False,Salário mediano de admissão (R$),False
+Limeira,SP,301780,Praça intermediária conectada,0.402,False,Salário mediano de admissão (R$),False
+Sorocaba,SP,766390,Praça madura de locação,0.402,False,Corretores de seguros / 10 mil hab.,False
+Colatina,ES,130043,Praça intermediária conectada,0.402,False,Saldo de emprego / admissões em 12 meses (%),False
+Guarulhos,SP,1351284,Praça madura de locação,0.402,False,Internet móvel 4G/5G de pessoa física / 100 hab.,False
+Lins,SP,76946,Praça intermediária conectada,0.401,False,Imobiliárias de aluguel ou gestão (%),False
+Guaxupé,MG,52862,Praça intermediária conectada,0.401,False,Veículos por habitante,False
+Iguatu,CE,102907,Praça em formação,0.401,False,Famílias no CadÚnico / 100 domicílios,False
+Registro,SP,62101,Praça intermediária conectada,0.401,False,Banda larga fixa / 100 hab.,False
+Bagé,RS,121929,Praça popular de grande porte,0.401,False,Veículos por habitante,False
+Santa Isabel,SP,54775,Praça popular de grande porte,0.401,False,Corretores de seguros / 10 mil hab.,False
+Patrocínio,MG,94834,Praça popular de grande porte,0.401,False,Pix de pessoa física por habitante,False
+Itabira,MG,118342,Praça intermediária conectada,0.401,False,Crédito sobre poupança (alavancagem),False
+Barbacena,MG,129757,Praça intermediária conectada,0.401,False,Crédito sobre poupança (alavancagem),False
+Pirapora,MG,57873,Praça popular de grande porte,0.401,False,Saldo de emprego / admissões em 12 meses (%),False
+Juiz de Fora,MG,569588,Praça madura de locação,0.4,False,Imobiliárias potenciais (CNAE Loft) / 10 mil hab.,False
+Itajubá,MG,97065,Praça intermediária conectada,0.4,False,Crédito sobre poupança (alavancagem),False
+Ibiporã,PR,53486,Praça popular de grande porte,0.4,False,Banda larga fixa / 100 hab.,False
+Guarapuava,PR,190542,Praça intermediária conectada,0.4,False,Veículos por habitante,False
+Rio Grande,RS,198935,Praça intermediária conectada,0.4,False,Banda larga fixa / 100 hab.,False
+Luziânia,GO,223596,Praça popular de grande porte,0.4,False,Crédito sobre poupança (alavancagem),False
+Feira de Santana,BA,663408,Praça popular de grande porte,0.4,False,Banda larga fixa / 100 hab.,False
+Foz do Iguaçu,PR,299112,Praça madura de locação,0.4,False,Internet móvel 4G/5G de pessoa física / 100 hab.,False
+São Carlos,SP,267441,Praça madura de locação,0.4,False,Banda larga fixa / 100 hab.,False
+Rio Branco,AC,390058,Praça popular de grande porte,0.4,False,Pix de pessoa física por habitante,False
+São Mateus,ES,135450,Praça popular de grande porte,0.4,False,Crédito sobre poupança (alavancagem),False
+São João del Rei,MG,94852,Praça intermediária conectada,0.399,False,Banda larga fixa / 100 hab.,False
+Rio do Sul,SC,78666,Praça intermediária conectada,0.399,False,Famílias no CadÚnico / 100 domicílios,False
+Santa Luzia,MG,231473,Praça intermediária conectada,0.399,False,Crédito per capita (R$),False
+Volta Redonda,RJ,280006,Praça intermediária conectada,0.399,False,Saldo de emprego / admissões em 12 meses (%),False
+Canoas,RS,359845,Praça intermediária conectada,0.399,False,Admissões de 18 a 30 anos (%),False
+Petrópolis,RJ,294954,Praça madura de locação,0.399,False,Crédito sobre poupança (alavancagem),False
+Nova Iguaçu,RJ,843367,Praça popular de grande porte,0.399,False,Famílias no CadÚnico / 100 domicílios,False
+Esteio,RS,78143,Praça intermediária conectada,0.399,False,Saldo de emprego / admissões em 12 meses (%),False
+Vacaria,RS,66147,Praça intermediária conectada,0.399,False,Veículos por habitante,False
+Guaíba,RS,95946,Praça popular de grande porte,0.398,False,Saldo de emprego / admissões em 12 meses (%),False
+Cambé,PR,111553,Praça intermediária conectada,0.398,False,Internet móvel 4G/5G de pessoa física / 100 hab.,False
+Campina Grande,PB,446720,Praça popular de grande porte,0.398,False,Salário mediano de admissão (R$),False
+Rio das Ostras,RJ,168626,Praça madura de locação,0.398,False,Internet móvel 4G/5G de pessoa física / 100 hab.,False
+Teresina,PI,908012,Praça popular de grande porte,0.398,False,Crédito per capita (R$),False
+São Vicente,SP,338253,Praça intermediária conectada,0.398,False,Salário mediano de admissão (R$),False
+Tupã,SP,65447,Praça intermediária conectada,0.398,False,Veículos por habitante,False
+Crato,CE,139781,Praça em formação,0.397,False,Famílias no CadÚnico / 100 domicílios,False
+Piedade,SP,54291,Praça intermediária conectada,0.397,False,Crédito sobre poupança (alavancagem),False
+Colombo,PR,242698,Praça intermediária conectada,0.397,False,Salário mediano de admissão (R$),False
+Vespasiano,MG,140004,Praça intermediária conectada,0.397,False,Imobiliárias de aluguel ou gestão (%),False
+Vitória da Conquista,BA,398970,Praça popular de grande porte,0.397,False,Salário mediano de admissão (R$),False
+Salto,SP,141994,Praça intermediária conectada,0.397,False,Salário mediano de admissão (R$),False
+Camaragibe,PE,156425,Praça popular de grande porte,0.397,False,Crédito per capita (R$),False
+Marília,SP,247992,Praça intermediária conectada,0.397,False,Famílias no CadÚnico / 100 domicílios,False
+São Sebastião do Paraíso,MG,75593,Praça intermediária conectada,0.397,False,Imobiliárias de aluguel ou gestão (%),False
+Santa Rosa,RS,79489,Praça intermediária conectada,0.397,False,Veículos por habitante,False
+Ponta Grossa,PR,378527,Praça madura de locação,0.396,False,Imobiliárias potenciais (CNAE Loft) / 10 mil hab.,False
+Patos,PB,108416,Praça popular de grande porte,0.396,False,Saldo de emprego / admissões em 12 meses (%),False
+Pouso Alegre,MG,163439,Praça madura de locação,0.396,False,Imobiliárias potenciais (CNAE Loft) / 10 mil hab.,False
+Três Lagoas,MS,145514,Praça intermediária conectada,0.396,False,Crescimento da população em 1 ano (%),False
+Rio Claro,SP,210794,Praça intermediária conectada,0.396,False,Salário mediano de admissão (R$),False
+Campo Belo,MG,54106,Praça popular de grande porte,0.396,False,Imobiliárias de aluguel ou gestão (%),False
+Pinhais,PR,131857,Praça madura de locação,0.396,False,Corretores de seguros / 10 mil hab.,False
+Taboão da Serra,SP,286201,Praça intermediária conectada,0.396,False,Crédito sobre poupança (alavancagem),False
+Paranavaí,PR,96870,Praça intermediária conectada,0.396,False,Imobiliárias de aluguel ou gestão (%),False
+Uberaba,MG,359275,Praça intermediária conectada,0.396,False,Banda larga fixa / 100 hab.,False
+Guanambi,BA,93873,Praça popular de grande porte,0.395,False,Famílias no CadÚnico / 100 domicílios,False
+Caçador,SC,76591,Praça intermediária conectada,0.395,False,Veículos por habitante,False
+Eunápolis,BA,121577,Praça popular de grande porte,0.395,False,Famílias no CadÚnico / 100 domicílios,False
+Carazinho,RS,63671,Praça intermediária conectada,0.395,False,Banda larga fixa / 100 hab.,False
+Mairiporã,SP,98241,Praça popular de grande porte,0.395,False,Salário mediano de admissão (R$),False
+Formiga,MG,71113,Praça intermediária conectada,0.395,False,Famílias no CadÚnico / 100 domicílios,False
+Marabá,PA,293344,Praça popular de grande porte,0.395,False,Veículos por habitante,False
+Sapucaia do Sul,RS,136573,Praça intermediária conectada,0.394,False,Veículos por habitante,False
+Linhares,ES,185621,Praça intermediária conectada,0.394,False,Imobiliárias de aluguel ou gestão (%),False
+Macapá,AP,491987,Praça popular de grande porte,0.394,False,Salário mediano de admissão (R$),False
+Rolândia,PR,76671,Praça intermediária conectada,0.394,False,Imobiliárias de aluguel ou gestão (%),False
+Botucatu,SP,151600,Praça madura de locação,0.394,False,Banda larga fixa / 100 hab.,False
+Tatuí,SP,129640,Praça intermediária conectada,0.394,False,Saldo de emprego / admissões em 12 meses (%),False
+Porto Velho,RO,520379,Praça popular de grande porte,0.394,False,Pix de pessoa física por habitante,False
+Francisco Beltrão,PR,103424,Praça intermediária conectada,0.394,False,Corretores de seguros / 10 mil hab.,False
+Avaré,SP,96764,Praça intermediária conectada,0.394,False,Famílias no CadÚnico / 100 domicílios,False
+Juazeiro,BA,257616,Praça popular de grande porte,0.393,False,Imobiliárias de aluguel ou gestão (%),False
+Mogi das Cruzes,SP,472255,Praça intermediária conectada,0.393,False,Corretores de seguros / 10 mil hab.,False
+Votuporanga,SP,100935,Praça intermediária conectada,0.393,False,Salário mediano de admissão (R$),False
+Itapeva,SP,92454,Praça intermediária conectada,0.393,False,Imobiliárias de aluguel ou gestão (%),False
+Caruaru,PE,408281,Praça popular de grande porte,0.392,False,Famílias no CadÚnico / 100 domicílios,False
+Jequié,BA,169623,Praça em formação,0.392,False,Salário mediano de admissão (R$),False
+Ipatinga,MG,234930,Praça intermediária conectada,0.392,False,Crescimento da população em 1 ano (%),False
+Janaúba,MG,73814,Praça popular de grande porte,0.392,False,Admissões de 18 a 30 anos (%),False
+Castanhal,PA,210592,Praça popular de grande porte,0.392,False,Admissões de 18 a 30 anos (%),False
+Araxá,MG,119834,Praça intermediária conectada,0.392,False,Pix de pessoa física por habitante,False
+Pirassununga,SP,75701,Praça intermediária conectada,0.391,False,Veículos por habitante,False
+Taubaté,SP,323380,Praça intermediária conectada,0.391,False,Corretores de seguros / 10 mil hab.,False
+Contagem,MG,652973,Praça madura de locação,0.391,False,Internet móvel 4G/5G de pessoa física / 100 hab.,False
+Carpina,PE,83727,Praça popular de grande porte,0.391,False,Famílias no CadÚnico / 100 domicílios,False
+São José dos Pinhais,PR,353874,Praça intermediária conectada,0.391,False,Salário mediano de admissão (R$),False
+Paulo Afonso,BA,119686,Praça popular de grande porte,0.39,False,Salário mediano de admissão (R$),False
+Guaratinguetá,SP,122100,Praça intermediária conectada,0.39,False,Famílias no CadÚnico / 100 domicílios,False
+Aparecida de Goiânia,GO,560996,Praça intermediária conectada,0.39,False,Imobiliárias de aluguel ou gestão (%),False
+Leopoldina,MG,52779,Praça em formação,0.39,False,Pix de pessoa física por habitante,False
+Resende,RJ,137739,Praça intermediária conectada,0.39,False,Veículos por habitante,False
+Lages,SC,173278,Praça intermediária conectada,0.39,False,Veículos por habitante,False
+Andradina,SP,61761,Praça intermediária conectada,0.39,False,Admissões de 18 a 30 anos (%),False
+Cachoeira do Sul,RS,82222,Praça intermediária conectada,0.39,False,Veículos por habitante,False
+Mauá,SP,429064,Praça intermediária conectada,0.389,False,Famílias no CadÚnico / 100 domicílios,False
+Serra,ES,586901,Praça popular de grande porte,0.389,False,Crescimento da população em 1 ano (%),False
+Porto Feliz,SP,58837,Praça intermediária conectada,0.389,False,Salário mediano de admissão (R$),False
+Sumaré,SP,292307,Praça intermediária conectada,0.389,False,Veículos por habitante,False
+Betim,MG,433902,Praça popular de grande porte,0.389,False,Crédito sobre poupança (alavancagem),False
+Ananindeua,PA,510563,Praça popular de grande porte,0.388,False,Poupança e depósito a prazo per capita (R$),False
+Cianorte,PR,83579,Praça intermediária conectada,0.388,False,Famílias no CadÚnico / 100 domicílios,False
+Passos,MG,117349,Praça intermediária conectada,0.388,False,Famílias no CadÚnico / 100 domicílios,False
+Petrolina,PE,422461,Praça popular de grande porte,0.388,False,Salário mediano de admissão (R$),False
+Mococa,SP,69415,Praça intermediária conectada,0.388,False,Famílias no CadÚnico / 100 domicílios,False
+Votorantim,SP,134103,Praça intermediária conectada,0.388,False,Famílias no CadÚnico / 100 domicílios,False
+Cruz Alta,RS,60453,Praça intermediária conectada,0.388,False,Veículos por habitante,False
+Leme,SP,101734,Praça intermediária conectada,0.388,False,Salário mediano de admissão (R$),False
+Várzea Grande,MT,323172,Praça popular de grande porte,0.388,False,Crescimento da população em 1 ano (%),False
+Birigui,SP,123655,Praça intermediária conectada,0.387,False,Famílias no CadÚnico / 100 domicílios,False
+Cariacica,ES,376914,Praça popular de grande porte,0.387,False,Crédito sobre poupança (alavancagem),False
+Parnaíba,PI,171342,Praça popular de grande porte,0.387,False,Salário mediano de admissão (R$),False
+Coronel Fabriciano,MG,108857,Praça popular de grande porte,0.387,False,Crédito sobre poupança (alavancagem),False
+Lavras,MG,111437,Praça intermediária conectada,0.386,False,Poupança e depósito a prazo per capita (R$),False
+Paranaguá,PR,150436,Praça intermediária conectada,0.386,False,Internet móvel 4G/5G de pessoa física / 100 hab.,False
+Maracanaú,CE,253442,Praça popular de grande porte,0.386,False,Corretores de seguros / 10 mil hab.,False
+Caçapava,SP,100422,Praça intermediária conectada,0.385,False,Famílias no CadÚnico / 100 domicílios,False
+Limoeiro do Norte,CE,62945,Praça popular de grande porte,0.385,False,Salário mediano de admissão (R$),False
+Ubá,MG,107613,Praça intermediária conectada,0.385,False,Crédito sobre poupança (alavancagem),False
+Ourinhos,SP,106941,Praça intermediária conectada,0.385,False,Salário mediano de admissão (R$),False
+Divinópolis,MG,244769,Praça intermediária conectada,0.385,False,Admissões de 18 a 30 anos (%),False
+Mairinque,SP,52092,Praça intermediária conectada,0.385,False,Veículos por habitante,False
+Manaus,AM,2327101,Praça popular de grande porte,0.385,False,Pix de pessoa física por habitante,False
+Batatais,SP,59999,Praça intermediária conectada,0.384,False,Veículos por habitante,False
+Campo Largo,PR,146002,Praça intermediária conectada,0.384,False,Banda larga fixa / 100 hab.,False
+Suzano,SP,321600,Praça intermediária conectada,0.384,False,Salário mediano de admissão (R$),False
+Lorena,SP,87551,Praça intermediária conectada,0.384,False,Salário mediano de admissão (R$),False
+Hortolândia,SP,250195,Praça intermediária conectada,0.384,False,Salário mediano de admissão (R$),False
+Teófilo Otoni,MG,143115,Praça popular de grande porte,0.384,False,Salário mediano de admissão (R$),False
+Artur Nogueira,SP,53686,Praça intermediária conectada,0.383,False,Veículos por habitante,False
+Pacajus,CE,76051,Praça em formação,0.383,False,Corretores de seguros / 10 mil hab.,False
+Irati,PR,61192,Praça intermediária conectada,0.383,False,Veículos por habitante,False
+Pará de Minas,MG,103611,Praça intermediária conectada,0.383,False,Famílias no CadÚnico / 100 domicílios,False
+Campos dos Goytacazes,RJ,519378,Praça popular de grande porte,0.382,False,Crédito sobre poupança (alavancagem),False
+Castro,PR,76015,Praça popular de grande porte,0.382,False,Salário mediano de admissão (R$),False
+Ilhéus,BA,189259,Praça popular de grande porte,0.382,False,Salário mediano de admissão (R$),False
+Alagoinhas,BA,161682,Praça em formação,0.382,False,Famílias no CadÚnico / 100 domicílios,False
+Montenegro,RS,66353,Praça intermediária conectada,0.381,False,Veículos por habitante,False
+Montes Claros,MG,440700,Praça popular de grande porte,0.381,False,Admissões de 18 a 30 anos (%),False
+Apucarana,PR,135481,Praça intermediária conectada,0.381,False,Veículos por habitante,False
+Cachoeiro de Itapemirim,ES,198367,Praça intermediária conectada,0.381,False,Crédito sobre poupança (alavancagem),False
+Sete Lagoas,MG,239833,Praça intermediária conectada,0.38,False,Famílias no CadÚnico / 100 domicílios,False
+São Leopoldo,RS,225738,Praça intermediária conectada,0.38,False,Banda larga fixa / 100 hab.,False
+Curvelo,MG,84709,Praça popular de grande porte,0.378,False,Salário mediano de admissão (R$),False
+Gravataí,RS,275432,Praça intermediária conectada,0.378,False,Veículos por habitante,False
+Pindamonhangaba,SP,173267,Praça intermediária conectada,0.378,False,Salário mediano de admissão (R$),False
+Itapetininga,SP,164687,Praça intermediária conectada,0.378,False,Crédito per capita (R$),False
+Arapongas,PR,125767,Praça intermediária conectada,0.377,False,Salário mediano de admissão (R$),False
+Araguari,MG,123959,Praça intermediária conectada,0.377,False,Admissões de 18 a 30 anos (%),False
+Manhuaçu,MG,98067,Praça intermediária conectada,0.377,False,Famílias no CadÚnico / 100 domicílios,False
+Jacareí,SP,251848,Praça intermediária conectada,0.377,False,Famílias no CadÚnico / 100 domicílios,False

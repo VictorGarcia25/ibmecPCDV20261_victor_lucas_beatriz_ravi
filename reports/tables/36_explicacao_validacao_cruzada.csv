@@ -1,0 +1,4 @@
+modelo,acuracia,acuracia_balanceada,acuracia_desvio_entre_folds
+Baseline: sempre a praça mais comum,0.311,0.2,0.004
+Árvore de decisão (profundidade 3),0.801,0.8,0.023
+Random Forest (300 árvores),0.934,0.933,0.015

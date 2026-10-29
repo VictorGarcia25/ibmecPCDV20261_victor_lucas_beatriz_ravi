@@ -8,6 +8,7 @@ import pandas as pd
 
 from . import (
     anuncios,
+    aprofundamento,
     avaliacao,
     clustering,
     config,
@@ -244,6 +245,9 @@ def executar(forcar_download: bool = False, k_maximo: int = config.K_MAXIMO) -> 
     graficos.dispersao_decisao(base, nomes)
     mapa_ok = graficos.mapa(base, nomes)
 
+    print("[etapa 2] aprofundamento: densidade, PCA, parentesco das variáveis e explicação das praças")
+    etapa2 = aprofundamento.executar(base, variaveis_finais)
+
     print("[8/8] escrevendo o relatório")
     passos.update(
         base=base,
@@ -267,6 +271,7 @@ def executar(forcar_download: bool = False, k_maximo: int = config.K_MAXIMO) -> 
         bootstrap=bootstrap,
         metades=metades,
         validacao_anuncios=validacao_anuncios,
+        etapa2=etapa2,
         ablacao=tabela_ablacao,
         diferenca_silhueta=diferenca_silhueta,
         robustez_denominador=robustez_denominador,

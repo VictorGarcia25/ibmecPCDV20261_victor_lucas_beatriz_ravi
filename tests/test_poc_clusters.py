@@ -366,3 +366,11 @@ def test_janela_de_anuncios_pula_meses_com_buraco_na_coleta():
     janela, diagnostico = anuncios.escolher_janela(pd.DataFrame(linhas))
     assert janela == ["2026-04-01", "2026-05-01", "2026-06-01", "2026-07-01", "2026-08-01"]
     assert not diagnostico.set_index("snapshot_month").loc["2026-02-01", "estavel"]
+
+
+def test_eps_do_joelho_fica_na_dobra_da_curva():
+    from ibmecPCDV20261_victor_lucas_beatriz_ravi.poc_clusters import densidade
+
+    distancias = np.concatenate([np.linspace(0.5, 1.0, 90), np.linspace(1.2, 6.0, 10)])
+    eps = densidade.eps_pelo_joelho(distancias)
+    assert 0.9 <= eps <= 1.5

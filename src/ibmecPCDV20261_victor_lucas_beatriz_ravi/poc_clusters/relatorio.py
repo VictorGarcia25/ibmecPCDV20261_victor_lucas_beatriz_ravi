@@ -6,7 +6,7 @@ from datetime import date
 
 import pandas as pd
 
-from . import clustering, config, diagnostico
+from . import clustering, config, diagnostico, explicacao
 from .descritiva import rotulo
 
 ARQUIVO = config.RAIZ / "reports" / "poc_clusterizacao.md"
@@ -259,6 +259,8 @@ Os dez maiores municípios de cada cluster estão em `18_top_municipios.csv`.
 
 {_md(p['valor'], ['cluster', 'nome', 'municipios', 'populacao_pct', 'o_que_significa_para_a_fianca', 'acao_de_marketing_sugerida'])}
 
+{_secao_etapa2(p.get('etapa2'))}
+
 ## 9. Limitações
 
 1. **Ainda sem dado de mídia da Loft.** Já usamos a regra de CNAE e a base de anúncios da Loft,
@@ -466,6 +468,75 @@ def _veredito_hipotese(p: dict) -> str:
         "modelo a dimensão em que a verba é executada."
     )
     return texto
+
+
+def _secao_etapa2(etapa2: dict | None) -> str:
+    """Etapa 2: densidade, cidades atípicas, PCA, parentesco das variáveis e regras das praças."""
+    if not etapa2:
+        return ""
+    dens = etapa2["densidade"]["resumo"]
+    db, hdb = dens.iloc[0], dens.iloc[1]
+    cruz = etapa2["densidade"]["cruzamento"].set_index("nome_cluster")
+    grupo_isolado = cruz.drop(columns=[c for c in cruz.columns if c == "ruído"]).idxmax(axis=0)
+    atipicas = etapa2["atipicas"]
+    concordancia = atipicas.attrs.get("concordancia_pct", float("nan"))
+    top = ", ".join(f"{m} ({uf})" for m, uf in atipicas.head(6)[["municipio", "sigla_uf"]].itertuples(index=False))
+    variacao = etapa2["pca"].attrs.get("variacao_explicada_pct", [float("nan")] * 2)
+    parentesco = etapa2["parentesco"]
+    pares = parentesco[parentesco["redundante_com_outra"]].groupby("grupo_redundancia")["rotulo"].apply(" e ".join)
+    exp = etapa2["explicacao"]
+    val = exp["validacao"].set_index("modelo")
+    imp = exp["importancia"]
+    return f"""## Etapa 2. Aprofundamento das praças
+
+Depois de escolhido o modelo, quatro leituras complementares sobre as praças já formadas.
+
+### Densidade: existem grupos naturais?
+
+DBSCAN (raio escolhido no joelho da curva de k-distância) e HDBSCAN não obrigam toda cidade a
+entrar num grupo: procuram regiões densas e chamam o resto de ruído.
+
+{_md(dens)}
+
+Os dois encontram só **{int(hdb['grupos_encontrados'])} grupos naturais**, e o menor deles é
+essencialmente a **praça sem mercado formal**. O resto do Brasil forma um bloco contínuo. Isso
+confirma o achado da seção 4: as outras quatro praças são cortes úteis de um contínuo, não
+grupos que existem sozinhos, e por isso a defesa delas é a comparação com os baselines. Variando
+o raio entre 0,6 e 2 vezes o joelho, o número de grupos vai de 3 a 1, nunca chega a 5.
+
+### Cidades atípicas (Isolation Forest)
+
+Rodado nas 16 variáveis candidatas **antes** da winsorização, aponta os 5% de municípios mais
+fáceis de isolar. Os primeiros: {top}. **{concordancia:.0f}%** deles já tinham sido aparados
+pela winsorização, ou seja, o tratamento de extremos pegou o problema que a floresta encontra
+por outro caminho.
+
+### Retrato no plano (PCA) e parentesco entre variáveis
+
+Os dois primeiros componentes principais carregam {variacao[0]:.0f}% e {variacao[1]:.0f}% da
+variação (figura 15). O primeiro eixo é praticamente "mercado e renda contra vulnerabilidade"; o
+segundo é a abertura de imobiliárias, que é o que separa a praça em formação.
+
+O dendrograma das 16 variáveis por 1 - |Spearman| (figura 16) mostra os pares redundantes abaixo
+do corte de 0,80: {"; ".join(pares)}. São exatamente os cortes da seção 3.1.
+
+### As praças em regras
+
+Uma árvore de decisão de profundidade {explicacao.PROFUNDIDADE_ARVORE} e um Random Forest foram
+treinados para reproduzir o rótulo da praça, com validação cruzada estratificada de
+{explicacao.FOLDS} folds:
+
+{_md(exp['validacao'])}
+
+A árvore rasa acerta **{val.iloc[1]['acuracia_balanceada']:.0%}** (balanceado) contra
+**{val.iloc[0]['acuracia_balanceada']:.0%}** do baseline: as praças cabem em três perguntas
+simples, que estão em `reports/tables/39_regras_da_arvore.txt` e na figura 18. A variável que
+mais pesa, medida por permutação fora da amostra, é **{imp.iloc[0]['rotulo']}**, seguida de
+{imp.iloc[1]['rotulo']}.
+
+Atenção: isto **não** é previsão de desempenho. O modelo aprende a reproduzir o agrupamento;
+acerto alto quer dizer que as praças têm regra simples, não que elas preveem venda.
+"""
 
 
 def _leitura_anuncios(validacao: dict | None) -> str:

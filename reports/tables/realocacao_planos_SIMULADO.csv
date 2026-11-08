@@ -1,0 +1,5 @@
+plano,ganho_previsto_pelo_poisson_pct,ganho_verdadeiro_mqls_pct,ganho_verdadeiro_cadastros_pct
+Regra simples (custo médio),7.9693807619370505,7.160143609406311,7.842357837876368
+Otimizador + Regressão de Poisson,14.609687323544684,12.799254034108575,14.285831933017711
+Otimizador + Gradient Boosting,-8.4815418137676,-8.25181009828604,-9.77649564410903
+Máximo possível (conhecendo a resposta certa),14.468613852549561,12.905775927727436,14.448278059009322

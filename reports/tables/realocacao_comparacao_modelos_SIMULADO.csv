@@ -1,0 +1,9 @@
+alvo,modelo,RMSE_semanal,erro_total_pct
+mqls,Baseline - custo médio geral,54.57153931471795,62.44031592388642
+mqls,Baseline - custo médio de cada praça x canal,9.99999715858068,12.122488288383336
+mqls,Regressão de Poisson (curva por praça x canal),6.592071330701816,10.483583407477605
+mqls,Gradient Boosting monotônico,19.69701157696166,14.726477289460268
+cadastros,Baseline - custo médio geral,19.846549077018068,71.88070861346984
+cadastros,Baseline - custo médio de cada praça x canal,4.365237511948349,18.313939060366984
+cadastros,Regressão de Poisson (curva por praça x canal),3.552187112272102,17.050119292980316
+cadastros,Gradient Boosting monotônico,8.821996121645347,22.679159209650283

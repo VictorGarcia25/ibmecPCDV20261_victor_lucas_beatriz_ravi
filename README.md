@@ -563,7 +563,9 @@ Responsável: Beatriz Babinski.
 Complementa a POC supervisionada (`notebooks/01_poc.py`) atacando o outro lado da pergunta
 "onde colocar o próximo R$ 1 em mídia paga": **em que tipo de praça**. A auditoria pública dos
 anúncios da Loft mostrou que cerca de 74% das peças são de **fiança**, com a imobiliária como
-cliente. Como não temos dado interno da Loft, o que se agrupa aqui é **mercado, não cliente**.
+cliente. O que se agrupa aqui é **mercado, não cliente**: os dados de mídia da Loft (investimento,
+MQL e cadastro) ainda não chegaram. A Loft já mandou a regra de CNAE que usa para achar imobiliária,
+aplicada aqui, e a base de anúncios dos portais, usada só como validação e fora do repositório.
 
 - Unidade: os **687 municípios** com 50 mil habitantes ou mais (estimativa IBGE 2026).
 - 16 variáveis de mercado imobiliário, renda, risco, concorrência, demanda e alcance digital,
@@ -572,10 +574,12 @@ cliente. Como não temos dado interno da Loft, o que se agrupa aqui é **mercado
   **conferida em código**: a execução aborta se alguma fonte regredir.
 - Resultado: **5 tipos de praça** que superam os baselines de geografia e de porte populacional.
 - Validação como variável de modelo: adicionar o rótulo do cluster a `região + porte` melhora o
-  R² ajustado em **15 de 15** variáveis municipais retidas, ganho médio de **+0,044**.
+  R² ajustado em **16 de 16** variáveis municipais retidas, ganho médio de **+0,043**.
 
 Relatório completo: [`reports/poc_clusterizacao.md`](reports/poc_clusterizacao.md).
-Notebook de resultados: [`notebooks/02_poc_clusterizacao.ipynb`](notebooks/02_poc_clusterizacao.ipynb).
+Notebooks: [`02_poc_clusterizacao`](notebooks/02_poc_clusterizacao.ipynb) (a POC inteira),
+[`03_pos_feedback_loft`](notebooks/03_pos_feedback_loft.ipynb) (o que mudou com o feedback da Loft) e
+[`04_aprofundamento`](notebooks/04_aprofundamento.ipynb) (densidade, PCA, regras das praças).
 
 ## Como rodar
 
@@ -599,11 +603,58 @@ GCP_PROJETO=seu-projeto-no-google-cloud
 
 Testes: `PYTHONPATH=src .venv/bin/python -m pytest tests/`
 
+## Como rodar no Docker
+
+A clusterização tem um contêiner próprio, separado do `Dockerfile` da raiz (que é o da POC de
+incrementalidade):
+
+```bash
+make docker-poc        # constrói a imagem e roda a POC dentro do contêiner
+make docker-testes     # roda os testes dentro do contêiner
+make docker-notebook   # abre o Jupyter em http://localhost:8888 (o link com o token aparece no terminal)
+```
+
+Sem `make`, o equivalente é `docker compose -f docker-compose.clusterizacao.yml run --rm poc`.
+
+Decisões de ambiente:
+
+| Decisão | Escolha | Por quê |
+| --- | --- | --- |
+| Imagem base | `python:3.13.15-slim`, fixada pelo digest `sha256:7c61056e…` | mesma versão do Python do ambiente local; o digest não muda, a tag pode mudar |
+| Dependências | `requirements-lock.txt`, as 183 bibliotecas com `==`, instaladas com `--no-deps` | o `requirements.txt` fixa só as diretas; o lock fixa também as indiretas, que mudam de versão sozinhas |
+| Threads | `OMP_NUM_THREADS=1` (e OpenBLAS, MKL) | a ordem das somas muda a última casa decimal |
+| O que vai na imagem | só `src/`, `tests/`, `notebooks/` e o lock (ver `Dockerfile.clusterizacao.dockerignore`) | dado, `.env` e chave que entram numa camada não saem mais |
+| O que vive em volume | `data/` (inclusive a base de anúncios da Loft) e `reports/` | o contêiner é descartável; dados e resultados ficam na sua máquina |
+| O que vive na nuvem | BigQuery da Base dos Dados, só para refazer a coleta | com `data/raw` preenchido, a POC roda sem `.env` e sem credencial |
+
+Para refazer a coleta dentro do contêiner, passe o projeto e a credencial do Google Cloud por
+variável de ambiente e volume somente leitura, nunca dentro da imagem.
+
+### O resultado é o mesmo fora e dentro do contêiner?
+
+Toda execução grava um carimbo em `reports/tables/40_carimbo_<ambiente>.json` (versões, sistema,
+threads, silhueta, acerto da árvore e do baseline, hash das praças) e as praças de cada município
+em `41_pracas_<ambiente>.csv`. Depois de rodar local e no contêiner:
+
+```bash
+make comparar-ambientes
+```
+
+gera `42_comparacao_ambientes.csv` com a **discordância** (parcela de municípios que mudou de
+praça) e a diferença de silhueta contra o ambiente local.
+
+Referência local, macOS arm64, threads padrão: silhueta 0,2664, árvore 80% contra 20% do
+baseline, hash das praças `4459a71d639e`. Na mesma máquina, numa pasta só com o que entra na
+imagem, sem `.env`, com `reports/` vazio e uma thread: os 32 testes passam, os três notebooks rodam,
+o hash sai idêntico (discordância zero) e 36 das 38 tabelas saem iguais byte a byte. As outras duas
+diferem só na inércia do KMeans, em no máximo 3 × 10⁻¹², o efeito de ponto flutuante esperado
+quando muda o número de threads. Falta a execução dentro do contêiner, em Linux.
+
 ## Fontes
 
 | Variável | Fonte | Referência |
 | --- | --- | --- |
-| Administradoras e imobiliárias por 10 mil hab. | Receita Federal, CNPJ, CNAE 6821 e 6822 (Base dos Dados) | 2026-01 |
+| Imobiliárias potenciais por 10 mil hab. e % de aluguel ou gestão | Receita Federal, CNPJ, filtro de CNAE da Loft: 6821801, 6821802 e 6822600, empresa ativa (Base dos Dados) | 2026-01 |
 | Imobiliárias abertas em 12 meses | Receita Federal, CNPJ | 2026-01 |
 | Pix de pessoa física por habitante | Banco Central, Transações Pix por Município (OData) | 2026-08 |
 | Salário mediano de admissão | Novo CAGED, microdados (Base dos Dados) | 2026-01 |

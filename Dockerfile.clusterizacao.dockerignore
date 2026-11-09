@@ -1,0 +1,11 @@
+# Só o que o Dockerfile copia pode chegar ao build. Tudo o mais fica de fora,
+# inclusive dados da Loft, .env e chaves: o que entra numa camada não sai mais.
+*
+!requirements-lock.txt
+!src/
+!tests/
+!notebooks/
+**/__pycache__
+**/*.pyc
+**/.ipynb_checkpoints
+**/.DS_Store

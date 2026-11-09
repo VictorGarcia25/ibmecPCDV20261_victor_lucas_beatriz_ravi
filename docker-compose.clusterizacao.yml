@@ -1,0 +1,38 @@
+# Clusterização de municípios. Uso, sempre com -f:
+#   docker compose -f docker-compose.clusterizacao.yml run --rm poc
+# Os atalhos estão no Makefile (make docker-poc, docker-testes, docker-notebook).
+
+x-base: &base
+  image: clusterizacao-pracas:0.1
+  build:
+    context: .
+    dockerfile: Dockerfile.clusterizacao
+  volumes:
+    # O que vive em volume: dados (inclusive a base da Loft) e resultados.
+    - ./data:/app/data
+    - ./reports:/app/reports
+
+services:
+  poc:
+    <<: *base
+
+  testes:
+    <<: *base
+    command: ["python", "-m", "pytest", "tests/", "-q"]
+
+  notebook:
+    <<: *base
+    command:
+      - jupyter
+      - lab
+      - --ip=0.0.0.0
+      - --port=8888
+      - --no-browser
+      - --allow-root
+    ports:
+      # Só nesta máquina. O link com o token aparece no terminal.
+      - "127.0.0.1:8888:8888"
+    volumes:
+      - ./data:/app/data
+      - ./reports:/app/reports
+      - ./notebooks:/app/notebooks

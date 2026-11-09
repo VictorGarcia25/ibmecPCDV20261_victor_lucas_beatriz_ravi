@@ -374,3 +374,21 @@ def test_eps_do_joelho_fica_na_dobra_da_curva():
     distancias = np.concatenate([np.linspace(0.5, 1.0, 90), np.linspace(1.2, 6.0, 10)])
     eps = densidade.eps_pelo_joelho(distancias)
     assert 0.9 <= eps <= 1.5
+
+
+def test_hash_das_pracas_nao_depende_da_ordem_e_detecta_troca():
+    from ibmecPCDV20261_victor_lucas_beatriz_ravi.poc_clusters import ambiente
+
+    pracas = pd.DataFrame({"id_municipio": ["1", "2", "3"], "nome_cluster": ["A", "B", "A"]})
+    embaralhada = pracas.iloc[[2, 0, 1]]
+    trocada = pracas.assign(nome_cluster=["A", "B", "B"])
+    assert ambiente.hash_das_pracas(pracas) == ambiente.hash_das_pracas(embaralhada)
+    assert ambiente.hash_das_pracas(pracas) != ambiente.hash_das_pracas(trocada)
+
+
+def test_discordancia_conta_municipios_que_mudaram_de_praca():
+    from ibmecPCDV20261_victor_lucas_beatriz_ravi.poc_clusters import ambiente
+
+    a = pd.DataFrame({"id_municipio": ["1", "2", "3", "4"], "nome_cluster": ["A", "B", "A", "B"]})
+    assert ambiente.discordancia(a, a) == 0.0
+    assert ambiente.discordancia(a, a.assign(nome_cluster=["A", "B", "A", "A"])) == 0.25

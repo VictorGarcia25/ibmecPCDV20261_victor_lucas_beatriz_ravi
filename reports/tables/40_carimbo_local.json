@@ -1,0 +1,13 @@
+{
+  "ambiente": "local",
+  "python": "3.13.15",
+  "scikit_learn": "1.9.1",
+  "numpy": "2.5.3",
+  "sistema": "Darwin",
+  "arquitetura": "arm64",
+  "threads_omp": "padrão",
+  "silhueta": 0.2664,
+  "acerto_arvore": 0.8,
+  "acerto_baseline": 0.2,
+  "hash_pracas": "4459a71d639e"
+}

@@ -7,6 +7,7 @@ import time
 import pandas as pd
 
 from . import (
+    ambiente,
     anuncios,
     aprofundamento,
     avaliacao,
@@ -287,6 +288,13 @@ def executar(forcar_download: bool = False, k_maximo: int = config.K_MAXIMO) -> 
         vif=vif,
     )
     relatorio.escrever(passos)
+    validacao_cruzada = etapa2["explicacao"]["validacao"]
+    ambiente.carimbar(
+        base,
+        silhueta=float(comparacao_final.iloc[0]["silhueta"]),
+        acerto_arvore=float(validacao_cruzada.iloc[1]["acuracia_balanceada"]),
+        acerto_baseline=float(validacao_cruzada.iloc[0]["acuracia_balanceada"]),
+    )
     passos["duracao_minutos"] = round((time.time() - inicio) / 60, 1)
     print(f"concluído em {passos['duracao_minutos']} minutos")
     return passos

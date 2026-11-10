@@ -1,0 +1,394 @@
+"""Testes da lógica que, se quebrar, contamina o resultado sem dar erro."""
+
+from __future__ import annotations
+
+import numpy as np
+import pandas as pd
+import pytest
+
+from ibmecPCDV20261_victor_lucas_beatriz_ravi.poc_clusters import (
+    avaliacao,
+    clustering,
+    config,
+    descritiva,
+    perfil,
+)
+from ibmecPCDV20261_victor_lucas_beatriz_ravi.poc_clusters.coleta import pix
+
+
+def test_mes_incompleto_e_descartado():
+    """O mês em andamento chega com volume parcial e não pode entrar na janela."""
+    completos = pd.DataFrame(
+        {
+            "AnoMes": [202601] * 3 + [202602] * 3 + [202603] * 3,
+            "VL_PagadorPF": [100, 100, 100, 100, 100, 100, 30, 30, 30],
+        }
+    )
+    assert pix.meses_completos(completos) == [202601, 202602]
+
+
+def test_mes_completo_com_variacao_normal_nao_e_descartado():
+    dados = pd.DataFrame(
+        {
+            "AnoMes": [202601] * 2 + [202602] * 2 + [202603] * 2,
+            "VL_PagadorPF": [100, 100, 95, 95, 105, 105],
+        }
+    )
+    assert pix.meses_completos(dados) == [202601, 202602, 202603]
+
+
+def test_winsorizacao_corta_as_duas_caudas_e_reduz_assimetria():
+    base = pd.DataFrame({"credito_per_capita": list(range(100)) + [1_000_000]})
+    tratada, registro = descritiva.winsorizar(base, ["credito_per_capita"], quantil=0.01)
+    assert tratada["credito_per_capita"].max() < 1_000_000
+    assert abs(registro.loc[0, "assimetria_depois"]) < abs(registro.loc[0, "assimetria_antes"])
+
+
+def test_log_so_entra_em_variavel_nao_negativa_e_assimetrica():
+    assimetrica = pd.Series([1, 1, 1, 1, 2, 3, 100])
+    simetrica = pd.Series([1, 2, 3, 4, 5, 6, 7])
+    com_negativo = pd.Series([-5, 1, 1, 1, 2, 3, 100])
+    assert descritiva.precisa_log(assimetrica)
+    assert not descritiva.precisa_log(simetrica)
+    assert not descritiva.precisa_log(com_negativo)
+
+
+def test_corte_de_correlacao_mantem_a_variavel_usada_em_mais_grupos():
+    gerador = np.random.default_rng(config.SEMENTE)
+    ruido = gerador.normal(size=300)
+    base = pd.DataFrame(
+        {
+            # administradoras aparece em A, C e D; imobiliarias só em A.
+            "administradoras_10k": ruido,
+            "imobiliarias_10k": ruido + gerador.normal(scale=0.05, size=300),
+            "saldo_emprego_pct": gerador.normal(size=300),
+        }
+    )
+    mantidas, decisoes = descritiva.decidir_cortes(base, list(base.columns))
+    assert "administradoras_10k" in mantidas
+    assert "imobiliarias_10k" not in mantidas
+    assert len(decisoes) == 1
+
+
+def test_sem_par_correlacionado_nada_e_descartado():
+    gerador = np.random.default_rng(config.SEMENTE)
+    base = pd.DataFrame(
+        {
+            "administradoras_10k": gerador.normal(size=300),
+            "saldo_emprego_pct": gerador.normal(size=300),
+        }
+    )
+    mantidas, decisoes = descritiva.decidir_cortes(base, list(base.columns))
+    assert set(mantidas) == set(base.columns)
+    assert decisoes.loc[0, "variavel_descartada"] == "nenhuma"
+
+
+def _base_sintetica(n_por_grupo: int = 60) -> pd.DataFrame:
+    """Três grupos bem separados, com as colunas que os baselines exigem."""
+    gerador = np.random.default_rng(config.SEMENTE)
+    partes = []
+    for i, centro in enumerate([0.0, 8.0, 16.0]):
+        partes.append(
+            pd.DataFrame(
+                {
+                    "administradoras_10k": gerador.normal(centro, 0.4, n_por_grupo),
+                    "pix_pf_por_hab": gerador.normal(centro, 0.4, n_por_grupo),
+                    "cadunico_pct": gerador.normal(centro, 0.4, n_por_grupo),
+                    "verdadeiro": i,
+                }
+            )
+        )
+    base = pd.concat(partes, ignore_index=True)
+    base["id_municipio"] = [str(1_000_000 + i) for i in range(len(base))]
+    base["populacao"] = gerador.integers(50_000, 2_000_000, len(base))
+    base["regiao"] = gerador.choice(["Norte", "Sudeste", "Sul"], len(base))
+    base["porte"] = gerador.choice(["pequeno", "medio", "grande"], len(base))
+    return base
+
+
+def test_cotovelo_encontra_o_numero_de_grupos_plantado():
+    base = _base_sintetica()
+    variaveis = ["administradoras_10k", "pix_pf_por_hab", "cadunico_pct"]
+    varredura = clustering.varrer_k(base, {"X": variaveis}, k_maximo=8)
+    assert avaliacao.cotovelo(varredura, "X") == 3
+
+
+def test_modelo_recupera_os_grupos_plantados():
+    base = _base_sintetica()
+    variaveis = ["administradoras_10k", "pix_pf_por_hab", "cadunico_pct"]
+    matriz, _ = clustering.preparar_matriz(base, variaveis)
+    rotulos = clustering.rotular(matriz, "kmeans", 3)
+    from sklearn.metrics import adjusted_rand_score
+
+    assert adjusted_rand_score(base["verdadeiro"], rotulos) > 0.95
+
+
+def test_cluster_verdadeiro_supera_geografia_porte_e_sorteio():
+    """Se este teste falhar, o comparador de baselines está inflando o resultado."""
+    base = _base_sintetica()
+    variaveis = ["administradoras_10k", "pix_pf_por_hab", "cadunico_pct"]
+    matriz, _ = clustering.preparar_matriz(base, variaveis)
+    rotulos = clustering.rotular(matriz, "kmeans", 3)
+    comparacao = avaliacao.comparar_baselines(base, variaveis, rotulos, n_repeticoes_aleatorio=5)
+    silhueta_cluster = comparacao.iloc[0]["silhueta"]
+    assert all(silhueta_cluster > comparacao.iloc[i]["silhueta"] for i in range(1, len(comparacao)))
+
+
+def test_ablacao_mede_queda_ao_remover_variavel():
+    base = _base_sintetica()
+    variaveis = ["administradoras_10k", "pix_pf_por_hab", "cadunico_pct"]
+    tabela = avaliacao.ablacao(base, variaveis, "kmeans", 3)
+    assert len(tabela) == len(variaveis)
+    assert tabela["variacao"].notna().all()
+
+
+def test_nomes_dos_clusters_sao_unicos_e_descrevem_o_perfil():
+    perfil_z = pd.DataFrame(
+        {
+            "imobiliarias_loft_10k": [1.4, -0.8, -0.3],
+            "imobiliarias_novas_pct": [0.0, -1.2, 1.7],
+            "pix_pf_por_hab": [1.1, -1.1, -0.9],
+            "cadunico_pct": [-0.8, 1.2, 0.9],
+            "internet_movel_100": [1.0, -1.4, -0.9],
+            "banda_larga_100": [1.1, -1.2, -0.9],
+        },
+        index=pd.Index([0, 1, 2], name="cluster"),
+    )
+    nomes = perfil.nomear(perfil_z)
+    assert len(set(nomes.values())) == 3
+    assert nomes[0] == "Praça madura de locação"
+    assert nomes[1] == "Praça sem mercado formal"
+    assert nomes[2] == "Praça em formação"
+
+
+def test_tabela_de_valor_cobre_todos_os_clusters():
+    perfil_z = pd.DataFrame(
+        {"imobiliarias_loft_10k": [1.4, -0.8], "pix_pf_por_hab": [1.1, -1.1], "cadunico_pct": [-0.8, 1.2],
+         "internet_movel_100": [1.0, -1.4], "banda_larga_100": [1.1, -1.2],
+         "imobiliarias_novas_pct": [0.0, -1.2]},
+        index=pd.Index([0, 1], name="cluster"),
+    )
+    nomes = perfil.nomear(perfil_z)
+    tamanhos = pd.DataFrame({"cluster": [0, 1], "municipios": [10, 20], "populacao_pct": [60.0, 40.0]})
+    valor = perfil.tabela_valor_loft(perfil_z, nomes, tamanhos)
+    assert len(valor) == 2
+    assert valor["o_que_significa_para_a_fianca"].str.len().gt(20).all()
+    assert valor["acao_de_marketing_sugerida"].str.len().gt(20).all()
+
+
+@pytest.mark.parametrize("grupo", list(config.GRUPOS))
+def test_todo_grupo_tem_variavel_declarada(grupo):
+    for variavel in config.GRUPOS[grupo]:
+        assert variavel in config.VARIAVEIS
+
+
+def _fontes_falsas(data_banda_larga: str = "2025-09") -> pd.DataFrame:
+    return pd.DataFrame(
+        [
+            {
+                "variavel": "banda_larga_100",
+                "rotulo": "Banda larga fixa / 100 hab.",
+                "data_referencia": data_banda_larga,
+                "entra_no_cluster": True,
+            },
+            {
+                "variavel": "fipezap_aluguel",
+                "rotulo": "Aluguel médio FipeZap (R$/m²)",
+                "data_referencia": "2019-01",
+                "entra_no_cluster": False,
+            },
+        ]
+    )
+
+
+def test_regra_de_datas_aprova_fonte_recente():
+    from ibmecPCDV20261_victor_lucas_beatriz_ravi.poc_clusters import diagnostico
+
+    assert diagnostico.violacoes_da_regra_de_datas(_fontes_falsas("2026-07")).empty
+
+
+def test_regra_de_datas_reprova_fonte_antiga_do_modelo():
+    from ibmecPCDV20261_victor_lucas_beatriz_ravi.poc_clusters import diagnostico
+
+    violacoes = diagnostico.violacoes_da_regra_de_datas(_fontes_falsas("2022-12"))
+    assert list(violacoes["variavel"]) == ["banda_larga_100"]
+
+
+def test_regra_de_datas_ignora_descritora_antiga():
+    """A descritora de 2019 não pode reprovar a execução: ela não entra no cluster."""
+    from ibmecPCDV20261_victor_lucas_beatriz_ravi.poc_clusters import diagnostico
+
+    checagem = diagnostico.verificar_regra_de_datas(_fontes_falsas())
+    antiga = checagem[checagem["variavel"] == "fipezap_aluguel"].iloc[0]
+    assert not antiga["cumpre_a_regra"]
+    assert diagnostico.violacoes_da_regra_de_datas(_fontes_falsas()).empty
+
+
+def test_diferenca_de_silhueta_acusa_empate_quando_as_variaveis_sao_iguais():
+    """Comparar uma configuração consigo mesma tem de dar diferença zero."""
+    base = _base_sintetica()
+    variaveis = ["administradoras_10k", "pix_pf_por_hab", "cadunico_pct"]
+    resultado = avaliacao.diferenca_silhueta(
+        base,
+        [("igual_a", variaveis, "kmeans", 3), ("igual_b", variaveis, "kmeans", 3)],
+        n_repeticoes=15,
+    )
+    assert resultado.loc[0, "diferenca_media"] == 0
+    assert not bool(resultado.loc[0, "diferenca_significativa"])
+
+
+def test_diferenca_de_silhueta_acusa_vantagem_real():
+    """Tirar a variável que separa tem de gerar diferença detectável."""
+    base = _base_sintetica()
+    completo = ["administradoras_10k", "pix_pf_por_hab", "cadunico_pct"]
+    gerador = np.random.default_rng(config.SEMENTE)
+    base["ruido_puro"] = gerador.normal(size=len(base))
+    resultado = avaliacao.diferenca_silhueta(
+        base,
+        [("completo", completo, "kmeans", 3), ("so_ruido", ["ruido_puro"], "kmeans", 3)],
+        n_repeticoes=25,
+    )
+    assert resultado.loc[0, "diferenca_media"] > 0
+    assert bool(resultado.loc[0, "diferenca_significativa"])
+
+
+def test_robustez_do_denominador_roda_e_identifica_o_cluster_alvo():
+    from ibmecPCDV20261_victor_lucas_beatriz_ravi.poc_clusters import diagnostico
+
+    gerador = np.random.default_rng(config.SEMENTE)
+    base = pd.DataFrame(
+        {
+            "cluster": [0] * 40 + [1] * 40,
+            "nome_cluster": ["alvo"] * 40 + ["outro"] * 40,
+            # o cluster 0 tem taxa alta de verdade, e base grande, então resiste ao corte
+            "imobiliarias_novas_pct": list(gerador.normal(28, 3, 40)) + list(gerador.normal(13, 3, 40)),
+            "setor_total": list(gerador.integers(25, 120, 40)) + list(gerador.integers(25, 120, 40)),
+        }
+    )
+    tabela = diagnostico.robustez_denominador(base)
+    assert tabela.attrs["cluster_alvo"] == 0
+    assert tabela["continua_maior"].all()
+
+
+def test_valor_incremental_reconhece_cluster_informativo():
+    """Um cluster que reproduz a estrutura real tem de acrescentar sobre regiao e porte."""
+    base = _base_sintetica()
+    variaveis = ["administradoras_10k", "pix_pf_por_hab"]
+    matriz, _ = clustering.preparar_matriz(base, variaveis)
+    base["cluster"] = clustering.rotular(matriz, "kmeans", 3)
+    tabela = avaliacao.valor_incremental(
+        base, variaveis, candidatas_retidas=["cadunico_pct"]
+    )
+    assert tabela.loc[0, "ganho"] > 0
+    assert bool(tabela.loc[0, "o_cluster_acrescenta"])
+
+
+def test_valor_incremental_nao_premia_cluster_aleatorio():
+    """Rotulo sorteado nao pode aparecer como ganho: e para isso que o R2 e ajustado."""
+    base = _base_sintetica()
+    gerador = np.random.default_rng(config.SEMENTE)
+    base["cluster"] = gerador.integers(0, 5, len(base))
+    tabela = avaliacao.valor_incremental(
+        base, ["administradoras_10k"], candidatas_retidas=["cadunico_pct", "pix_pf_por_hab"]
+    )
+    assert (tabela["ganho"] <= 0.01).all()
+
+
+def test_tabela_de_cortes_nunca_mantem_e_descarta_a_mesma_variavel():
+    """Numa cadeia de variaveis correlacionadas, a tabela tem de refletir o estado final."""
+    gerador = np.random.default_rng(config.SEMENTE)
+    tronco = gerador.normal(size=300)
+    base = pd.DataFrame(
+        {
+            "administradoras_10k": tronco,
+            "imobiliarias_10k": tronco + gerador.normal(scale=0.04, size=300),
+            "veiculos_por_hab": tronco + gerador.normal(scale=0.05, size=300),
+            "saldo_emprego_pct": gerador.normal(size=300),
+        }
+    )
+    mantidas, decisoes = descritiva.decidir_cortes(base, list(base.columns))
+    descartadas = set(decisoes["variavel_descartada"])
+    apontadas = set(decisoes["variavel_mantida"])
+    assert not (descartadas & apontadas)
+    assert apontadas <= set(mantidas)
+
+
+def test_todo_nome_de_cluster_tem_leitura_de_negocio():
+    """Se um cluster for renomeado sem escrever a leitura, a tabela da Loft sai com lacuna."""
+    import itertools
+
+    perfis_possiveis = pd.DataFrame(
+        {
+            "imobiliarias_loft_10k": [1.4, -0.7, -0.3, -0.8, 0.0, 0.6],
+            "imobiliarias_novas_pct": [0.0, 1.7, 0.0, -1.2, 0.0, 0.0],
+            "pix_pf_por_hab": [1.1, -0.9, 0.2, -1.1, 0.0, -0.9],
+            "cadunico_pct": [-0.8, 0.9, 0.5, 1.2, 0.0, -0.5],
+            "internet_movel_100": [1.0, -0.9, 0.3, -1.4, 0.0, 0.2],
+            "banda_larga_100": [1.1, -0.9, -0.4, -1.2, 0.0, 0.2],
+        },
+        index=pd.Index(range(6), name="cluster"),
+    )
+    nomes = perfil.nomear(perfis_possiveis)
+    tamanhos = pd.DataFrame(
+        {"cluster": list(range(6)), "municipios": [10] * 6, "populacao_pct": [16.6] * 6}
+    )
+    tabela = perfil.tabela_valor_loft(perfis_possiveis, nomes, tamanhos)
+    assert len(tabela) == 6
+    assert tabela["o_que_significa_para_a_fianca"].notna().all()
+    assert tabela["acao_de_marketing_sugerida"].str.len().gt(30).all()
+    assert not tabela["o_que_significa_para_a_fianca"].eq("").any()
+
+
+def test_validacao_metades_reconhece_grupos_reais_e_rejeita_ruido():
+    """Metade treino, metade teste: grupos verdadeiros se repetem, ruído puro não."""
+    gerador = np.random.default_rng(42)
+    centros = [(-3, -3), (0, 3), (3, -3)]
+    blocos = [gerador.normal(c, 0.5, size=(80, 2)) for c in centros]
+    separados = pd.DataFrame(np.vstack(blocos) + 10, columns=["imobiliarias_loft_10k", "pix_pf_por_hab"])
+    ruido = pd.DataFrame(gerador.normal(10, 1, size=(240, 2)), columns=separados.columns)
+    variaveis = list(separados.columns)
+    real = avaliacao.validacao_metades(separados, variaveis, "kmeans", 3, n_repeticoes=5)
+    falso = avaliacao.validacao_metades(ruido, variaveis, "kmeans", 3, n_repeticoes=5)
+    assert real.iloc[0]["rand_ajustado_medio"] > 0.9
+    assert real.iloc[0]["rand_ajustado_medio"] > falso.iloc[0]["rand_ajustado_medio"]
+
+
+def test_janela_de_anuncios_pula_meses_com_buraco_na_coleta():
+    """A janela é a sequência mais recente de meses estáveis; mês com buraco interrompe."""
+    from ibmecPCDV20261_victor_lucas_beatriz_ravi.poc_clusters import anuncios
+
+    meses = pd.date_range("2025-01-01", "2026-08-01", freq="MS").strftime("%Y-%m-%d")
+    linhas = []
+    for mes in meses:
+        volume = 30 if mes in ("2026-02-01", "2026-03-01") else 100
+        for cidade in range(20):
+            linhas.append({"snapshot_month": mes, "operation_type": "rent", "chave": f"SP|C{cidade}", "n_listings": volume})
+    janela, diagnostico = anuncios.escolher_janela(pd.DataFrame(linhas))
+    assert janela == ["2026-04-01", "2026-05-01", "2026-06-01", "2026-07-01", "2026-08-01"]
+    assert not diagnostico.set_index("snapshot_month").loc["2026-02-01", "estavel"]
+
+
+def test_eps_do_joelho_fica_na_dobra_da_curva():
+    from ibmecPCDV20261_victor_lucas_beatriz_ravi.poc_clusters import densidade
+
+    distancias = np.concatenate([np.linspace(0.5, 1.0, 90), np.linspace(1.2, 6.0, 10)])
+    eps = densidade.eps_pelo_joelho(distancias)
+    assert 0.9 <= eps <= 1.5
+
+
+def test_hash_das_pracas_nao_depende_da_ordem_e_detecta_troca():
+    from ibmecPCDV20261_victor_lucas_beatriz_ravi.poc_clusters import ambiente
+
+    pracas = pd.DataFrame({"id_municipio": ["1", "2", "3"], "nome_cluster": ["A", "B", "A"]})
+    embaralhada = pracas.iloc[[2, 0, 1]]
+    trocada = pracas.assign(nome_cluster=["A", "B", "B"])
+    assert ambiente.hash_das_pracas(pracas) == ambiente.hash_das_pracas(embaralhada)
+    assert ambiente.hash_das_pracas(pracas) != ambiente.hash_das_pracas(trocada)
+
+
+def test_discordancia_conta_municipios_que_mudaram_de_praca():
+    from ibmecPCDV20261_victor_lucas_beatriz_ravi.poc_clusters import ambiente
+
+    a = pd.DataFrame({"id_municipio": ["1", "2", "3", "4"], "nome_cluster": ["A", "B", "A", "B"]})
+    assert ambiente.discordancia(a, a) == 0.0
+    assert ambiente.discordancia(a, a.assign(nome_cluster=["A", "B", "A", "A"])) == 0.25

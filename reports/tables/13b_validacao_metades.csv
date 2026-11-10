@@ -1,0 +1,2 @@
+modelo,k,metodo,n_sorteios,n_comparacoes,rand_ajustado_medio,rand_ajustado_desvio,rand_ajustado_p5,rand_ajustado_p95
+KMeans,5,"metade treino, metade teste",50,100,0.6593,0.1035,0.493,0.8116

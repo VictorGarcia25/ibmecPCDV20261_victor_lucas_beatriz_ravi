@@ -1,0 +1,398 @@
+"""Baselines, cotovelo, estabilidade e ablação."""
+
+from __future__ import annotations
+
+import numpy as np
+import pandas as pd
+from sklearn.metrics import adjusted_rand_score, silhouette_score
+
+from . import clustering, config, descritiva
+
+
+def cotovelo(varredura: pd.DataFrame, grupo: str) -> int:
+    """k do cotovelo pelo ponto mais distante da reta que liga os extremos da inércia."""
+    curva = (
+        varredura[(varredura["grupo"] == grupo) & (varredura["modelo"] == "kmeans")]
+        .sort_values("k")[["k", "inercia"]]
+        .dropna()
+    )
+    k = curva["k"].to_numpy(dtype=float)
+    inercia = curva["inercia"].to_numpy(dtype=float)
+    k_norm = (k - k.min()) / (k.max() - k.min())
+    i_norm = (inercia - inercia.min()) / (inercia.max() - inercia.min())
+    # Distância de cada ponto à reta que une o primeiro e o último ponto da curva.
+    distancia = np.abs(i_norm + k_norm - 1) / np.sqrt(2)
+    return int(k[int(distancia.argmax())])
+
+
+def rotulos_baseline(base: pd.DataFrame, tipo: str, k: int, semente: int = config.SEMENTE) -> np.ndarray:
+    if tipo == "regiao":
+        return base["regiao"].astype("category").cat.codes.to_numpy()
+    if tipo == "porte":
+        return base["porte"].astype("category").cat.codes.to_numpy()
+    if tipo == "aleatorio":
+        gerador = np.random.default_rng(semente)
+        return gerador.integers(0, k, size=len(base))
+    raise ValueError(f"Baseline desconhecido: {tipo}")
+
+
+def comparar_baselines(
+    base: pd.DataFrame,
+    variaveis: list[str],
+    rotulos_cluster: np.ndarray,
+    n_repeticoes_aleatorio: int = 30,
+) -> pd.DataFrame:
+    """Silhueta do nosso agrupamento contra geografia, porte e sorteio, no mesmo espaço."""
+    matriz, _ = clustering.preparar_matriz(base, variaveis)
+    k = len(set(rotulos_cluster))
+
+    linhas = [
+        {
+            "agrupamento": "Clusters da POC",
+            "n_grupos": k,
+            "silhueta": float(silhouette_score(matriz, rotulos_cluster)),
+            "rand_ajustado_vs_cluster": 1.0,
+        }
+    ]
+    for tipo, nome in [
+        ("regiao", "Baseline: 5 regiões do IBGE"),
+        ("porte", "Baseline: faixas de porte populacional"),
+    ]:
+        rotulos = rotulos_baseline(base, tipo, k)
+        linhas.append(
+            {
+                "agrupamento": nome,
+                "n_grupos": len(set(rotulos)),
+                "silhueta": float(silhouette_score(matriz, rotulos)),
+                "rand_ajustado_vs_cluster": float(adjusted_rand_score(rotulos_cluster, rotulos)),
+            }
+        )
+
+    silhuetas, randes = [], []
+    for repeticao in range(n_repeticoes_aleatorio):
+        rotulos = rotulos_baseline(base, "aleatorio", k, semente=config.SEMENTE + repeticao)
+        silhuetas.append(silhouette_score(matriz, rotulos))
+        randes.append(adjusted_rand_score(rotulos_cluster, rotulos))
+    linhas.append(
+        {
+            "agrupamento": f"Baseline: sorteio aleatório (média de {n_repeticoes_aleatorio})",
+            "n_grupos": k,
+            "silhueta": float(np.mean(silhuetas)),
+            "rand_ajustado_vs_cluster": float(np.mean(randes)),
+        }
+    )
+    return pd.DataFrame(linhas).round(4)
+
+
+def estabilidade_sementes(
+    base: pd.DataFrame,
+    variaveis: list[str],
+    nome_modelo: str,
+    k: int,
+    n_sementes: int = config.N_SEMENTES_ROBUSTEZ,
+) -> pd.DataFrame:
+    """Rand ajustado entre a solução da semente 42 e as demais sementes."""
+    matriz, _ = clustering.preparar_matriz(base, variaveis)
+    referencia = clustering.rotular(matriz, nome_modelo, k, semente=config.SEMENTE)
+    linhas = []
+    for i in range(n_sementes):
+        semente = config.SEMENTE + i
+        rotulos = clustering.rotular(matriz, nome_modelo, k, semente=semente)
+        linhas.append(
+            {
+                "semente": semente,
+                "rand_ajustado_vs_referencia": round(
+                    float(adjusted_rand_score(referencia, rotulos)), 4
+                ),
+                "silhueta": round(float(silhouette_score(matriz, rotulos)), 4),
+            }
+        )
+    return pd.DataFrame(linhas)
+
+
+def estabilidade_bootstrap(
+    base: pd.DataFrame,
+    variaveis: list[str],
+    nome_modelo: str,
+    k: int,
+    n_bootstrap: int = config.N_BOOTSTRAP,
+    fracao: float = 0.8,
+) -> pd.DataFrame:
+    """Reamostra municípios e mede o Rand ajustado nos municípios em comum entre rodadas.
+
+    Duas escolhas de protocolo importam aqui. A reamostragem é sem reposição, ou seja
+    subamostragem de uma fração fixa: com reposição, os municípios duplicados ficam a distância
+    zero e inflam a concordância. E a winsorização, o log e a padronização são refeitos dentro
+    de cada subamostra, não herdados da base cheia, senão parte da informação do conjunto todo
+    vaza para dentro de cada rodada e a estabilidade sai otimista.
+    """
+    gerador = np.random.default_rng(config.SEMENTE)
+    n = len(base)
+    tamanho = int(n * fracao)
+
+    resultados = []
+    anterior_indices, anterior_rotulos = None, None
+    for _ in range(n_bootstrap):
+        indices = gerador.choice(n, size=tamanho, replace=False)
+        matriz, _ = clustering.preparar_matriz(
+            base.iloc[indices].reset_index(drop=True), variaveis
+        )
+        rotulos = clustering.rotular(matriz, nome_modelo, k)
+        if anterior_indices is not None:
+            comuns = np.intersect1d(indices, anterior_indices)
+            if len(comuns) > k:
+                mapa_atual = dict(zip(indices, rotulos))
+                mapa_anterior = dict(zip(anterior_indices, anterior_rotulos))
+                resultados.append(
+                    adjusted_rand_score(
+                        [mapa_anterior[i] for i in comuns], [mapa_atual[i] for i in comuns]
+                    )
+                )
+        anterior_indices, anterior_rotulos = indices, rotulos
+
+    serie = pd.Series(resultados)
+    return pd.DataFrame(
+        [
+            {
+                "modelo": clustering.NOMES_MODELOS[nome_modelo],
+                "k": k,
+                "metodo": "subamostragem sem reposição",
+                "fracao_reamostrada": fracao,
+                "n_comparacoes": len(serie),
+                "rand_ajustado_medio": round(float(serie.mean()), 4),
+                "rand_ajustado_desvio": round(float(serie.std()), 4),
+                "rand_ajustado_p5": round(float(serie.quantile(0.05)), 4),
+                "rand_ajustado_p95": round(float(serie.quantile(0.95)), 4),
+            }
+        ]
+    )
+
+
+def _ajustar_metade(treino: pd.DataFrame, variaveis: list[str], nome_modelo: str, k: int):
+    """Aprende winsorização, log, padronização e centros só com a metade de treino."""
+    limites = {
+        v: (treino[v].quantile(descritiva.QUANTIL_WINSOR), treino[v].quantile(1 - descritiva.QUANTIL_WINSOR))
+        for v in variaveis
+    }
+    tratada = treino[variaveis].copy()
+    for v, (inferior, superior) in limites.items():
+        tratada[v] = tratada[v].clip(inferior, superior)
+    variaveis_log = descritiva.variaveis_com_log(tratada, variaveis)
+    preparo = clustering.construir_preparo(variaveis, variaveis_log).fit(tratada)
+    matriz = np.asarray(preparo.transform(tratada))
+    rotulos = clustering.rotular(matriz, nome_modelo, k)
+    presentes = np.unique(rotulos)
+    centros = np.vstack([matriz[rotulos == c].mean(axis=0) for c in presentes])
+
+    def classificar(outra: pd.DataFrame) -> np.ndarray:
+        dados = outra[variaveis].copy()
+        for v, (inferior, superior) in limites.items():
+            dados[v] = dados[v].clip(inferior, superior)
+        pontos = np.asarray(preparo.transform(dados))
+        distancias = ((pontos[:, None, :] - centros[None, :, :]) ** 2).sum(axis=2)
+        return presentes[distancias.argmin(axis=1)]
+
+    return classificar
+
+
+def validacao_metades(
+    base: pd.DataFrame,
+    variaveis: list[str],
+    nome_modelo: str,
+    k: int,
+    n_repeticoes: int = 50,
+) -> pd.DataFrame:
+    """Validação metade treino, metade teste: o agrupamento se repete em municípios novos?
+
+    Em cada repetição os municípios são sorteados em duas metades. O modelo aprende tudo na
+    metade de treino (cortes da winsorização, log, padronização e centros dos clusters) e
+    classifica a metade de teste sem nunca ter visto esses municípios. Em paralelo, a metade
+    de teste é clusterizada sozinha. Se o Rand ajustado entre as duas leituras da metade de
+    teste for alto, os tipos de praça são estrutura real dos dados, não sorte da amostra.
+    As metades trocam de papel, então cada sorteio gera duas comparações.
+    """
+    gerador = np.random.default_rng(config.SEMENTE)
+    n = len(base)
+    resultados = []
+    for _ in range(n_repeticoes):
+        ordem = gerador.permutation(n)
+        metade_1 = base.iloc[ordem[: n // 2]].reset_index(drop=True)
+        metade_2 = base.iloc[ordem[n // 2 :]].reset_index(drop=True)
+        for treino, teste in ((metade_1, metade_2), (metade_2, metade_1)):
+            classificar = _ajustar_metade(treino, variaveis, nome_modelo, k)
+            previstos = classificar(teste)
+            matriz_teste, _ = clustering.preparar_matriz(teste, variaveis)
+            proprios = clustering.rotular(matriz_teste, nome_modelo, k)
+            resultados.append(float(adjusted_rand_score(proprios, previstos)))
+
+    serie = pd.Series(resultados)
+    return pd.DataFrame(
+        [
+            {
+                "modelo": clustering.NOMES_MODELOS[nome_modelo],
+                "k": k,
+                "metodo": "metade treino, metade teste",
+                "n_sorteios": n_repeticoes,
+                "n_comparacoes": len(serie),
+                "rand_ajustado_medio": round(float(serie.mean()), 4),
+                "rand_ajustado_desvio": round(float(serie.std()), 4),
+                "rand_ajustado_p5": round(float(serie.quantile(0.05)), 4),
+                "rand_ajustado_p95": round(float(serie.quantile(0.95)), 4),
+            }
+        ]
+    )
+
+
+def diferenca_silhueta(
+    base: pd.DataFrame,
+    configuracoes: list[tuple[str, list[str], str, int]],
+    n_repeticoes: int = 200,
+    fracao: float = 0.8,
+) -> pd.DataFrame:
+    """Intervalo da diferença de silhueta entre duas configurações, sob reamostragem.
+
+    Serve para não tratar como vantagem uma diferença de terceira casa decimal: se o intervalo
+    de 95% cruza o zero, as duas configurações são equivalentes e o desempate tem de ser outro.
+    """
+    if len(configuracoes) < 2:
+        return pd.DataFrame()
+
+    gerador = np.random.default_rng(config.SEMENTE)
+    n = len(base)
+    tamanho = int(n * fracao)
+
+    amostras: dict[str, list[float]] = {nome: [] for nome, _, _, _ in configuracoes}
+    for _ in range(n_repeticoes):
+        indices = gerador.choice(n, size=tamanho, replace=False)
+        recorte_base = base.iloc[indices].reset_index(drop=True)
+        for nome, variaveis, modelo, k in configuracoes:
+            # Preparo refeito dentro da subamostra, pelo mesmo motivo da estabilidade.
+            recorte, _ = clustering.preparar_matriz(recorte_base, variaveis)
+            rotulos = clustering.rotular(recorte, modelo, k)
+            if len(set(rotulos)) < 2:
+                amostras[nome].append(np.nan)
+                continue
+            amostras[nome].append(float(silhouette_score(recorte, rotulos)))
+
+    primeiro, segundo = configuracoes[0][0], configuracoes[1][0]
+    diferenca = pd.Series(amostras[primeiro]) - pd.Series(amostras[segundo])
+    diferenca = diferenca.dropna()
+    inferior, superior = diferenca.quantile([0.025, 0.975])
+    return pd.DataFrame(
+        [
+            {
+                "configuracao_a": primeiro,
+                "configuracao_b": segundo,
+                "silhueta_media_a": round(float(pd.Series(amostras[primeiro]).mean()), 4),
+                "silhueta_media_b": round(float(pd.Series(amostras[segundo]).mean()), 4),
+                "diferenca_media": round(float(diferenca.mean()), 4),
+                "intervalo_95_inferior": round(float(inferior), 4),
+                "intervalo_95_superior": round(float(superior), 4),
+                "vezes_que_a_venceu_pct": round(float((diferenca > 0).mean() * 100), 1),
+                "diferenca_significativa": bool(inferior > 0 or superior < 0),
+                "n_reamostragens": len(diferenca),
+            }
+        ]
+    )
+
+
+def _r2_ajustado(y: pd.Series, *fatores: pd.Series) -> float:
+    """R² ajustado de y explicado por fatores categóricos, via variáveis indicadoras."""
+    dados = pd.DataFrame({"y": y.to_numpy()})
+    for i, fator in enumerate(fatores):
+        dados[f"f{i}"] = np.asarray(fator)
+    dados = dados.dropna()
+    indicadoras = pd.get_dummies(
+        dados[[c for c in dados.columns if c != "y"]].astype(str), drop_first=True
+    ).astype(float)
+    indicadoras.insert(0, "constante", 1.0)
+
+    valores = dados["y"].to_numpy(dtype=float)
+    matriz = indicadoras.to_numpy(dtype=float)
+    coeficientes, *_ = np.linalg.lstsq(matriz, valores, rcond=None)
+    residuo = valores - matriz @ coeficientes
+    soma_total = ((valores - valores.mean()) ** 2).sum()
+    soma_residuo = (residuo**2).sum()
+    n, p = len(valores), matriz.shape[1]
+    if soma_total == 0 or n <= p:
+        return float("nan")
+    return float(1 - (soma_residuo / (n - p)) / (soma_total / (n - 1)))
+
+
+def valor_incremental(
+    base: pd.DataFrame,
+    variaveis_do_modelo: list[str],
+    coluna_cluster: str = "cluster",
+    candidatas_retidas: list[str] | None = None,
+) -> pd.DataFrame:
+    """O rótulo do cluster acrescenta informação além de região e porte?
+
+    Este é o teste que diz se o cluster serve como variável de entrada num modelo futuro. A
+    pergunta não é se o cluster **substitui** a geografia, e sim se ele **acrescenta** algo a
+    ela: comparamos o R² ajustado de região + porte contra região + porte + cluster, em
+    variáveis municipais que ficaram de fora do modelo. O R² é ajustado justamente para não
+    premiar o simples aumento de parâmetros.
+    """
+    candidatas = candidatas_retidas or [
+        v for v in config.VARIAVEIS if v not in variaveis_do_modelo
+    ] + [v for v in config.DESCRITORAS if v in base.columns]
+    retidas = [
+        v
+        for v in candidatas
+        if v in base.columns and v not in variaveis_do_modelo and base[v].notna().sum() > 50
+    ]
+
+    linhas = []
+    for variavel in retidas:
+        sem_cluster = _r2_ajustado(base[variavel], base["regiao"], base["porte"])
+        com_cluster = _r2_ajustado(
+            base[variavel], base["regiao"], base["porte"], base[coluna_cluster]
+        )
+        linhas.append(
+            {
+                "variavel_retida": variavel,
+                "rotulo": descritiva.rotulo(variavel),
+                "r2_regiao_e_porte": round(sem_cluster, 4),
+                "r2_com_o_cluster": round(com_cluster, 4),
+                "ganho": round(com_cluster - sem_cluster, 4),
+                "o_cluster_acrescenta": bool(com_cluster > sem_cluster),
+            }
+        )
+    tabela = pd.DataFrame(linhas).sort_values("ganho", ascending=False).reset_index(drop=True)
+    if not tabela.empty:
+        tabela.attrs["ganho_medio"] = round(float(tabela["ganho"].mean()), 4)
+        tabela.attrs["quantas_acrescenta"] = int(tabela["o_cluster_acrescenta"].sum())
+        tabela.attrs["total"] = len(tabela)
+    return tabela
+
+
+def ablacao(
+    base: pd.DataFrame,
+    variaveis: list[str],
+    nome_modelo: str,
+    k: int,
+) -> pd.DataFrame:
+    """Silhueta ao remover cada variável, uma por vez."""
+    matriz_cheia, _ = clustering.preparar_matriz(base, variaveis)
+    rotulos_cheios = clustering.rotular(matriz_cheia, nome_modelo, k)
+    referencia = silhouette_score(matriz_cheia, rotulos_cheios)
+
+    linhas = []
+    for variavel in variaveis:
+        restantes = [v for v in variaveis if v != variavel]
+        matriz, _ = clustering.preparar_matriz(base, restantes)
+        rotulos = clustering.rotular(matriz, nome_modelo, k)
+        silhueta = silhouette_score(matriz, rotulos)
+        linhas.append(
+            {
+                "variavel_removida": variavel,
+                "rotulo": descritiva.rotulo(variavel),
+                "silhueta_sem_ela": round(float(silhueta), 4),
+                "silhueta_completa": round(float(referencia), 4),
+                "variacao": round(float(silhueta - referencia), 4),
+                "rand_ajustado_vs_completo": round(
+                    float(adjusted_rand_score(rotulos_cheios, rotulos)), 4
+                ),
+            }
+        )
+    return pd.DataFrame(linhas).sort_values("variacao").reset_index(drop=True)

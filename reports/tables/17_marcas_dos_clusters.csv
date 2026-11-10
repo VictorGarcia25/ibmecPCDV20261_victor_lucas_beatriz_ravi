@@ -1,0 +1,6 @@
+cluster,nome,marcas_do_cluster
+0,Praça madura de locação,Imobiliárias potenciais (CNAE Loft) / 10 mil hab.: +1.17 desvios; Pix de pessoa física por habitante: +1.16 desvios; Banda larga fixa / 100 hab.: +1.14 desvios
+1,Praça popular de grande porte,Internet móvel 4G/5G de pessoa física / 100 hab.: +0.48 desvios; Famílias no CadÚnico / 100 domicílios: +0.44 desvios; Banda larga fixa / 100 hab.: -0.39 desvios
+2,Praça sem mercado formal,Internet móvel 4G/5G de pessoa física / 100 hab.: -1.37 desvios; Imobiliárias novas em 12 meses (%): -1.36 desvios; Banda larga fixa / 100 hab.: -1.18 desvios
+3,Praça intermediária conectada,Famílias no CadÚnico / 100 domicílios: -0.82 desvios; Banda larga fixa / 100 hab.: +0.58 desvios; Imobiliárias novas em 12 meses (%): -0.08 desvios
+4,Praça em formação,Imobiliárias novas em 12 meses (%): +1.12 desvios; Famílias no CadÚnico / 100 domicílios: +0.98 desvios; Internet móvel 4G/5G de pessoa física / 100 hab.: -0.92 desvios

@@ -1,0 +1,7 @@
+metodo,parametro,grupos_encontrados,ruido_municipios,ruido_pct,maior_grupo_pct,silhueta_sem_ruido,rand_ajustado_vs_kmeans,eps
+DBSCAN,0.6 x joelho,3,353,51.4,82.0,0.422,0.338,0.788
+DBSCAN,0.8 x joelho,2,92,13.4,88.6,0.491,0.144,1.051
+DBSCAN,1.0 x joelho,2,23,3.3,88.3,0.451,0.14,1.314
+DBSCAN,1.2 x joelho,2,7,1.0,88.1,0.438,0.14,1.576
+DBSCAN,1.5 x joelho,1,0,0.0,100.0,,0.0,1.97
+DBSCAN,2.0 x joelho,1,0,0.0,100.0,,0.0,2.627

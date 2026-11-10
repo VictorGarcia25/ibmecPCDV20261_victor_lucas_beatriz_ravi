@@ -1,0 +1,29 @@
+# Ambiente da clusterização de municípios (etapas 1 e 2).
+# O Dockerfile da raiz é o da POC de incrementalidade; os dois não se misturam.
+
+# Versão exata e digest: a tag pode mudar de conteúdo, o digest não.
+FROM python:3.13.15-slim@sha256:7c61056e61ac89e852de05f3dc6fa51a6dd2181797bceed46aa725dd7cb2cd3b
+
+# Uma thread só na álgebra linear: a ordem das somas muda o resultado na última casa.
+ENV PYTHONUNBUFFERED=1 \
+    PYTHONDONTWRITEBYTECODE=1 \
+    OMP_NUM_THREADS=1 \
+    OPENBLAS_NUM_THREADS=1 \
+    MKL_NUM_THREADS=1 \
+    PYTHONPATH=/app/src \
+    AMBIENTE=conteiner
+
+WORKDIR /app
+
+# Dependências antes do código: editar o código não refaz a instalação.
+COPY requirements-lock.txt .
+RUN pip install --no-cache-dir --no-deps -r requirements-lock.txt
+
+# Só o código entra na imagem. Dados, resultados e credenciais chegam por volume.
+COPY src/ ./src/
+COPY tests/ ./tests/
+COPY notebooks/ ./notebooks/
+
+EXPOSE 8888
+
+CMD ["python", "-W", "ignore", "-m", "ibmecPCDV20261_victor_lucas_beatriz_ravi.poc_clusters"]

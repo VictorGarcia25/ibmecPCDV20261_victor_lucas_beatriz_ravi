@@ -1,0 +1,7 @@
+variavel,rotulo,PC1,PC2
+imobiliarias_loft_10k,Imobiliárias potenciais (CNAE Loft) / 10 mil hab.,0.487,-0.083
+imobiliarias_novas_pct,Imobiliárias novas em 12 meses (%),0.263,0.914
+pix_pf_por_hab,Pix de pessoa física por habitante,0.388,-0.059
+cadunico_pct,Famílias no CadÚnico / 100 domicílios,-0.405,0.315
+internet_movel_100,Internet móvel 4G/5G de pessoa física / 100 hab.,0.426,0.102
+banda_larga_100,Banda larga fixa / 100 hab.,0.444,-0.209

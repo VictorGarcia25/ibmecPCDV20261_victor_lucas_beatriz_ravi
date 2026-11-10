@@ -1,0 +1,22 @@
+|--- Famílias no CadÚnico / 100 domicílios <= 49.7
+|   |--- Imobiliárias potenciais (CNAE Loft) / 10 mil hab. <= 10.0
+|   |   |--- Banda larga fixa / 100 hab. <= 22.6
+|   |   |   |--- class: Praça popular de grande porte
+|   |   |--- Banda larga fixa / 100 hab. >  22.6
+|   |   |   |--- class: Praça intermediária conectada
+|   |--- Imobiliárias potenciais (CNAE Loft) / 10 mil hab. >  10.0
+|   |   |--- Internet móvel 4G/5G de pessoa física / 100 hab. <= 96.5
+|   |   |   |--- class: Praça intermediária conectada
+|   |   |--- Internet móvel 4G/5G de pessoa física / 100 hab. >  96.5
+|   |   |   |--- class: Praça madura de locação
+|--- Famílias no CadÚnico / 100 domicílios >  49.7
+|   |--- Imobiliárias novas em 12 meses (%) <= 1.8
+|   |   |--- Pix de pessoa física por habitante <= 49372.7
+|   |   |   |--- class: Praça sem mercado formal
+|   |   |--- Pix de pessoa física por habitante >  49372.7
+|   |   |   |--- class: Praça sem mercado formal
+|   |--- Imobiliárias novas em 12 meses (%) >  1.8
+|   |   |--- Internet móvel 4G/5G de pessoa física / 100 hab. <= 86.5
+|   |   |   |--- class: Praça em formação
+|   |   |--- Internet móvel 4G/5G de pessoa física / 100 hab. >  86.5
+|   |   |   |--- class: Praça popular de grande porte

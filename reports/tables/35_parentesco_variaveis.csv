@@ -1,0 +1,17 @@
+variavel,rotulo,grupo_redundancia,redundante_com_outra
+pix_pf_por_hab,Pix de pessoa física por habitante,1,False
+credito_per_capita,Crédito per capita (R$),2,False
+cadunico_pct,Famílias no CadÚnico / 100 domicílios,3,True
+veiculos_por_hab,Veículos por habitante,3,True
+salario_admissao,Salário mediano de admissão (R$),4,False
+corretores_seguros_10k,Corretores de seguros / 10 mil hab.,5,True
+imobiliarias_loft_10k,Imobiliárias potenciais (CNAE Loft) / 10 mil hab.,5,True
+banda_larga_100,Banda larga fixa / 100 hab.,6,False
+reserva_per_capita,Poupança e depósito a prazo per capita (R$),7,False
+internet_movel_100,Internet móvel 4G/5G de pessoa física / 100 hab.,8,False
+jovens_admissoes_pct,Admissões de 18 a 30 anos (%),9,False
+saldo_emprego_pct,Saldo de emprego / admissões em 12 meses (%),10,False
+alavancagem,Crédito sobre poupança (alavancagem),11,False
+crescimento_populacional_pct,Crescimento da população em 1 ano (%),12,False
+locacao_pct,Imobiliárias de aluguel ou gestão (%),13,False
+imobiliarias_novas_pct,Imobiliárias novas em 12 meses (%),14,False
